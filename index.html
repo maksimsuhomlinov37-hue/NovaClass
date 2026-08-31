@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NovaClass</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#2563ff;--bg:#f5f5f7;--card:#fff;--text:#1d1d1f;--muted:#6e6e73;--border:rgba(0,0,0,0.06);--shadow-sm:0 1px 2px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04);--shadow-md:0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8);--reveal:radial-gradient(400px circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.6), transparent 40%)}
+body{font-family:'Google Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.dark{--bg:#000;--card:#1c1c1e;--text:#f5f5f7;--muted:#98989d;--border:rgba(255,255,255,0.08)}
+@keyframes fluentEnter{0%{opacity:0;transform:translateY(16px) scale(0.98);filter:blur(4px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.fluent-enter{animation:fluentEnter 0.6s cubic-bezier(0.16,1,0.3,1) both}
+.fluent-btn{position:relative;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.8);transition:all 0.25s cubic-bezier(0.16,1,0.3,1);overflow:hidden}
+.fluent-btn::before{content:'';position:absolute;inset:0;background:var(--reveal);opacity:0;transition:opacity 0.25s;pointer-events:none}
+.fluent-btn:hover{transform:translateY(-1px) scale(1.01);box-shadow:0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)} .fluent-btn:hover::before{opacity:1} .fluent-btn:active{transform:scale(0.97)}
+.fluent-btn.primary{background:var(--blue);color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(37,99,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)}
+.fluent-btn.danger{background:#ff3b30;color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(255,59,48,0.25), inset 0 1px 0 rgba(255,255,255,0.2)}
+.fluent-input{width:100%;padding:10px 12px;background:var(--card);border:1px solid #d2d2d7;border-radius:6px;font-size:13px;outline:none;box-shadow:inset 0 1px 2px rgba(0,0,0,0.04);transition:all 0.25s}
+.fluent-input:focus{border-color:var(--blue);box-shadow:inset 0 1px 2px rgba(0,0,0,0.04), 0 0 0 3px rgba(37,99,255,0.12)}
+#authRoot{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg);transition:all 0.6s cubic-bezier(0.16,1,0.3,1)}
+#authRoot.hide{opacity:0;transform:scale(0.95) translateY(20px);pointer-events:none;filter:blur(8px)}
+.auth-card{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;box-shadow:0 16px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8);animation:fluentEnter 0.7s cubic-bezier(0.16,1,0.3,1)}
+.hidden{display:none!important}
+.error-msg,.success-msg{padding:10px 12px;border-radius:8px;font-size:12px;margin-bottom:12px;display:none} .error-msg.show,.success-msg.show{display:block} .error-msg{background:#ff3b30;color:#fff} .success-msg{background:#34c759;color:#fff}
+.loader{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:6px} @keyframes spin{to{transform:rotate(360deg)}}
+.sync-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;pointer-events:none} .sync-bar-inner{height:100%;width:0%;background:var(--blue);transition:width 0.4s} .sync-bar.syncing .sync-bar-inner{width:60%;animation:syncMove 1.2s infinite} .sync-bar.done .sync-bar-inner{width:100%;background:#34c759} @keyframes syncMove{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+#appRoot{opacity:0;transform:translateY(20px) scale(0.97);filter:blur(4px);transition:all 0.7s cubic-bezier(0.16,1,0.3,1);min-height:100vh} #appRoot.show{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+.layout{display:flex;min-height:100vh}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:256px;background:rgba(249,249,249,0.85);backdrop-filter:blur(24px);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:20}
+.sidebar-logo{padding:20px 16px;display:flex;align-items:center;gap:12px} .logo-icon{width:32px;height:32px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;box-shadow:0 2px 8px rgba(37,99,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)}
+.nav{padding:8px;flex:1} .nav-btn{width:100%;display:flex;align-items:center;gap:12px;padding:0 12px;height:36px;border-radius:6px;border:1px solid transparent;background:transparent;color:var(--muted);font-size:13px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden}
+.nav-btn.active{background:var(--card);color:var(--text);border-color:var(--border);box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.8);font-weight:500}
+.nav-btn:hover:not(.active){background:rgba(0,0,0,0.04);transform:translateX(2px)}
+.sidebar-foot{padding:12px;border-top:1px solid var(--border);background:rgba(0,0,0,0.01)} .user-mini{display:flex;align-items:center;gap:10px} .user-mini-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
+.main{margin-left:256px;flex:1;max-width:960px;width:100%;padding:24px 32px 40px}
+.hero{border-radius:16px;background:var(--blue);padding:24px 28px;display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(37,99,255,0.2), inset 0 1px 0 rgba(255,255,255,0.15);transition:all 0.5s cubic-bezier(0.16,1,0.3,1)}
+.hero:hover{transform:translateY(-2px) scale(1.005);box-shadow:0 16px 48px rgba(37,99,255,0.25)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);position:relative}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);pointer-events:none}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)}
+.lesson-row{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.8);transition:all 0.35s cubic-bezier(0.16,1,0.3,1)}
+.lesson-row:hover{transform:translateY(-1px) translateX(2px) scale(1.005);box-shadow:0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)}
+.day-tabs{display:flex;gap:6px;padding:4px;background:rgba(0,0,0,0.04);border-radius:10px;width:fit-content} .day-tab{padding:8px 16px;border-radius:8px;border:1px solid transparent;background:transparent;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.3s}
+.day-tab.active{background:var(--card);border-color:var(--border);box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9);font-weight:600;transform:translateY(-1px)}
+.chat-box{border-radius:16px;background:var(--card);border:1px solid var(--border);display:flex;min-height:500px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.chat-list{width:240px;background:rgba(0,0,0,0.02);border-right:1px solid var(--border);padding:8px} .chat-item{padding:10px 12px;border-radius:8px;background:transparent;border:1px solid transparent;margin-bottom:4px;cursor:pointer;transition:all 0.3s} .chat-item.active{background:var(--card);border-color:var(--border);box-shadow:var(--shadow-sm)}
+.chat-msg{max-width:75%;padding:10px 14px;border-radius:16px;font-size:13px;margin-bottom:6px;box-shadow:var(--shadow-sm);transition:all 0.25s;animation:fluentEnter 0.4s both;position:relative}
+.chat-msg.me{background:var(--blue);color:#fff;border-bottom-right-radius:4px} .chat-msg.other{background:var(--card);border:1px solid var(--border);border-bottom-left-radius:4px}
+.chat-msg .del-btn{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#ff3b30;color:#fff;border:none;cursor:pointer;font-size:10px;display:none;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(255,59,48,0.3)}
+.chat-msg:hover .del-btn{display:flex}
+.mobile-header{display:none;position:sticky;top:0;z-index:15;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);height:52px;padding:0 12px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)} .mobile-nav{position:fixed;bottom:0;left:0;right:0;z-index:15;background:rgba(255,255,255,0.9);backdrop-filter:blur(20px);display:none;padding:6px;border-top:1px solid var(--border)}
+@media (max-width: 900px){.sidebar{display:none}.main{margin-left:0;padding:12px 12px 80px}.mobile-header{display:flex}.mobile-nav{display:flex;justify-content:space-around}}
+.theme-toggle{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:10px;background:var(--card);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.8);z-index:30;transition:all 0.4s} .theme-toggle:hover{transform:scale(1.08) translateY(-2px)}
+.banner-dynamic{border-radius:12px;padding:12px 16px;margin-bottom:8px;display:flex;gap:12px;align-items:center;border:1px solid var(--border);border-left:3px solid;background:var(--card);box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.8);transition:all 0.4s}
+.banner-dynamic:hover{transform:translateY(-2px) translateX(2px) scale(1.01);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.3);backdrop-filter:blur(8px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px} .modal.show{display:flex} .modal-box{width:100%;max-width:360px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 16px 48px rgba(0,0,0,0.2);animation:fluentEnter 0.4s}
+</style>
+</head>
+<body>
+<div class="sync-bar" id="syncBar"><div class="sync-bar-inner"></div></div>
+<div id="authRoot">
+<div class="auth-card">
+<div style="text-align:center;margin-bottom:24px"><h1 style="font-size:28px;font-weight:700;letter-spacing:-0.03em">Nova<span style="color:var(--blue)">Class</span></h1><p style="font-size:12px;color:var(--muted);margin-top:6px">Люди сохраняются • Сообщения удаляются • Админ управляет</p></div>
+<div id="errorMsg" class="error-msg"></div><div id="successMsg" class="success-msg"></div>
+<div id="registerPage"><div style="margin-bottom:16px"><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase">Имя</label><input class="fluent-input" id="regName" placeholder="Ваше имя"></div><div style="margin-bottom:16px"><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase">Email</label><input class="fluent-input" id="regEmail" type="email" placeholder="email@example.com"></div><div style="margin-bottom:16px"><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase">Пароль</label><input class="fluent-input" id="regPassword" type="password" placeholder="Минимум 6 символов"></div><button class="fluent-btn primary" style="width:100%;padding:12px;font-size:14px" id="registerBtn">Создать аккаунт</button><div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">Уже есть? <a style="color:var(--blue);font-weight:600;cursor:pointer" id="goToLogin">Войти</a></div></div>
+<div id="loginPage" class="hidden"><div style="margin-bottom:16px"><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase">Email</label><input class="fluent-input" id="loginEmail" type="email" placeholder="email@example.com"></div><div style="margin-bottom:16px"><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase">Пароль</label><input class="fluent-input" id="loginPassword" type="password" placeholder="Пароль"></div><button class="fluent-btn primary" style="width:100%;padding:12px;font-size:14px" id="loginBtn">Войти</button><div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">Нет аккаунта? <a style="color:var(--blue);font-weight:600;cursor:pointer" id="goToRegister">Создать</a></div></div>
+</div>
+</div>
+<div id="appRoot">
+<div class="layout">
+<aside class="sidebar">
+<div class="sidebar-logo"><div class="logo-icon">N</div><div style="font-weight:600;font-size:14px">NovaClass</div></div>
+<nav class="nav" id="desktopNav"></nav>
+<div class="sidebar-foot">
+<div class="user-mini"><div class="user-mini-av" id="sideAvatar">U</div><div style="flex:1"><div id="sideName" style="font-size:12px;font-weight:600">User</div><div id="sideRole" style="font-size:10px;color:var(--muted)">user</div></div><span id="adminBadge" style="display:none;background:#ff3b30;color:#fff;padding:2px 6px;border-radius:100px;font-size:9px">ADMIN</span></div>
+<div style="margin-top:10px;display:flex;gap:6px"><button class="fluent-btn" style="flex:1;padding:8px;font-size:11px" id="logoutBtn">Выйти</button><button class="fluent-btn primary" style="flex:1;padding:8px;font-size:11px;display:none" id="hiddenAdminBtn" onclick="window.open('admin.html','_blank')">Скрытая админка</button></div>
+</div>
+</aside>
+<div class="main">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px" class="fluent-enter"><div style="font-size:11px;color:var(--muted)"><span style="width:6px;height:6px;border-radius:50%;background:#34c759;display:inline-block;box-shadow:0 0 0 3px rgba(52,199,89,0.15)"></span> Готово <span id="lastSync" style="margin-left:8px"></span> • Люди в базе • Сообщения удаляются</div></div>
+<div id="pageContent"></div>
+</div>
+</div>
+<div class="mobile-header fluent-enter"><div style="display:flex;align-items:center;gap:8px"><div class="logo-icon" style="width:26px;height:26px;font-size:11px">N</div><b style="font-size:13px">NovaClass</b></div><button id="logoutBtnM" class="fluent-btn" style="padding:6px"><i data-lucide="log-out" style="width:14px;height:14px"></i></button></div>
+<div class="mobile-nav" id="mobileNav"></div>
+</div>
+<button class="theme-toggle" id="themeToggle"><i data-lucide="moon" style="width:16px;height:16px"></i></button>
+<button style="position:fixed;bottom:20px;right:70px;width:44px;height:44px;border-radius:12px;background:var(--blue);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,99,255,0.3);z-index:30" onclick="document.getElementById('geminiModal').style.display='flex'"><i data-lucide="sparkles" style="width:18px;height:18px"></i></button>
+
+<div class="modal" id="geminiModal"><div class="modal-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><div class="logo-icon" style="width:28px;height:28px">G</div><div><div style="font-weight:600;font-size:13px">Nova Gemini</div><div style="font-size:10px;color:var(--muted)">Встроен без ключа</div></div></div><button onclick="document.getElementById('geminiModal').classList.remove('show')" class="fluent-btn" style="padding:4px 8px">✕</button></div><div id="gemChat" style="max-height:300px;overflow:auto;display:flex;flex-direction:column;gap:6px;margin-bottom:10px"><div style="background:rgba(0,0,0,0.04);padding:10px 12px;border-radius:12px;font-size:12px">Привет! Я Gemini без ключа. Спроси что угодно!</div></div><div style="display:flex;gap:6px"><input id="gemInput" class="fluent-input" placeholder="Вопрос..." style="flex:1"><button onclick="sendGem()" class="fluent-btn primary" style="padding:8px 12px"><i data-lucide="send" style="width:14px;height:14px"></i></button></div></div></div>
+
+<div class="modal" id="schedModal"><div class="modal-box"><h3 style="font-size:14px;margin-bottom:12px" id="schedModalTitle">Добавить урок</h3><div style="display:grid;gap:8px"><select class="fluent-input" id="mSchedDay"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Четверг</option><option>Пятница</option></select><input class="fluent-input" id="mSchedTime" placeholder="08:00 — 08:45"><input class="fluent-input" id="mSchedSubj" placeholder="Предмет"><input class="fluent-input" id="mSchedTeacher" placeholder="Учитель"><input class="fluent-input" id="mSchedRoom" placeholder="Кабинет"><input type="color" id="mSchedColor" value="#2563ff" style="width:100%;height:36px;border-radius:6px;border:1px solid #d2d2d7"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="fluent-btn" style="flex:1" onclick="document.getElementById('schedModal').classList.remove('show')">Отмена</button><button class="fluent-btn primary" style="flex:1" onclick="saveSchedFromModal()">Сохранить в таблицу</button></div></div></div>
+
+<div class="modal" id="hwModal"><div class="modal-box"><h3 style="font-size:14px;margin-bottom:12px">Добавить задание</h3><div style="display:grid;gap:8px"><select class="fluent-input" id="mHwDay"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Четверг</option><option>Пятница</option></select><input class="fluent-input" id="mHwSubj" placeholder="Предмет"><textarea class="fluent-input" id="mHwTask" placeholder="Задание" rows="2"></textarea><input class="fluent-input" id="mHwDeadline" type="date"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="fluent-btn" style="flex:1" onclick="document.getElementById('hwModal').classList.remove('show')">Отмена</button><button class="fluent-btn primary" style="flex:1" onclick="saveHwFromModal()">Сохранить в таблицу</button></div></div></div>
+
+<script>
+const GAS_URL='https://script.google.com/macros/s/AKfycbwU4GdY9mt55K1fo1fo08QGEwFnHFgFUlAippF-Q9DelWLby_wV7j283UuOOz0Cug/exec';
+const PROJECT='novaclass';
+const $=id=>document.getElementById(id);
+const days=[{id:'Понедельник',label:'Понедельник'},{id:'Вторник',label:'Вторник'},{id:'Среда',label:'Среда'},{id:'Четверг',label:'Четверг'},{id:'Пятница',label:'Пятница'}];
+let activeDay=days[0].id;
+let serverConfig={}, serverBanners=[], serverSchedule=[], serverHomework=[];
+let editingSchedId=null;
+let isDark=localStorage.getItem('classic_theme')==='dark';
+function applyTheme(d){isDark=d;document.body.classList.toggle('dark',d);localStorage.setItem('classic_theme',d?'dark':'light');$('themeToggle').innerHTML=d?'<i data-lucide="sun" style="width:16px;height:16px"></i>':'<i data-lucide="moon" style="width:16px;height:16px"></i>';if(window.lucide) lucide.createIcons();}
+applyTheme(isDark);$('themeToggle').onclick=()=>applyTheme(!isDark);
+document.addEventListener('mousemove', e=>{
+  document.querySelectorAll('.lesson-row, .banner-dynamic, .fluent-btn, .card').forEach(el=>{
+    const r=el.getBoundingClientRect(); const x=e.clientX - r.left, y=e.clientY - r.top;
+    if(x>=0 && x<=r.width && y>=0 && y<=r.height){ el.style.setProperty('--x', x+'px'); el.style.setProperty('--y', y+'px'); }
+  });
+});
+class ApiQueue{
+setStatus(s){const bar=$('syncBar');if(s==='syncing'){bar.className='sync-bar syncing';}else if(s==='done'){bar.className='sync-bar done';setTimeout(()=>bar.className='sync-bar',1000);$('lastSync').textContent=new Date().toLocaleTimeString().slice(0,5);}else{bar.className='sync-bar';}}
+async post(data){this.setStatus('syncing');try{const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...data,project:PROJECT})});const j=await res.json();this.setStatus('done');if(j.status==='error') throw new Error(j.message);return j;}catch(e){this.setStatus('done');throw e;}}
+async get(action,params={}){const qs=new URLSearchParams({action,project:PROJECT,...params,t:Date.now()}).toString();this.setStatus('syncing');const res=await fetch(`${GAS_URL}?${qs}`);const j=await res.json();this.setStatus('done');return j;}
+}
+const sync=new ApiQueue();
+let currentUser=null,currentTab='home',messagesCache=[];
+async function hashPwd(p){const enc=new TextEncoder().encode(p);const buf=await crypto.subtle.digest('SHA-256',enc);return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+function showError(m){const el=$('errorMsg');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),4000);}
+function showSuccess(m){const el=$('successMsg');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+function validateEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
+const authRoot=$('authRoot'),appRoot=$('appRoot');
+$('goToLogin').onclick=()=>{$('registerPage').classList.add('hidden');$('loginPage').classList.remove('hidden');};
+$('goToRegister').onclick=()=>{$('loginPage').classList.add('hidden');$('registerPage').classList.remove('hidden');};
+$('registerBtn').onclick=async()=>{
+const name=$('regName').value.trim(),email=$('regEmail').value.trim().toLowerCase(),pwd=$('regPassword').value.trim();
+if(name.length<2) return showError('Имя минимум 2');if(!validateEmail(email)) return showError('Email неверный');if(pwd.length<6) return showError('Пароль от 6');
+$('registerBtn').innerHTML='<span class="loader"></span>Создание...';$('registerBtn').disabled=true;
+try{const h=await hashPwd(pwd);const res=await sync.post({action:'register',name,email,passHash:h,id:Date.now().toString()});const user=res.user;localStorage.setItem('classic_session',JSON.stringify({...user,project:PROJECT}));showSuccess('Создан и сохранен в таблицу Users!');setTimeout(()=>openApp(user),500);}catch(e){showError(e.message);}finally{$('registerBtn').innerHTML='Создать аккаунт';$('registerBtn').disabled=false;}
+};
+$('loginBtn').onclick=async()=>{
+const email=$('loginEmail').value.trim().toLowerCase(),pwd=$('loginPassword').value.trim();if(!email||!pwd) return showError('Заполни поля');
+$('loginBtn').innerHTML='<span class="loader"></span>Вход...';$('loginBtn').disabled=true;
+try{const h=await hashPwd(pwd);const res=await sync.post({action:'login',email,passHash:h});const user=res.user;localStorage.setItem('classic_session',JSON.stringify({...user,project:PROJECT}));openApp(user);}catch(e){showError(e.message);}finally{$('loginBtn').innerHTML='Войти';$('loginBtn').disabled=false;}
+};
+function openApp(user){
+currentUser=user;$('sideName').textContent=user.name;$('sideAvatar').textContent=user.name.charAt(0).toUpperCase();$('sideRole').textContent=user.role||'user';
+if(user.role==='admin'){document.getElementById('adminBadge').style.display='inline-block';document.getElementById('hiddenAdminBtn').style.display='block';}
+authRoot.classList.add('hide');setTimeout(()=>{authRoot.style.display='none';appRoot.classList.add('show');renderNav();switchTab('home');loadAllData();},500);
+}
+function closeApp(){localStorage.removeItem('classic_session');appRoot.classList.remove('show');setTimeout(()=>{authRoot.style.display='flex';authRoot.classList.remove('hide');},300);}
+$('logoutBtn').onclick=closeApp;$('logoutBtnM').onclick=closeApp;
+async function loadAllData(){
+try{
+const data=await sync.get('getAllData',{chat:'общий', admin: currentUser && currentUser.role==='admin' ? '1' : '0'});
+serverConfig=data.config||{};serverBanners=data.banners||[];serverSchedule=data.schedule||[];serverHomework=data.homework||[];
+if(serverConfig.primary_color){document.documentElement.style.setProperty('--blue',serverConfig.primary_color);}
+switchTab(currentTab);
+}catch(e){console.log(e);}
+}
+function renderNav(){
+const tabs=[{id:'home',label:'Главная',icon:'layout-dashboard'},{id:'schedule',label:'Расписание',icon:'calendar'},{id:'homework',label:'Задания',icon:'book-check'},{id:'diary',label:'Дневник',icon:'notebook'},{id:'chat',label:'Сообщения',icon:'message-circle'}];
+$('desktopNav').innerHTML=tabs.map(t=>`<button class="nav-btn ${currentTab===t.id?'active':''}" onclick="switchTab('${t.id}')"><i data-lucide="${t.icon}" style="width:16px;height:16px"></i>${t.label}</button>`).join('');
+$('mobileNav').innerHTML=tabs.map(t=>`<button onclick="switchTab('${t.id}')" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px;border:none;background:${currentTab===t.id?'var(--card)':'transparent'};color:${currentTab===t.id?'var(--text)':'var(--muted)'};border-radius:8px;font-size:9px"><i data-lucide="${t.icon}" style="width:18px;height:18px"></i>${t.label.split(' ')[0]}</button>`).join('');
+if(window.lucide) lucide.createIcons();
+}
+window.switchTab=id=>{
+currentTab=id;renderNav();const c=$('pageContent');c.innerHTML='';const wrap=document.createElement('div');wrap.className='fluent-enter';
+const bannersToShow=serverBanners.length?serverBanners:[{title:'Добро пожаловать!',text:'NovaClass • Люди сохраняются • Админ управляет расписанием с сайта',color:'#2563ff',icon:'sparkles'}];
+let scheduleData={};if(serverSchedule.length){serverSchedule.forEach(s=>{if(!scheduleData[s.day])scheduleData[s.day]=[];scheduleData[s.day].push(s);});}
+let hwData={};if(serverHomework.length){serverHomework.forEach(h=>{const day=h.day||'Понедельник';if(!hwData[day])hwData[day]=[];hwData[day].push(h);});}
+const isAdmin=currentUser && currentUser.role==='admin';
+
+if(id==='home'){
+wrap.innerHTML=`
+<div class="hero fluent-enter"><div><h1 style="color:#fff;font-size:24px;font-weight:600">Привет, ${currentUser?.name||''}! ${isAdmin?'<span style="background:rgba(0,0,0,0.2);padding:2px 8px;border-radius:100px;font-size:12px">ADMIN — можешь управлять</span>':''}</h1><p style="color:rgba(255,255,255,0.8);margin-top:4px;font-size:13px">NovaClass • Для всех классов • Сообщения удаляются • Расписание с сайта</p></div><div style="width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center"><i data-lucide="sparkles" style="width:22px;height:22px;color:#fff"></i></div></div>
+<div style="margin-top:16px;display:grid;gap:8px">${bannersToShow.map(b=>`<div class="banner-dynamic" style="border-left-color:${b.color}"><div style="width:32px;height:32px;border-radius:8px;background:${b.color};display:flex;align-items:center;justify-content:center;color:#fff"><i data-lucide="${b.icon||'info'}" style="width:16px;height:16px"></i></div><div style="flex:1"><div style="font-weight:600;font-size:13px">${b.title}</div><div style="font-size:11px;color:var(--muted)">${b.text}</div></div>${isAdmin?`<button class="fluent-btn danger" style="padding:4px 8px;font-size:10px" onclick="deleteBanner('${b.id}')">Удалить</button>`:''}</div>`).join('')}</div>
+${isAdmin?`<div style="margin-top:12px"><button class="fluent-btn primary" onclick="openBannerModal()">+ Добавить баннер в таблицу</button></div>`:''}
+`;
+}
+if(id==='schedule'){
+wrap.innerHTML=`
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="display:flex;align-items:center;gap:10px"><i data-lucide="calendar" style="width:20px;height:20px"></i><span style="font-size:18px;font-weight:600">Расписание</span>${isAdmin?'<span style="background:#ff3b30;color:#fff;padding:2px 6px;border-radius:100px;font-size:10px">ADMIN: можешь управлять</span>':''}</div>${isAdmin?'<button class="fluent-btn primary" onclick="openSchedModal()">+ Добавить урок</button>':''}</div>
+<div style="display:flex;gap:6px;padding:4px;background:rgba(0,0,0,0.04);border-radius:10px;width:fit-content">${days.map(d=>`<button class="day-tab ${activeDay===d.id?'active':''}" onclick="activeDay='${d.id}';switchTab('schedule')">${d.id}</button>`).join('')}</div>
+<div style="margin-top:16px">${(scheduleData[activeDay]||[]).map(l=>`<div class="lesson-row"><div style="width:36px;height:36px;border-radius:8px;background:${l.color||'#2563ff'}15;display:flex;align-items:center;justify-content:center;color:${l.color||'#2563ff'}"><i data-lucide="book-open" style="width:16px;height:16px"></i></div><div style="flex:1"><div style="font-size:10px;color:var(--muted)">${l.time}</div><div style="font-weight:600;font-size:13px">${l.subject}</div><div style="font-size:11px;color:var(--muted)">${l.room} • ${l.teacher}</div></div><div style="display:flex;gap:4px">${isAdmin?`<button class="fluent-btn" style="padding:4px 8px;font-size:10px" onclick="editSched('${l.id}')">Изм</button><button class="fluent-btn danger" style="padding:4px 8px;font-size:10px" onclick="deleteSched('${l.id}')">Удалить</button>`:''}</div></div>`).join('')||'<div class="card" style="padding:32px;text-align:center;color:var(--muted);font-size:12px">Нет уроков. '+(isAdmin?'Нажми + Добавить урок — добавится в таблицу Schedule':'')+'</div>'}</div>
+`;
+}
+if(id==='homework'){
+wrap.innerHTML=`
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="display:flex;align-items:center;gap:10px"><i data-lucide="book-check" style="width:20px;height:20px"></i><span style="font-size:18px;font-weight:600">Задания</span>${isAdmin?'<span style="background:#ff3b30;color:#fff;padding:2px 6px;border-radius:100px;font-size:10px">ADMIN</span>':''}</div>${isAdmin?'<button class="fluent-btn primary" onclick="document.getElementById(\'hwModal\').classList.add(\'show\')">+ Добавить ДЗ</button>':''}</div>
+<div style="display:flex;gap:6px;padding:4px;background:rgba(0,0,0,0.04);border-radius:10px;width:fit-content">${days.map(d=>`<button class="day-tab ${activeDay===d.id?'active':''}" onclick="activeDay='${d.id}';switchTab('homework')">${d.id}</button>`).join('')}</div>
+<div style="margin-top:16px">${(hwData[activeDay]||[]).map(h=>`<div class="lesson-row"><div style="width:36px;height:36px;border-radius:8px;background:${h.color||'#2563ff'}15;display:flex;align-items:center;justify-content:center;color:${h.color||'#2563ff'}"><i data-lucide="clipboard-list" style="width:16px;height:16px"></i></div><div style="flex:1"><div style="font-weight:600;font-size:13px">${h.subject}</div><div style="font-size:11px">${h.task}</div><div style="font-size:10px;color:#ff3b30">До ${h.deadline}</div></div>${isAdmin?`<button class="fluent-btn danger" style="padding:4px 8px;font-size:10px" onclick="deleteHw('${h.id}')">Удалить</button>`:''}</div>`).join('')||'<div class="card" style="padding:32px;text-align:center;color:var(--muted);font-size:12px">Заданий нет</div>'}</div>
+`;
+}
+if(id==='diary'){
+wrap.innerHTML=`<div class="card" style="padding:48px 24px;text-align:center"><div style="width:56px;height:56px;border-radius:14px;background:var(--bg);margin:0 auto 12px;display:flex;align-items:center;justify-content:center"><i data-lucide="notebook-pen" style="width:24px;height:24px"></i></div><h3 style="font-size:16px;font-weight:600">Дневник</h3><p style="color:var(--muted);font-size:12px;margin-top:6px">Скоро</p></div>`;
+}
+if(id==='chat'){
+wrap.innerHTML=`
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="display:flex;align-items:center;gap:10px"><i data-lucide="message-circle" style="width:20px;height:20px"></i><span style="font-size:18px;font-weight:600">Сообщения</span>${isAdmin?'<span style="background:#ff3b30;color:#fff;padding:2px 6px;border-radius:100px;font-size:10px">ADMIN: можешь удалять</span>':''}</div><button class="fluent-btn" onclick="loadMessages()">Обновить</button></div>
+<div class="chat-box"><div class="chat-list"><div class="chat-item active"><div style="font-weight:600;font-size:12px">Общий чат</div><div style="font-size:10px;color:var(--muted)">${messagesCache.length} сообщений • Удаление работает</div></div></div><div style="flex:1;display:flex;flex-direction:column"><div id="chatMessages" style="flex:1;padding:16px;display:flex;flex-direction:column;gap:8px;overflow:auto;max-height:420px;background:rgba(0,0,0,0.01)"></div><div style="padding:10px;display:flex;gap:8px;border-top:1px solid var(--border)"><input id="chatInput" class="fluent-input" placeholder="Сообщение..." style="flex:1"><button onclick="sendChat()" class="fluent-btn primary" style="padding:8px 14px"><i data-lucide="send" style="width:14px;height:14px"></i></button></div></div></div>
+`;
+setTimeout(()=>loadMessages(),100);
+}
+c.appendChild(wrap);if(window.lucide) lucide.createIcons();
+};
+
+async function loadMessages(){
+try{
+const data=await sync.get('getMessages',{chat:'общий'});messagesCache=data.messages||[];
+const box=$('chatMessages');if(!box)return;
+const isAdmin=currentUser && currentUser.role==='admin';
+box.innerHTML=messagesCache.map(m=>`<div class="chat-msg ${m.email===currentUser.email?'me':'other'}"><div>${m.text}</div><div style="font-size:9px;opacity:.6;margin-top:4px">${m.time} • ${m.user}</div>${isAdmin?`<button class="del-btn" onclick="deleteMsg('${m.id}')" title="Удалить сообщение">✕</button>`:''}</div>`).join('')||'<div style="text-align:center;color:var(--muted);padding:20px;font-size:12px">Пока пусто. Напиши первое сообщение!</div>';
+box.scrollTop=box.scrollHeight;
+}catch(e){console.log(e);}
+}
+window.loadMessages=loadMessages;
+window.deleteMsg=async(id)=>{
+if(!confirm('Удалить это сообщение?'))return;
+try{await sync.post({action:'delete_message',id});loadMessages();}catch(e){alert('Ошибка: '+e.message);}
+};
+window.sendChat=async()=>{
+const inp=$('chatInput');if(!inp||!inp.value.trim())return;const text=inp.value.trim();inp.value='';
+const box=$('chatMessages');const div=document.createElement('div');div.className='chat-msg me';div.innerHTML=`<div>${text}</div><div style="font-size:9px;opacity:.6">сейчас</div>`;box.appendChild(div);box.scrollTop=box.scrollHeight;
+await sync.post({action:'send_message',email:currentUser.email,user:currentUser.name,text,chat:'общий'});setTimeout(loadMessages,500);
+};
+window.sendGem=async()=>{
+const inp=$('gemInput');if(!inp.value.trim())return;const q=inp.value.trim();inp.value='';
+const box=$('gemChat');box.innerHTML+=`<div style="align-self:flex-end;background:var(--blue);color:#fff;padding:8px 12px;border-radius:16px;border-bottom-right-radius:4px;font-size:12px;max-width:80%">${q}</div>`;
+box.innerHTML+=`<div style="align-self:flex-start;background:rgba(0,0,0,0.04);padding:8px 12px;border-radius:12px;font-size:12px">Думаю...</div>`;box.scrollTop=box.scrollHeight;
+try{const res=await sync.post({action:'gemini_chat',prompt:q});box.lastChild.textContent=res.reply;box.scrollTop=box.scrollHeight;}catch(e){box.lastChild.textContent='Ошибка: '+e.message;}
+};
+window.openSchedModal=()=>{editingSchedId=null;$('mSchedDay').value=activeDay;$('mSchedTime').value='';$('mSchedSubj').value='';$('mSchedTeacher').value='';$('mSchedRoom').value='';$('schedModal').classList.add('show');};
+window.editSched=(id)=>{const s=serverSchedule.find(x=>x.id===id);if(!s)return;editingSchedId=id;$('mSchedDay').value=s.day;$('mSchedTime').value=s.time;$('mSchedSubj').value=s.subject;$('mSchedTeacher').value=s.teacher;$('mSchedRoom').value=s.room;$('mSchedColor').value=s.color||'#2563ff';$('schedModal').classList.add('show');};
+window.saveSchedFromModal=async()=>{
+const sc={id:editingSchedId,day:$('mSchedDay').value,time:$('mSchedTime').value,subject:$('mSchedSubj').value,teacher:$('mSchedTeacher').value,room:$('mSchedRoom').value,color:$('mSchedColor').value};
+if(!sc.subject)return alert('Предмет нужен');
+await sync.post({action:'save_schedule',schedule:sc});$('schedModal').classList.remove('show');loadAllData();
+};
+window.deleteSched=async(id)=>{if(!confirm('Удалить урок из таблицы?'))return;await sync.post({action:'delete_schedule',id});loadAllData();};
+window.saveHwFromModal=async()=>{
+const hw={day:$('mHwDay').value,subject:$('mHwSubj').value,task:$('mHwTask').value,deadline:$('mHwDeadline').value,color:'#2563ff'};
+if(!hw.subject||!hw.task)return alert('Заполни');
+await sync.post({action:'save_homework',homework:hw,email:currentUser.email});document.getElementById('hwModal').classList.remove('show');loadAllData();
+};
+window.deleteHw=async(id)=>{if(!confirm('Удалить?'))return;await sync.post({action:'delete_homework',id});loadAllData();};
+window.deleteBanner=async(id)=>{if(!confirm('Удалить баннер?'))return;await sync.post({action:'delete_banner',id});loadAllData();};
+window.openBannerModal=()=>{const t=prompt('Заголовок баннера:');if(!t)return;const txt=prompt('Текст:');if(!txt)return;const col=prompt('Цвет (hex):','#2563ff')||'#2563ff';sync.post({action:'save_banner',banner:{title:t,text:txt,color:col,icon:'sparkles'}}).then(()=>loadAllData());};
+
+(function(){
+const s=localStorage.getItem('classic_session');if(s){try{const u=JSON.parse(s);if(u&&u.project===PROJECT) setTimeout(()=>openApp(u),200);}catch{}}
+sync.get('getAllData',{chat:'общий'}).then(d=>{serverConfig=d.config||{};serverBanners=d.banners||[];serverSchedule=d.schedule||[];serverHomework=d.homework||[];}).catch(()=>{});
+})();
+if(window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>
