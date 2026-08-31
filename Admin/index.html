@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NovaClass BETA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+html{zoom:0.8} @supports not (zoom:0.8){body{transform:scale(0.8);transform-origin:top left;width:125%;min-height:125vh}} @media (max-width:768px){html{zoom:0.85}}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--blue:#2563ff;--green:#22c55e;--bg:#0c0c0d;--card:#17171a;--card-soft:#1c1c1f;--text:#fff;--muted:#a1a1aa;--border:#242428;--border-light:#2a2a30}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body.light{--bg:#f8f9fb;--card:#fff;--card-soft:#f2f4f7;--text:#0f172a;--muted:#667085;--border:#e4e7ec;--border-light:#d0d5dd}
+.beta-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;background:var(--blue);color:#fff;font-size:10px;font-weight:800;letter-spacing:.06em;margin-left:8px}
+
+/* FULLSCREEN LOADER */
+#fullscreenLoader{
+  position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:24px;
+  transition:opacity .6s, transform .6s;zoom:1.25;
+}
+#fullscreenLoader.hide{opacity:0;transform:scale(1.02);pointer-events:none}
+.win-loader{width:80px;height:80px;position:relative}
+.win-loader-dot{position:absolute;width:8px;height:8px;background:var(--blue);border-radius:50%;top:50%;left:50%;transform-origin:-28px 0;transition:background .8s, box-shadow .8s}
+.win-loader-dot:nth-child(1){animation:winRotate 1.1s linear infinite} .win-loader-dot:nth-child(2){animation:winRotate 1.1s linear infinite .12s} .win-loader-dot:nth-child(3){animation:winRotate 1.1s linear infinite .24s} .win-loader-dot:nth-child(4){animation:winRotate 1.1s linear infinite .36s} .win-loader-dot:nth-child(5){animation:winRotate 1.1s linear infinite .48s}
+@keyframes winRotate{0%{transform:rotate(0deg) translateX(-28px) rotate(0deg)}100%{transform:rotate(360deg) translateX(-28px) rotate(-360deg)}}
+#fullscreenLoader.success .win-loader-dot{background:var(--green)!important;box-shadow:0 0 20px rgba(34,197,94,.5);animation:winRotateSuccess 1s forwards}
+@keyframes winRotateSuccess{0%{transform:rotate(0deg) translateX(-28px) rotate(0deg) scale(1)}50%{transform:rotate(180deg) translateX(-28px) rotate(-180deg) scale(1.3)}100%{transform:rotate(360deg) translateX(-28px) rotate(-360deg) scale(1.1)}}
+.loader-text{font-size:15px;font-weight:700;text-align:center;max-width:360px;line-height:1.4;transition:color .6s}
+.loader-sub{font-size:11px;color:var(--muted);font-weight:500;text-align:center}
+#fullscreenLoader.success .loader-text{color:var(--green)} #fullscreenLoader.success .loader-sub{color:var(--green)}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:16px}
+.hint-card{
+  background:linear-gradient(135deg,rgba(37,99,255,.08),rgba(124,58,237,.05));
+  border:1px solid rgba(37,99,255,.2);border-radius:16px;padding:16px 18px;margin-bottom:18px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.hint-card .hint-icon{width:36px;height:36px;border-radius:12px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-weight:800;font-size:16px}
+.hint-card .hint-text{flex:1}
+.hint-card .hint-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.hint-card .hint-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.hint-close{width:28px;height:28px;border-radius:8px;background:var(--card-soft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:16px;width:fit-content;max-width:100%;overflow-x:auto}
+.tab{padding:12px 18px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.18s;min-height:44px} .tab.active{background:var(--text);color:var(--bg);font-weight:700} body.light .tab.active{background:#0f172a;color:#fff}
+.row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px;border:1px solid var(--border);border-radius:16px;margin-bottom:10px;background:var(--card-soft);font-size:13px;transition:.15s}
+.row:hover{border-color:var(--border-light);transform:translateY(-1px)}
+input,select,textarea{width:100%;padding:14px 18px;background:var(--card-soft);border:1px solid var(--border-light);border-radius:14px;color:var(--text);font-size:13px;margin-bottom:10px;outline:none;min-height:48px} input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,255,.1)}
+button{padding:12px 18px;border:none;border-radius:14px;background:var(--text);color:var(--bg);font-weight:700;cursor:pointer;font-size:13px;min-height:48px;transition:.18s} button:hover{transform:translateY(-1px)} button.danger{background:#ef4444;color:#fff} button.primary{background:var(--blue);color:#fff} body.light button{background:#0f172a;color:#fff}
+.stat{background:var(--card-soft);padding:20px;border-radius:16px;text-align:center;border:1px solid var(--border)}
+.login{max-width:440px;margin:80px auto;background:var(--card);border:1px solid var(--border);border-radius:28px;padding:36px;text-align:center}
+.chat-box{border-radius:20px;background:var(--card);border:1px solid var(--border);display:flex;min-height:60vh;overflow:hidden}
+.chat-list{width:280px;background:var(--bg);border-right:1px solid var(--border);padding:16px;flex-shrink:0}
+.chat-msgs{flex:1;padding:18px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:65vh}
+.chat-msg{max-width:82%;padding:14px 18px;border-radius:20px;font-size:13px;line-height:1.5;word-break:break-word;position:relative}
+.chat-msg.admin{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:1px solid #f59e0b}
+.chat-msg.admin::before{content:'ADMIN • BETA';position:absolute;top:-8px;left:12px;background:#f59e0b;color:#fff;font-size:8px;font-weight:800;padding:2px 8px;border-radius:100px}
+.chat-msg.other{background:var(--card-soft);border:1px solid var(--border)}
+.chat-input{display:flex;gap:12px;padding:16px;border-top:1px solid var(--border);background:var(--card)}
+.top-controls{display:flex;align-items:center;gap:10px}
+.control-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--card-soft);border:1px solid var(--border-light);color:var(--text);font-size:12px;font-weight:700;cursor:pointer;transition:.18s;min-height:44px}
+.control-btn:hover{background:var(--border)}
+.admin-header{position:sticky;top:0;z-index:20;background:rgba(12,12,13,.92);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+body.light .admin-header{background:rgba(248,249,251,.92)}
+.tooltip{position:relative;cursor:help}
+.tooltip:hover::after{
+  content:attr(data-tooltip); position:absolute; bottom:100%; left:50%; transform:translateX(-50%);
+  background:#0f172a;color:#fff;padding:8px 12px;border-radius:10px;font-size:11px;font-weight:500;
+  white-space:nowrap;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.2);margin-bottom:6px;
+}
+@media (max-width:768px){.chat-box{flex-direction:column} .chat-list{width:100%;display:flex;gap:10px;overflow-x:auto;border-right:none;border-bottom:1px solid var(--border)} .tabs{width:100%} .tab{flex:1;text-align:center;padding:10px 12px;font-size:11px} .row{flex-direction:column;align-items:flex-start} .admin-header{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+<div id="fullscreenLoader">
+  <div style="width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,#2563ff,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:28px;box-shadow:0 12px 40px rgba(37,99,255,.3)">N</div>
+  <div class="win-loader"><div class="win-loader-dot"></div><div class="win-loader-dot"></div><div class="win-loader-dot"></div><div class="win-loader-dot"></div><div class="win-loader-dot"></div></div>
+  <div style="text-align:center">
+    <div id="loaderText" class="loader-text">Загрузка базы данных для вашего обеспечения удобства</div>
+    <div id="loaderSub" class="loader-sub" style="margin-top:10px">NovaClass BETA • Админка</div>
+  </div>
+</div>
+
+<div id="loginScreen" class="login">
+<div style="width:64px;height:64px;border-radius:18px;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;margin:0 auto 18px">N</div>
+<h2 style="font-size:22px;display:flex;align-items:center;justify-content:center">NovaClass <span class="beta-badge">BETA</span></h2>
+<p id="adminLoginSub" style="font-size:11px;color:var(--muted);margin:8px 0 24px">Панель управления • Введите код доступа</p>
+<input id="secret" type="password" placeholder="Код доступа • novaclass2026" style="text-align:center">
+<button onclick="unlock()" style="width:100%;margin-top:12px" class="primary" id="btnEnter">Войти в BETA</button>
+<div id="err" style="color:#ef4444;font-size:11px;margin-top:12px;display:none"></div>
+<div style="margin-top:20px;padding:14px;background:var(--bg);border-radius:12px;border:1px solid var(--border);text-align:left">
+<div style="font-size:11px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px">💡 Подсказка</div>
+<div style="font-size:11px;color:var(--muted);line-height:1.5">
+• Пароль: <b style="color:var(--text)">novaclass2026</b><br>
+• После входа загрузится вся база данных<br>
+• Наведите на <span style="display:inline-flex;width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;align-items:center;justify-content:center;font-size:10px">?</span> для подсказок
+</div>
+</div>
+</div>
+
+<div id="adminPanel" style="display:none;max-width:1280px;margin:0 auto;padding:18px 18px 100px">
+<div class="admin-header">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="width:40px;height:40px;border-radius:14px;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800">N</div>
+    <div>
+      <div style="font-weight:800;font-size:15px;display:flex;align-items:center">NovaClass <span class="beta-badge">BETA</span></div>
+      <div id="adminHeaderSub" style="font-size:10px;color:var(--muted)">Админка • Связанная • С подсказками</div>
+    </div>
+  </div>
+  <div class="top-controls">
+    <button class="control-btn tooltip" data-tooltip="Сменить язык / Change language" id="langBtn" onclick="toggleLang()">🌐 <span id="langLabel">RU</span></button>
+    <button class="control-btn tooltip" data-tooltip="Сменить тему" id="themeBtn" onclick="toggleTheme()">🌙 <span id="themeLabel">Тёмная</span></button>
+    <button class="control-btn tooltip" data-tooltip="Обновить все данные" onclick="load()" id="btnRefresh">↻ Обновить</button>
+    <button class="control-btn tooltip" data-tooltip="Показать/скрыть подсказки" onclick="toggleHints()" id="btnHints">💡 Подсказки</button>
+  </div>
+</div>
+
+<div class="tabs" id="tabsContainer">
+<button class="tab active" data-tab="dash" data-i18n="tabDash">Главная</button>
+<button class="tab" data-tab="users" data-i18n="tabUsers">Пользователи</button>
+<button class="tab" data-tab="msgs" data-i18n="tabChat">Чат</button>
+<button class="tab" data-tab="tariffs" data-i18n="tabTariffs">Тарифы</button>
+<button class="tab" data-tab="seasons" data-i18n="tabSeasons">Сезоны</button>
+<button class="tab" data-tab="sched" data-i18n="tabSchedule">Расписание</button>
+<button class="tab" data-tab="hw" data-i18n="tabHomework">Домашка</button>
+</div>
+
+<div id="tab-dash" class="card">
+<div class="hint-card" data-hint="dash">
+<div class="hint-icon">💡</div>
+<div class="hint-text">
+<div class="hint-title" data-i18n="hintDashTitle">Что это за раздел?</div>
+<div class="hint-desc" data-i18n="hintDashDesc">Здесь вы видите статистику всей платформы: сколько пользователей зарегистрировано, сколько сообщений в чате, занятий и тарифов. Данные загружаются сразу при входе — переходы мгновенные.</div>
+</div>
+<button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+<div class="stat"><div id="stU" style="font-size:26px;font-weight:800">0</div><div style="font-size:10px;color:var(--muted);margin-top:6px" data-i18n="usersCount">ПОЛЬЗОВАТЕЛИ</div><div style="font-size:9px;color:var(--muted);margin-top:4px" class="tooltip" data-tooltip="Всего зарегистрированных аккаунтов">?</div></div>
+<div class="stat"><div id="stM" style="font-size:26px;font-weight:800">0</div><div style="font-size:10px;color:var(--muted)" data-i18n="messagesCount">СООБЩЕНИЯ</div><div style="font-size:9px;color:var(--muted);margin-top:4px" class="tooltip" data-tooltip="Сообщений в общем чате">?</div></div>
+<div class="stat"><div id="stS" style="font-size:26px;font-weight:800">0</div><div style="font-size:10px;color:var(--muted)" data-i18n="lessonsCount">ЗАНЯТИЯ</div><div style="font-size:9px;color:var(--muted);margin-top:4px" class="tooltip" data-tooltip="Уроков в расписании">?</div></div>
+<div class="stat"><div id="stT" style="font-size:26px;font-weight:800">0</div><div style="font-size:10px;color:var(--muted)" data-i18n="tariffsCount">ТАРИФЫ</div></div>
+<div class="stat"><div id="stSe" style="font-size:26px;font-weight:800">0</div><div style="font-size:10px;color:var(--muted)" data-i18n="seasonsCount">СЕЗОНЫ</div></div>
+</div>
+<div id="dashInfo" style="margin-top:18px;padding:18px;background:var(--text);color:var(--bg);border-radius:16px;font-size:13px;line-height:1.6">
+<b>NovaClass BETA</b><br>
+Связанная админка • Загрузка при входе • Подсказки для каждого раздела • Перевод RU/EN
+</div>
+</div>
+
+<div id="tab-users" class="card" style="display:none">
+<div class="hint-card" data-hint="users">
+<div class="hint-icon">👥</div>
+<div class="hint-text">
+<div class="hint-title" data-i18n="hintUsersTitle">Управление пользователями</div>
+<div class="hint-desc" data-i18n="hintUsersDesc">Здесь вы видите всех зарегистрированных пользователей. Вы можете удалить аккаунт — пользователь потеряет доступ. Будьте осторожны: удаление необратимо.</div>
+</div>
+<button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+<h3 style="font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><span data-i18n="tabUsers">Пользователи</span> <span class="beta-badge">BETA</span> <span class="tooltip" data-tooltip="Список всех аккаунтов" style="width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px">?</span></h3>
+<div id="usersList"></div>
+</div>
+
+<div id="tab-msgs" class="card" style="display:none">
+<div class="hint-card" data-hint="msgs">
+<div class="hint-icon">💬</div>
+<div class="hint-text">
+<div class="hint-title" data-i18n="hintChatTitle">Как работает чат?</div>
+<div class="hint-desc" data-i18n="hintChatDesc">Вы пишете от имени администратора. Ваши сообщения выделяются золотым градиентом и бейджем ADMIN BETA. Пользователи видят их как официальные объявления.</div>
+</div>
+<button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+<h3 style="font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><span data-i18n="tabChat">Чат</span> <span class="beta-badge">BETA</span> <span class="tooltip" data-tooltip="Общий чат всех пользователей" style="width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px">?</span></h3>
+<div class="chat-box">
+<div class="chat-list"><div style="font-weight:700;font-size:13px" data-i18n="generalChat">Общий чат</div><div style="font-size:11px;color:var(--muted)" id="chatCount">0 сообщений</div><div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:10px;font-size:10px;color:var(--muted);line-height:1.4" data-i18n="hintChatList">Золотые сообщения — от администратора. Серые — от пользователей.</div></div>
+<div style="flex:1;display:flex;flex-direction:column;min-width:0">
+<div id="chatMessages" class="chat-msgs"></div>
+<div class="chat-input"><input id="chatInput" placeholder="Сообщение от администратора..." style="flex:1;margin-bottom:0"><button class="primary tooltip" data-tooltip="Отправить как ADMIN BETA" onclick="sendAdminMsg()" id="btnSendAdmin">Отправить как админ</button></div>
+</div>
+</div>
+</div>
+
+<div id="tab-tariffs" class="card" style="display:none">
+<div class="hint-card" data-hint="tariffs">
+<div class="hint-icon">💳</div>
+<div class="hint-text">
+<div class="hint-title" data-i18n="hintTariffsTitle">Зачем нужны тарифы?</div>
+<div class="hint-desc" data-i18n="hintTariffsDesc">Тарифные планы — для монетизации. Укажите название, цену (например, 999 ₸/мес) и что входит. Цвет — для карточки на сайте.</div>
+</div>
+<button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+<h3 style="font-size:15px;margin-bottom:14px"><span data-i18n="tabTariffs">Тарифные планы</span> <span class="beta-badge">BETA</span></h3>
+<div id="tariffsList"></div>
+<div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border)">
+<input id="tName" placeholder="Наименование тарифа"><input id="tPrice" placeholder="999 ₸/мес"><input id="tFeatures" placeholder="Что входит (через запятую)">
+<div style="display:flex;gap:10px"><input type="color" id="tColor" value="#2563ff" style="width:60px"><button class="primary tooltip" data-tooltip="Добавить новый тариф" onclick="addTariff()" style="flex:1" id="btnAddTariff">Добавить тариф</button></div>
+</div>
+</div>
+
+<div id="tab-seasons" class="card" style="display:none">
+<div class="hint-card" data-hint="seasons">
+<div class="hint-icon">📅</div>
+<div class="hint-text">
+<div class="hint-title" data-i18n="hintSeasonsTitle">Учебные сезоны</div>
+<div class="hint-desc" data-i18n="hintSeasonsDesc">Сезоны делят год на четверти/семестры. Активным должен быть только один. Укажите даты начала и конца.</div>
+</div>
+<button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+<h3 style="font-size:15px;margin-bottom:14px"><span data-i18n="tabSeasons">Учебные сезоны</span> <span class="beta-badge">BETA</span></h3>
+<div id="seasonsList"></div>
+<div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border)"><input id="sName" placeholder="I четверть"><div style="display:flex;gap:10px"><input id="sStart" type="date" style="flex:1"><input id="sEnd" type="date" style="flex:1"></div><select id="sActive"><option value="false">Неактивный</option><option value="true">Активный</option></select><button class="primary" onclick="addSeason()" style="width:100%" id="btnAddSeason">Добавить сезон</button></div>
+</div>
+</div>
+
+<div id="tab-sched" class="card" style="display:none">
+<div class="hint-card" data-hint="sched">
+<div class="hint-icon">📚</div>
+<div class="hint-text">
+<div class="hint-title" data-i18n="hintSchedTitle">Расписание занятий</div>
+<div class="hint-desc" data-i18n="hintSchedDesc">Добавляйте уроки по дням: Понедельник-Пятница. Укажите время (08:00 — 08:45), предмет, учителя и кабинет. Сразу появится у учеников.</div>
+</div>
+<button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+<h3 style="font-size:15px;margin-bottom:14px"><span data-i18n="tabSchedule">Расписание</span> <span class="beta-badge">BETA</span></h3>
+<div id="schedList"></div>
+<div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border)"><div style="display:flex;gap:10px;flex-wrap:wrap"><select id="scDay" style="flex:1"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Четверг</option><option>Пятница</option></select><input id="scTime" placeholder="08:00 — 08:45" style="flex:1"></div><input id="scSubj" placeholder="Предмет"><div style="display:flex;gap:10px"><input id="scTeacher" placeholder="Преподаватель" style="flex:1"><input id="scRoom" placeholder="Кабинет" style="flex:1"></div><button class="primary" onclick="addSched()" style="width:100%" id="btnAddSched">Добавить занятие</button></div>
+</div>
+
+<div id="tab-hw" class="card" style="display:none">
+<div class="hint-card" data-hint="hw">
+<div class="hint-icon">📝</div>
+<div class="hint-text">
+<div class="hint-title" data-i18n="hintHwTitle">Домашние задания</div>
+<div class="hint-desc" data-i18n="hintHwDesc">Задания привязываются к дню недели. Укажите предмет, текст задания и дедлайн. Ученики видят их во вкладке Домашние задания.</div>
+</div>
+<button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+<h3 style="font-size:15px;margin-bottom:14px"><span data-i18n="tabHomework">Домашние задания</span> <span class="beta-badge">BETA</span></h3>
+<div id="hwList"></div>
+<div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border)"><select id="hDay"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Четверг</option><option>Пятница</option></select><input id="hSubj" placeholder="Предмет"><input id="hTask" placeholder="Задание"><input id="hDeadline" type="date"><button class="primary" onclick="addHW()" style="width:100%" id="btnAddHw">Добавить задание</button></div>
+</div>
+</div>
+
+<script>
+const GAS_URL='https://script.google.com/macros/s/AKfycbzIHwTxKCJUpZUuqJd0-QHJ-tjTx3CCIDEyvzpZVCxYWkcYprY1Wp723J5jP9s_PA/exec';
+const PROJECT='novaclass';
+const SECRET='novaclass2026';
+let users=[], messages=[], schedule=[], homework=[], tariffs=[], seasons=[];
+let currentLang=localStorage.getItem('novaclass_lang')||'ru';
+let isLight=false;
+let hintsVisible=true;
+
+const I18N={
+ru:{
+  tabDash:"Главная", tabUsers:"Пользователи", tabChat:"Чат", tabTariffs:"Тарифы", tabSeasons:"Сезоны", tabSchedule:"Расписание", tabHomework:"Домашка",
+  usersCount:"ПОЛЬЗОВАТЕЛИ", messagesCount:"СООБЩЕНИЯ", lessonsCount:"ЗАНЯТИЯ", tariffsCount:"ТАРИФЫ", seasonsCount:"СЕЗОНЫ",
+  adminPanel:"Панель управления", enterBeta:"Войти в BETA", accessCode:"Код доступа", refresh:"↻ Обновить", themeDark:"Тёмная", themeLight:"Светлая", hints:"Подсказки",
+  generalChat:"Общий чат", sendAsAdmin:"Отправить как админ", add:"Добавить", delete:"Удалить",
+  hintDashTitle:"Что это за раздел?", hintDashDesc:"Статистика платформы: пользователи, сообщения, занятия. Данные загружаются сразу при входе — переходы мгновенные.",
+  hintUsersTitle:"Управление пользователями", hintUsersDesc:"Все зарегистрированные пользователи. Удаление аккаунта необратимо — пользователь потеряет доступ.",
+  hintChatTitle:"Как работает чат?", hintChatDesc:"Вы пишете от имени администратора. Сообщения выделяются золотым и бейджем ADMIN BETA.",
+  hintTariffsTitle:"Зачем нужны тарифы?", hintTariffsDesc:"Тарифные планы — для монетизации. Укажите название, цену и что входит.",
+  hintSeasonsTitle:"Учебные сезоны", hintSeasonsDesc:"Делят год на периоды. Активным должен быть только один.",
+  hintSchedTitle:"Расписание занятий", hintSchedDesc:"Добавляйте уроки по дням Пн-Пт. Укажите время, предмет, учителя и кабинет.",
+  hintHwTitle:"Домашние задания", hintHwDesc:"Задания привязываются к дню недели. Укажите предмет, текст и дедлайн.",
+  hintChatList:"Золотые — от администратора. Серые — от пользователей.",
+  addTariff:"Добавить тариф", addSeason:"Добавить сезон", addLesson:"Добавить занятие", addHw:"Добавить задание",
+  loading:"Загрузка базы данных для вашего обеспечения удобства", loadingSub:"NovaClass BETA • Админка", loaded:"База загружена • Готово!", welcomeSub:"Добро пожаловать в админку",
+  noUsers:"Нет пользователей", noMessages:"Нет сообщений", noLessons:"Нет занятий", noHomework:"Нет заданий", noTariffs:"Нет тарифов", noSeasons:"Нет сезонов"
+},
+en:{
+  tabDash:"Home", tabUsers:"Users", tabChat:"Chat", tabTariffs:"Tariffs", tabSeasons:"Seasons", tabSchedule:"Schedule", tabHomework:"Homework",
+  usersCount:"USERS", messagesCount:"MESSAGES", lessonsCount:"LESSONS", tariffsCount:"TARIFFS", seasonsCount:"SEASONS",
+  adminPanel:"Control Panel", enterBeta:"Enter BETA", accessCode:"Access code", refresh:"↻ Refresh", themeDark:"Dark", themeLight:"Light", hints:"Hints",
+  generalChat:"General chat", sendAsAdmin:"Send as admin", add:"Add", delete:"Delete",
+  hintDashTitle:"What is this section?", hintDashDesc:"Platform stats: users, messages, lessons. Data is preloaded on login — instant transitions.",
+  hintUsersTitle:"User management", hintUsersDesc:"All registered users. Deleting is irreversible.",
+  hintChatTitle:"How chat works?", hintChatDesc:"You write as admin. Messages are highlighted gold with ADMIN BETA badge.",
+  hintTariffsTitle:"Why tariffs?", hintTariffsDesc:"Tariff plans for monetization. Set name, price and features.",
+  hintSeasonsTitle:"Academic seasons", hintSeasonsDesc:"Seasons split year into periods. Only one should be active.",
+  hintSchedTitle:"Class schedule", hintSchedDesc:"Add lessons by weekdays Mon-Fri. Set time, subject, teacher and room.",
+  hintHwTitle:"Homework", hintHwDesc:"Homework linked to weekday. Set subject, task and deadline.",
+  hintChatList:"Gold — admin. Gray — users.",
+  addTariff:"Add tariff", addSeason:"Add season", addLesson:"Add lesson", addHw:"Add homework",
+  loading:"Loading database for your convenience", loadingSub:"NovaClass BETA • Admin", loaded:"Database loaded • Ready!", welcomeSub:"Welcome to admin",
+  noUsers:"No users", noMessages:"No messages", noLessons:"No lessons", noHomework:"No homework", noTariffs:"No tariffs", noSeasons:"No seasons"
+}
+};
+const t=(k)=> I18N[currentLang][k] || I18N['ru'][k] || k;
+
+function showLoader(){
+  const l=document.getElementById('fullscreenLoader');
+  l.style.display='flex'; l.style.opacity='1'; l.style.transform='scale(1)';
+  l.classList.remove('success');
+  document.querySelectorAll('.win-loader-dot').forEach(d=>{d.style.background='#2563ff'; d.style.boxShadow='0 0 0 rgba(37,99,255,0)';});
+  document.getElementById('loaderText').textContent=t('loading');
+  document.getElementById('loaderSub').textContent=t('loadingSub');
+}
+function hideLoaderSuccess(){
+  const l=document.getElementById('fullscreenLoader');
+  document.getElementById('loaderText').textContent=t('loaded');
+  document.getElementById('loaderSub').textContent=t('welcomeSub');
+  l.classList.add('success');
+  setTimeout(()=>{l.style.opacity='0'; l.style.transform='scale(1.02)'; setTimeout(()=>{l.style.display='none';},600);},1000);
+}
+
+function applyLangAdmin(){
+  document.getElementById('langLabel').textContent=currentLang==='ru'?'RU':'EN';
+  document.getElementById('themeLabel').textContent=isLight? t('themeLight'): t('themeDark');
+  document.getElementById('adminLoginSub').textContent=t('adminPanel')+' • '+ (currentLang==='ru'?'Введите код':'Enter code');
+  document.getElementById('btnEnter').textContent=t('enterBeta');
+  document.getElementById('secret').placeholder=t('accessCode')+' • novaclass2026';
+  document.getElementById('adminHeaderSub').textContent='NovaClass BETA • '+(currentLang==='ru'?'Связанная':'Connected');
+  document.getElementById('btnRefresh').textContent=t('refresh');
+  document.getElementById('btnHints').textContent='💡 '+t('hints');
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(I18N[currentLang][key]) el.textContent=t(key);
+  });
+  renderAll();
+}
+
+function toggleLang(){currentLang=currentLang==='ru'?'en':'ru'; localStorage.setItem('novaclass_lang',currentLang); applyLangAdmin();}
+function toggleTheme(){isLight=!isLight; document.body.classList.toggle('light',isLight); document.body.style.background=isLight?'#f8f9fb':'#0c0c0d'; document.body.style.color=isLight?'#0f172a':'#fff'; applyLangAdmin();}
+function toggleHints(){hintsVisible=!hintsVisible; document.querySelectorAll('.hint-card').forEach(c=>c.style.display=hintsVisible?'flex':'none');}
+
+async function apiGet(a,p={}){const qs=new URLSearchParams({action:a,project:PROJECT,admin:'1',...p,t:Date.now()}).toString();const r=await fetch(`${GAS_URL}?${qs}`);const j=await r.json();if(j.status==='error')throw new Error(j.message);return j;}
+async function apiPost(d){const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...d,project:PROJECT})});const j=await r.json();if(j.status==='error')throw new Error(j.message);return j;}
+
+function unlock(){
+  const code=document.getElementById('secret').value;
+  if(code!==SECRET){
+    document.getElementById('err').textContent=currentLang==='ru'?'Неверный код доступа':'Invalid access code';
+    document.getElementById('err').style.display='block';return;
+  }
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminPanel').style.display='block';
+  showLoader();
+  load();
+}
+
+async function load(){
+  if(document.getElementById('adminPanel').style.display==='none') showLoader();
+  const loaderHtml=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;gap:16px"><div class="win-loader"><div class="win-loader-dot"></div><div class="win-loader-dot"></div><div class="win-loader-dot"></div><div class="win-loader-dot"></div><div class="win-loader-dot"></div></div><div style="font-size:11px;color:#a1a1aa;font-weight:600">${t('loading')}</div></div>`;
+  const usersEl=document.getElementById('usersList'); if(usersEl) usersEl.innerHTML=loaderHtml;
+  const chatEl=document.getElementById('chatMessages'); if(chatEl) chatEl.innerHTML=loaderHtml;
+  try{
+    const d=await apiGet('getAllData',{chat:'общий'});
+    users=d.users||[]; messages=d.messages||[]; schedule=d.schedule||[]; homework=d.homework||[]; tariffs=d.tariffs||[]; seasons=d.seasons||[];
+    document.getElementById('stU').textContent=users.length; document.getElementById('stM').textContent=messages.length; document.getElementById('stS').textContent=schedule.length; document.getElementById('stT').textContent=tariffs.length; document.getElementById('stSe').textContent=seasons.length;
+    document.getElementById('chatCount').textContent=messages.length+' '+(currentLang==='ru'?'сообщений':'messages');
+    renderAll();
+    hideLoaderSuccess();
+  }catch(e){
+    document.getElementById('usersList').innerHTML='<div style="color:#ef4444">'+e.message+'</div>';
+    hideLoaderSuccess();
+  }
+}
+function renderAll(){renderUsers(); renderMsgs(); renderSched(); renderHW(); renderTariffs(); renderSeasons();}
+function renderUsers(){document.getElementById('usersList').innerHTML=users.map(u=>`<div class="row"><div><b>${u.name}</b><div style="color:var(--muted)">${u.email} • ${u.role}</div></div><div style="display:flex;gap:8px"><button class="danger" onclick="delUser('${u.id}')">${t('delete')}</button></div></div>`).join('')||`<div style="color:var(--muted)">${t('noUsers')}</div>`;}
+function renderMsgs(){
+  document.getElementById('chatMessages').innerHTML=messages.slice(-100).map(m=>{
+    const isAdmin=String(m.isAdmin)==='true';
+    return `<div class="chat-msg ${isAdmin?'admin':'other'}" style="${isAdmin?'margin-top:16px':''}"><div>${m.text}</div><div style="font-size:10px;opacity:.7;margin-top:6px">${m.time||''} • ${m.user||''} • <span style="font-size:9px;padding:2px 6px;border-radius:100px;background:${isAdmin?'#f59e0b':'var(--border)'}">${isAdmin?'ADMIN BETA':'USER'}</span> <button onclick="delMsg('${m.id}')" style="margin-left:auto;background:#ef4444;color:#fff;border:none;padding:4px 10px;border-radius:100px;font-size:10px">${t('delete')}</button></div></div>`;
+  }).join('')||`<div style="text-align:center;color:var(--muted);padding:40px">${t('noMessages')}</div>`;
+  const box=document.getElementById('chatMessages'); if(box) box.scrollTop=box.scrollHeight;
+}
+function renderSched(){document.getElementById('schedList').innerHTML=schedule.map(s=>`<div class="row"><div>${s.day} • ${s.time} • <b>${s.subject}</b> • ${s.teacher||''} • ${s.room||''}</div><button class="danger" onclick="delSched('${s.id}')">${t('delete')}</button></div>`).join('')||`<div style="color:var(--muted)">${t('noLessons')}</div>`;}
+function renderHW(){document.getElementById('hwList').innerHTML=homework.map(h=>`<div class="row"><div><b>${h.subject}</b> • ${h.day}<div>${h.task} — ${h.deadline||''}</div></div><button class="danger" onclick="delHW('${h.id}')">${t('delete')}</button></div>`).join('')||`<div style="color:var(--muted)">${t('noHomework')}</div>`;}
+function renderTariffs(){document.getElementById('tariffsList').innerHTML=tariffs.map(tar=>`<div class="row"><div><b>${tar.name}</b> • ${tar.price}<div style="color:var(--muted)">${tar.features}</div></div><button class="danger" onclick="delTariff('${tar.id}')">${t('delete')}</button></div>`).join('')||`<div style="color:var(--muted)">${t('noTariffs')}</div>`;}
+function renderSeasons(){document.getElementById('seasonsList').innerHTML=seasons.map(s=>`<div class="row"><div><b>${s.name}</b> • ${s.start} → ${s.end} • <span style="padding:2px 8px;border-radius:100px;background:${String(s.active)==='true'?'#22c55e':'var(--border)'};font-size:10px">${String(s.active)==='true'?(currentLang==='ru'?'Активный':'Active'):(currentLang==='ru'?'Неактивный':'Inactive')}</span></div><button class="danger" onclick="delSeason('${s.id}')">${t('delete')}</button></div>`).join('')||`<div style="color:var(--muted)">${t('noSeasons')}</div>`;}
+
+async function delUser(id){if(!confirm(t('delete')+'?'))return;await apiPost({action:'delete_user',id});load();}
+async function delMsg(id){await apiPost({action:'delete_message',id});load();}
+async function delSched(id){await apiPost({action:'delete_schedule',id});load();}
+async function addSched(){const s={day:document.getElementById('scDay').value,time:document.getElementById('scTime').value,subject:document.getElementById('scSubj').value,teacher:document.getElementById('scTeacher').value,room:document.getElementById('scRoom').value,color:'#2563ff'};if(!s.subject)return;await apiPost({action:'save_schedule',schedule:s});load();}
+async function delHW(id){await apiPost({action:'delete_homework',id});load();}
+async function addHW(){const h={day:document.getElementById('hDay').value,subject:document.getElementById('hSubj').value,task:document.getElementById('hTask').value,deadline:document.getElementById('hDeadline').value};if(!h.subject)return;await apiPost({action:'save_homework',homework:h});load();}
+async function addTariff(){const t={name:document.getElementById('tName').value,price:document.getElementById('tPrice').value,features:document.getElementById('tFeatures').value,color:document.getElementById('tColor').value};if(!t.name)return;await apiPost({action:'save_tariff',tariff:t});load();}
+async function delTariff(id){await apiPost({action:'delete_tariff',id});load();}
+async function addSeason(){const s={name:document.getElementById('sName').value,start:document.getElementById('sStart').value,end:document.getElementById('sEnd').value,active:document.getElementById('sActive').value};if(!s.name)return;await apiPost({action:'save_season',season:s});load();}
+async function delSeason(id){await apiPost({action:'delete_season',id});load();}
+async function sendAdminMsg(){const inp=document.getElementById('chatInput'); if(!inp.value.trim())return;await apiPost({action:'send_message',email:'admin@novaclass.beta',user:'Администратор • BETA',text:inp.value,chat:'общий',isAdmin:true});inp.value='';load();}
+
+document.querySelectorAll('.tab').forEach(b=>{b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('[id^=tab-]').forEach(c=>c.style.display='none');document.getElementById('tab-'+b.dataset.tab).style.display='block';};});
+
+// Начальная загрузка - скрываем лоадер на логине через 1.2с
+setTimeout(()=>{const l=document.getElementById('fullscreenLoader'); if(l){l.style.opacity='0'; setTimeout(()=>{l.style.display='none';},600);}},1200);
+applyLangAdmin();
+</script>
+</body>
+</html>
