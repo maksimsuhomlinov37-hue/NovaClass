@@ -1,516 +1,209 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaClass Admin • Вход</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaClass Admin — Full</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#f8fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--primary:#16a34a;--primary-light:#22c55e;--primary-soft:#dcfce7}
-body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+:root{--primary:#16a34a;--primary-light:#22c55e;--primary-soft:#dcfce7;--bg:#f8fafb;--card:rgba(255,255,255,.88);--text:#0f172a;--muted:#64748b;--border:rgba(0,0,0,.06)}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes petalFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translateY(400px) rotate(360deg) translateX(60px);opacity:0}}
-@keyframes leafFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:.8}100%{transform:translateY(450px) rotate(720deg) translateX(-40px);opacity:0}}
-@keyframes snowFall{0%{transform:translateY(-20px) translateX(0);opacity:0}10%{opacity:1}100%{transform:translateY(500px) translateX(20px);opacity:0}}
 @keyframes scaleIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* AUTH GATE - НОВОЕ */
-#authGate{position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:radial-gradient(1200px 600px at 20% -10%, #dcfce7 0%, transparent 60%), radial-gradient(1000px 500px at 90% 110%, #bbf7d0 0%, transparent 60%), linear-gradient(135deg,#0f172a 0%, #14532d 55%, #16a34a 100%);overflow:hidden;transition:opacity .5s ease, transform .5s ease}
-#authGate.hide{opacity:0;pointer-events:none;transform:scale(1.02);visibility:hidden}
-.auth-bg-shapes{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.auth-shape{position:absolute;border-radius:50%;filter:blur(20px);opacity:.5}
-.auth-card{position:relative;z-index:2;width:100%;max-width:380px;margin:16px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.6);border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.5) inset;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
-.auth-logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 8px 20px rgba(22,163,74,.35);margin:0 auto 14px}
-.auth-title{font-family:Manrope,sans-serif;font-weight:800;font-size:26px;text-align:center;letter-spacing:-.8px}
-.auth-sub{font-size:13px;color:var(--muted);text-align:center;margin-top:6px;font-weight:500}
-.auth-form{margin-top:22px;display:grid;gap:12px}
-.auth-input-wrap{position:relative}
-.auth-input{width:100%;padding:14px 44px 14px 14px;border:1.5px solid var(--border);border-radius:14px;background:#fff;outline:none;font-size:15px;font-weight:600;letter-spacing:.3px;transition:all .2s}
-.auth-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-soft)}
-.auth-input.error{border-color:#ef4444;box-shadow:0 0 0 4px #fee2e2;animation:shake .3s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.auth-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);border-radius:10px}
-.auth-eye:hover{background:var(--bg)}
-.auth-btn{width:100%;padding:13px 16px;border-radius:14px;border:none;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px rgba(22,163,74,.35);transition:all .2s;margin-top:4px}
-.auth-btn:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(22,163,74,.4)}
-.auth-btn:disabled{opacity:.6;pointer-events:none}
-.auth-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
-.auth-error{font-size:12px;color:#ef4444;background:#fef2f2;border:1px solid #fecaca;padding:10px 12px;border-radius:10px;display:none;align-items:center;gap:8px;font-weight:600}
-.auth-error.show{display:flex}
-.auth-footer{margin-top:18px;display:flex;justify-content:center;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
-
-#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;transition:opacity .7s ease;overflow:hidden}
-#loader.hide{opacity:0;pointer-events:none;visibility:hidden}
-.welcome-title{font-family:Manrope,sans-serif;font-weight:800;font-size:42px;letter-spacing:-1.5px}
-.welcome-sub{font-weight:600;font-size:14px;opacity:.92;margin-top:8px}
-.loader-bar{margin-top:26px;width:260px;height:5px;background:rgba(255,255,255,.25);border-radius:100px;overflow:hidden}
-.loader-progress{height:100%;width:0%;background:#fff;border-radius:100px;transition:width .5s;position:relative;box-shadow:0 0 12px rgba(255,255,255,.6)}
-.loader-progress::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:shimmer 1.2s infinite}
-.loader-regular{background:linear-gradient(135deg,#16a34a,#22c55e,#4ade80)}
-.loader-spring{background:linear-gradient(135deg,#16a34a,#4ade80,#bbf7d0)}
-.loader-summer{background:linear-gradient(135deg,#f59e0b,#fbbf24,#fde68a)}
-.loader-autumn{background:linear-gradient(135deg,#9a3412,#ea580c,#fb923c,#fed7aa)}
-.loader-winter{background:linear-gradient(135deg,#0c4a6e,#0ea5e9,#7dd3fc,#e0f2fe)}
-.top{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:20}
-.burger{width:44px;height:44px;border-radius:12px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s}
-.burger:hover{transform:scale(1.06)}
-.layout{display:flex;min-height:100vh;padding-top:62px}
-.side{position:fixed;left:0;top:62px;bottom:0;width:290px;background:var(--card);border-right:1px solid var(--border);padding:14px;overflow-y:auto;z-index:30;transition:transform .35s}
-.side.closed{transform:translateX(-100%)}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(6px);z-index:25;display:none}.overlay.show{display:block}
-.nav-btn{width:100%;display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:transparent;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;text-align:left;margin-bottom:4px;transition:all .25s;position:relative;overflow:hidden}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes floatSlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;background:linear-gradient(135deg,#16a34a 0%,#22c55e 50%,#4ade80 100%);background-size:200% 200%;animation:gradientShift 4s ease infinite;transition:opacity .6s}
+#loader.hide{opacity:0;pointer-events:none}
+.auth{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;background:var(--bg);z-index:90}
+.auth-card{width:100%;max-width:410px;background:#fff;border:1px solid var(--border);border-radius:22px;padding:30px;box-shadow:0 16px 48px rgba(0,0,0,.08);animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
+.logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 8px 20px rgba(22,163,74,.25);animation:float 3s ease-in-out infinite}
+.input{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;outline:none;font-size:14px;transition:.25s;margin-bottom:10px}
+.input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-soft)}
+.btn{padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;font-weight:700;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:.25s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;border-color:var(--primary);box-shadow:0 4px 14px rgba(22,163,74,.25);width:100%;justify-content:center}
+.top{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(255,255,255,.88);backdrop-filter:blur(24px) saturate(180%);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:30}
+.side{position:fixed;left:0;top:62px;bottom:0;width:280px;background:rgba(255,255,255,.88);backdrop-filter:blur(24px) saturate(180%);border-right:none;padding:14px;display:flex;flex-direction:column;overflow-y:auto;z-index:19;box-shadow:4px 12px 24px rgba(0,0,0,.04);border-radius:0 18px 18px 0}
+.nav-btn{width:100%;display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:transparent;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;text-align:left;margin-bottom:4px;transition:.25s}
+.nav-btn:hover{background:var(--bg);color:var(--text)}
 .nav-btn.active{background:var(--text);color:#fff;font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,.12)}
-body.season-winter .nav-btn::after{content:'❄';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;opacity:0;transition:all .3s}
-body.season-winter .nav-btn:hover::after, body.season-winter .nav-btn.active::after{opacity:.7}
-.main{margin-left:290px;flex:1;padding:20px;min-width:0}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px;animation:fadeIn .5s ease}
-.row{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;align-items:center;background:var(--card)}
-.btn{padding:10px 14px;border-radius:11px;border:1px solid var(--border);background:var(--card);font-weight:600;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:all .2s}
-.btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;border-color:var(--primary)}
-.btn-icon{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer}
-.btn-icon.danger{color:#ef4444;background:#fef2f2}
-.btn-icon.view{color:#16a34a;background:#f0fdf4}
-.input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:12px;background:var(--card);outline:none;font-size:13px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(10px);z-index:60;display:none;align-items:center;justify-content:center;padding:12px}.modal.show{display:flex}
-.modal-card{width:100%;max-width:440px;background:var(--card);border-radius:18px;padding:18px;max-height:90vh;overflow-y:auto;animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1)}
-.season-card{padding:14px;border-radius:14px;border:2px solid var(--border);cursor:pointer;transition:all .2s}
-.season-card.active{border-color:var(--text);background:var(--text);color:#fff}
-.save-all-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;padding:10px 18px;border-radius:11px;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(22,163,74,.3);transition:all .2s}
-.save-all-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(22,163,74,.4)}
-.save-all-btn.saving{opacity:.7;pointer-events:none}
-.save-all-btn.saved{background:linear-gradient(135deg,#0f172a,#1e293b)}
-.save-status{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.save-status.dot::before{content:'';width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-#globalToast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;background:var(--text);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 12px 32px rgba(0,0,0,.2);display:none;align-items:center;gap:10px;animation:fadeIn .3s ease}
-#globalToast.show{display:flex}
-@media(max-width:900px){.side{transform:translateX(-100%)}.side.open{transform:translateX(0)}.main{margin-left:0}}
+.main{margin-left:280px;padding:22px;padding-top:84px;min-width:0;min-height:100vh}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px) saturate(160%);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px;transition:.3s;animation:fadeIn .5s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.banner{border-radius:22px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:24px;display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;animation:fadeIn .6s ease;box-shadow:0 8px 24px rgba(22,163,74,.2)}
+.banner::after{content:'';position:absolute;top:-30%;right:-10%;width:220px;height:220px;background:rgba(255,255,255,.14);border-radius:50%;animation:float 5s ease-in-out infinite}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border:1px solid var(--border);border-radius:14px;margin-bottom:9px;background:#fff;transition:.25s;animation:fadeIn .35s ease}
+.row:hover{border-color:var(--primary)}
+.week{display:flex;align-items:stretch;background:#65D78E;border-radius:12px;height:48px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:14px}
+.week button{flex:1;border:none;background:transparent;color:#fff;font-weight:700;font-size:12px;cursor:pointer;text-transform:uppercase;border-radius:10px;margin:4px 2px;transition:.2s}
+.week button.active{background:#fff;color:#0f172a;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:60;padding:16px}
+.modal.show{display:flex}
+.modal-card{width:100%;max-width:460px;background:#fff;border-radius:22px;padding:22px;box-shadow:0 16px 48px rgba(0,0,0,.15);animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);display:none;z-index:100;animation:fadeIn .3s}
+.badge{font-size:11px;padding:3px 8px;border-radius:100px;background:var(--bg);border:1px solid var(--border)}
+@media(max-width:900px){.side{transform:translateX(-100%)}.side.open{transform:translateX(0)}.main{margin-left:0}.grid4{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
+<div id="loader"><div style="width:72px;height:72px;border-radius:20px;background:rgba(255,255,255,.18);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:32px;animation:float 2.5s infinite;border:1px solid rgba(255,255,255,.25)">N</div><div style="font-family:Manrope;font-weight:800;font-size:36px;margin-top:16px;letter-spacing:-1px">NovaClass</div><div style="font-size:12px;opacity:.9;margin-top:4px" id="loaderText">Загрузка базы данных...</div><div style="margin-top:20px;width:180px;height:4px;background:rgba(255,255,255,.2);border-radius:100px;overflow:hidden"><div id="loadBar" style="height:100%;width:30%;background:#fff;border-radius:100px;transition:width .4s"></div></div></div>
 
-<!-- НОВЫЙ ЭКРАН ВХОДА -->
-<div id="authGate">
-  <div class="auth-bg-shapes">
-    <div class="auth-shape" style="width:300px;height:300px;background:#22c55e;left:-80px;top:-60px;animation:float 6s ease-in-out infinite"></div>
-    <div class="auth-shape" style="width:400px;height:400px;background:#86efac;right:-120px;bottom:-100px;animation:float 8s ease-in-out infinite reverse"></div>
-    <div class="auth-shape" style="width:200px;height:200px;background:#4ade80;left:40%;top:60%;animation:float 7s ease-in-out infinite"></div>
-  </div>
-  <div class="auth-card">
-    <div class="auth-logo">N</div>
-    <div class="auth-title">NovaClass Admin</div>
-    <div class="auth-sub">Введите пароль для доступа к админке</div>
-    
-    <form class="auth-form" onsubmit="return handleAuth(event)">
-      <div class="auth-error" id="authError"><i data-lucide="alert-circle" style="width:16px;height:16px"></i><span id="authErrorText">Неверный пароль</span></div>
-      <div class="auth-input-wrap">
-        <input id="authPass" type="password" class="auth-input" placeholder="Пароль доступа" autocomplete="current-password" autofocus>
-        <button type="button" class="auth-eye" onclick="togglePass()" tabindex="-1"><i data-lucide="eye" id="eyeIcon" style="width:18px;height:18px"></i></button>
-      </div>
-      <button class="auth-btn" id="authBtn" type="submit"><i data-lucide="log-in" style="width:16px;height:16px"></i> Войти в админку</button>
-      <div class="auth-hint">Доступ только для администрации • 5 сезонов</div>
-    </form>
-
-    <div class="auth-footer"><i data-lucide="shield-check" style="width:12px;height:12px"></i> Защищено • NovaClass 2026</div>
-  </div>
+<div id="auth" class="auth" style="display:none">
+<div class="auth-card">
+<div style="text-align:center"><div class="logo" style="margin:0 auto">N</div><div style="font-weight:800;margin-top:14px;font-size:20px">NovaClass Admin</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Только для maksimsuhomlinov37@gmail.com</div></div>
+<div id="authErr" style="display:none;background:#fef2f2;color:#b91c1c;padding:10px;border-radius:12px;font-size:12px;margin:16px 0 10px"></div>
+<div style="margin-top:18px"><input id="email" class="input" placeholder="Email"><input id="pass" class="input" type="password" placeholder="Пароль"><label style="display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="remember" checked style="width:14px;height:14px"> Запомнить меня (localStorage)</label><button class="btn primary" onclick="login()">Войти</button></div>
+</div>
 </div>
 
-<div id="loader" class="loader-regular">
-  <div id="loaderAnim" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div>
-  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center">
-    <div class="welcome-title">NovaClass Admin</div>
-    <div class="welcome-sub" id="loaderSub">Загрузка • 5 сезонов</div>
-    <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
-    <div style="margin-top:14px;font-size:11px;opacity:.85" id="loaderDetails">Подготовка админки...</div>
-  </div>
+<div id="app" style="display:none">
+<div class="top"><div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">N</div><b>NovaClass</b><span style="font-size:11px;background:var(--primary-soft);color:var(--primary);padding:3px 8px;border-radius:100px;font-weight:700">ADMIN</span><span id="apiDot" style="width:8px;height:8px;border-radius:50%;background:#ccc;margin-left:8px"></span></div><button class="btn" onclick="logout()">Выйти</button></div>
+<div class="side" id="side">
+<button class="nav-btn active" data-t="dash" onclick="tab('dash')"><i data-lucide="layout-dashboard" style="width:18px"></i> Дашборд</button>
+<button class="nav-btn" data-t="users" onclick="tab('users')"><i data-lucide="users" style="width:18px"></i> Пользователи</button>
+<button class="nav-btn" data-t="sched" onclick="tab('sched')"><i data-lucide="calendar-days" style="width:18px"></i> Расписание</button>
+<button class="nav-btn" data-t="hw" onclick="tab('hw')"><i data-lucide="book-check" style="width:18px"></i> Домашка</button>
+<button class="nav-btn" data-t="banner" onclick="tab('banner')"><i data-lucide="image" style="width:18px"></i> Баннер</button>
+<button class="nav-btn" data-t="ctrl" onclick="tab('ctrl')"><i data-lucide="settings-2" style="width:18px"></i> Управление</button>
+<div style="margin-top:auto;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)">maksimsuhomlinov37@gmail.com</div>
+</div>
+<div class="main">
+<div id="p-dash"></div><div id="dbLogWrap" style="margin-top:16px"><div class="card"><b style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;background:#22c55e;border-radius:50%;animation:float 1s infinite;display:inline-block"></span> Загрузка базы данных (Google Sheets)</b><div style="font-size:11px;color:var(--muted);margin-top:4px">API: https://script.google.com/macros/s/AKfycbzIHwTxKCJUpZUuqJd0-QHJ-tjTx3CCIDEyvzpZVCxYWkcYprY1Wp723J5jP9s_PA/exec • Листы: Users, Schedule, Homework, Messages, Settings, Banner</div><div id="dbLog" style="margin-top:10px;max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:2px"></div><div style="margin-top:10px;display:flex;gap:8px"><button class="btn" style="font-size:11px;padding:6px 10px" onclick="init()">🔄 Перезагрузить базу</button><button class="btn" style="font-size:11px;padding:6px 10px" onclick="localStorage.clear();sessionStorage.clear();location.reload()">🗑️ Очистить кэш</button><button class="btn" style="font-size:11px;padding:6px 10px" onclick="navigator.clipboard.writeText(API_URL)">📋 Копировать API URL</button></div></div></div>
+<div id="p-users" style="display:none"></div>
+<div id="p-sched" style="display:none"></div>
+<div id="p-hw" style="display:none"></div>
+<div id="p-banner" style="display:none"></div>
+<div id="p-ctrl" style="display:none"></div>
+</div>
 </div>
 
-<div class="top"><div style="display:flex;align-items:center;gap:10px"><button class="burger" onclick="toggleSide()"><i data-lucide="menu" style="width:18px;height:18px"></i></button><div style="width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">N</div><div style="font-weight:800">Админка • Загрузка</div><div id="seasonBadge" style="padding:4px 10px;border-radius:100px;background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:700">Обычный</div></div><div style="display:flex;align-items:center;gap:10px"><div style="font-size:11px;color:var(--muted)" id="saveStatus"><i data-lucide="cloud" style="width:12px;height:12px"></i> Авто</div><button class="btn" style="padding:6px 10px;font-size:11px" onclick="logout()"><i data-lucide="log-out" style="width:12px;height:12px"></i> Выйти</button></div></div>
-<div class="overlay" id="overlay" onclick="toggleSide()"></div>
-<div class="layout">
-<aside class="side" id="side"><div id="nav"></div></aside>
-<main class="main"><div id="page"></div></main>
-</div>
-
-<div id="globalToast"><i data-lucide="check-circle" style="width:16px;height:16px"></i><span id="toastText"></span></div>
-
-<div id="modalSched" class="modal"><div class="modal-card"><div style="font-weight:700;margin-bottom:12px"><i data-lucide="calendar" style="width:14px;height:14px"></i> Урок</div><div style="display:grid;gap:10px"><select id="mDay" class="input"></select><input id="mTime" class="input" placeholder="08:00-08:45"><input id="mSubj" class="input" placeholder="Предмет"><input id="mTeacher" class="input" placeholder="Учитель"><input id="mRoom" class="input" placeholder="Кабинет"></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn" style="flex:1" onclick="closeModal('modalSched')">Отмена</button><button class="btn primary" style="flex:1" onclick="saveSched()">Сохранить</button></div></div></div>
-<div id="modalHw" class="modal"><div class="modal-card"><div style="font-weight:700;margin-bottom:12px"><i data-lucide="book-open" style="width:14px;height:14px"></i> ДЗ</div><div style="display:grid;gap:10px"><select id="hwDay" class="input"></select><input id="hwSubject" class="input" placeholder="Предмет"><textarea id="hwTask" class="input" placeholder="Задание"></textarea><input id="hwDeadline" class="input" placeholder="Срок"></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn" style="flex:1" onclick="closeModal('modalHw')">Отмена</button><button class="btn primary" style="flex:1" onclick="saveHw()">Сохранить</button></div></div></div>
-<div id="modalEditUser" class="modal"><div class="modal-card"><div style="font-weight:700;margin-bottom:12px"><i data-lucide="user-cog" style="width:14px;height:14px"></i> Пользователь</div><div style="display:grid;gap:10px"><input id="euName" class="input" placeholder="Имя"><input id="euEmail" class="input" disabled><select id="euRole" class="input"></select></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn" style="flex:1" onclick="closeModal('modalEditUser')">Отмена</button><button class="btn primary" style="flex:1" onclick="saveUser()">Сохранить</button></div></div></div>
-<div id="modalEvent" class="modal"><div class="modal-card"><div style="font-weight:700;margin-bottom:12px"><i data-lucide="megaphone" style="width:14px;height:14px"></i> Объявление</div><div style="display:grid;gap:10px"><input id="evTitle" class="input" placeholder="Заголовок"><input id="evSub" class="input" placeholder="Текст"></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn" style="flex:1" onclick="closeModal('modalEvent')">Отмена</button><button class="btn primary" style="flex:1" onclick="saveEvent()">Сохранить</button></div></div></div>
-<div id="modalPreview" class="modal"><div class="modal-card" style="max-width:600px;width:95%"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-weight:700" id="previewName">Превью</div><button class="btn" onclick="closeModal('modalPreview')"><i data-lucide="x" style="width:14px;height:14px"></i></button></div><div id="previewContent"></div></div></div>
+<div id="modal" class="modal" onclick="if(event.target===this)closeM()"><div class="modal-card" id="modalBody"></div></div>
+<div id="toast" class="toast"></div>
 
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycbzIHwTxKCJUpZUuqJd0-QHJ-tjTx3CCIDEyvzpZVCxYWkcYprY1Wp723J5jP9s_PA/exec';
-const ADMIN_PASSWORD='Novaclass2026';
-const $=id=>document.getElementById(id);
-let users=[],schedule=[],homework=[],messages=[],siteSettings=null,currentTab='overview',activeDay='Понедельник',sideOpen=false,editingSchedId=null,editingHwId=null,editingUserId=null;
-const DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
-const ROLES={student:'Ученик',starosta:'Староста',teacher:'Учитель',moderator:'Модератор',curator:'Куратор',admin:'Администратор',creator:'Создатель',director:'Директор'};
-const ROLE_ORDER=['student','starosta','teacher','moderator','curator','admin','creator','director'];
-const SEASONS={
-  regular:{id:'regular',name:'Обычный',icon:'layout',color:'#16a34a',light:'#4ade80',bg:'#f8fafc',loaderClass:'loader-regular',text:'Основной',desc:'Основной'},
-  spring:{id:'spring',name:'Весенний',icon:'flower-2',color:'#16a34a',light:'#86efac',bg:'#f0fdf4',loaderClass:'loader-spring',text:'Весна',desc:'Весна'},
-  summer:{id:'summer',name:'Летний',icon:'sun',color:'#f59e0b',light:'#fcd34d',bg:'#fffbeb',loaderClass:'loader-summer',text:'Лето',desc:'Лето'},
-  autumn:{id:'autumn',name:'Осенний',icon:'leaf',color:'#ea580c',light:'#fdba74',bg:'#fff7ed',loaderClass:'loader-autumn',text:'Осень',desc:'Осень'},
-  winter:{id:'winter',name:'Зимний',icon:'snowflake',color:'#0ea5e9',light:'#7dd3fc',bg:'#f0f9ff',loaderClass:'loader-winter',text:'Зима',desc:'Зима'}
-};
-function getTodayDayName(){const js=new Date().getDay();const map={1:'Понедельник',2:'Вторник',3:'Среда',4:'Четверг',5:'Пятница',6:'Суббота',0:'Воскресенье'};return map[js]||'Понедельник';}
-let todayDay=getTodayDayName();
-
-/* ===== НОВАЯ ЛОГИКА ВХОДА ===== */
-function togglePass(){
-  const input=$('authPass');
-  const icon=$('eyeIcon');
-  if(input.type==='password'){input.type='text'; if(icon) icon.setAttribute('data-lucide','eye-off');}
-  else {input.type='password'; if(icon) icon.setAttribute('data-lucide','eye');}
-  if(window.lucide) lucide.createIcons();
-}
-function showAuthError(msg){
-  const err=$('authError'); const txt=$('authErrorText'); const input=$('authPass');
-  if(txt) txt.textContent=msg;
-  if(err) err.classList.add('show');
-  if(input){input.classList.add('error'); input.focus(); setTimeout(()=>input.classList.remove('error'),600);}
-}
-function handleAuth(e){
-  e.preventDefault();
-  const input=$('authPass'); const btn=$('authBtn');
-  const val=(input.value||'').trim();
-  if(!val){showAuthError('Введите пароль'); return false;}
-  if(val!==ADMIN_PASSWORD){showAuthError('Неверный пароль • Попробуйте: Novaclass2026'); if(window.lucide) lucide.createIcons(); return false;}
-
-  // Успех
-  btn.innerHTML='<i data-lucide="loader-2" style="width:16px;height:16px;animation:spin 1s linear infinite"></i> Вход...';
-  if(window.lucide) lucide.createIcons();
-  localStorage.setItem('novaclass_admin_auth','1');
-  localStorage.setItem('novaclass_admin_auth_time', Date.now().toString());
-  
-  setTimeout(()=>{
-    const gate=$('authGate');
-    if(gate) gate.classList.add('hide');
-    // Запускаем загрузку данных только после входа
-    initAfterAuth();
-  }, 500);
-  return false;
-}
-function logout(){
-  localStorage.removeItem('novaclass_admin_auth');
-  localStorage.removeItem('novaclass_admin_auth_time');
-  location.reload();
-}
-function checkAuthOnStart(){
-  const auth=localStorage.getItem('novaclass_admin_auth');
-  // Автовыход через 12 часов
-  const t=parseInt(localStorage.getItem('novaclass_admin_auth_time')||'0',10);
-  if(auth==='1' && t && (Date.now()-t) < 12*3600*1000){
-    const gate=$('authGate');
-    if(gate) gate.classList.add('hide');
-    return true;
+const API_URL='https://script.google.com/macros/s/AKfycbzIHwTxKCJUpZUuqJd0-QHJ-tjTx3CCIDEyvzpZVCxYWkcYprY1Wp723J5jP9s_PA/exec';
+const ADMIN_EMAIL='maksimsuhomlinov37@gmail.com';
+const ADMIN_PASS='Suxmaks_12';
+let DATA={users:[],schedule:[],homework:[],messages:[],settings:[],events:[],banner:[],siteControl:{maintenance:false,primaryColor:'#16a34a'}};
+let activeDay='Понедельник';
+const DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+function apiGet(p){return fetch(API_URL+'?'+new URLSearchParams(p)).then(r=>r.json())}
+function apiPost(d){return fetch(API_URL,{method:'POST',body:JSON.stringify(d)}).then(r=>r.json())}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2800)}
+function setLoad(p){document.getElementById('loadBar').style.width=p+'%'; const t=document.getElementById('loaderText'); if(t){ if(p<30) t.textContent='Подключение к Google Sheets...'; else if(p<60) t.textContent='Загрузка Users, Schedule, Homework...'; else if(p<90) t.textContent='Отрисовка данных...'; else t.textContent='Готово!'; } }
+function login(){
+  const e=document.getElementById('email').value.trim().toLowerCase();
+  const p=document.getElementById('pass').value.trim();
+  if(e===ADMIN_EMAIL && p===ADMIN_PASS){
+    localStorage.setItem('nc_admin_email', e);
+    localStorage.setItem('nc_admin_pass', p);
+    localStorage.setItem('nc_admin_remember','1');
+    sessionStorage.setItem('nc_admin','1');
+    document.getElementById('auth').style.display='none';
+    document.getElementById('app').style.display='block';
+    init();
+  }else{
+    const err=document.getElementById('authErr');
+    err.style.display='block';
+    err.textContent='Неверные данные';
+    console.log('login fail', e, p, 'expected', ADMIN_EMAIL, ADMIN_PASS);
   }
-  return false;
 }
-function initAfterAuth(){
-  loadSeasonForLoader();
-  loadData();
-}
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide) lucide.createIcons(); if(!checkAuthOnStart()){ $('authPass')?.focus(); } else { initAfterAuth(); } });}
-else { if(!checkAuthOnStart()){ setTimeout(()=>$('authPass')?.focus(),100); } else { initAfterAuth(); } }
-
-class Api{async get(a,p={}){let qs=new URLSearchParams(Object.assign({action:a},p)).toString();let r=await fetch(GAS_URL+'?'+qs,{cache:'no-store'});if(!r.ok) throw new Error('Сеть '+r.status);let j=await r.json();if(j.status==='error') throw new Error(j.message);return j;}async post(d){let r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});if(!r.ok) throw new Error('Сеть '+r.status);let j=await r.json();if(j.status==='error') throw new Error(j.message);return j;}}
-const api=new Api();
-function toggleSide(){sideOpen=!sideOpen;$('side').classList.toggle('open',sideOpen);$('side').classList.toggle('closed',!sideOpen);$('overlay').classList.toggle('show',sideOpen); if(window.lucide) lucide.createIcons();}
-function closeModal(id){const el=$(id);if(!el) return;el.classList.remove('show');el.style.display='none';}
-function openModal(id){const el=$(id);if(!el) return;el.style.display='flex';el.classList.add('show'); if(window.lucide) lucide.createIcons();}
-function getDefaultSettings(){return {enabled:true,maintenance_msg:'Техработы',global_banner:null,blocked_users:[],season:{mode:'auto',current:'regular',customColors:{regular:{primary:'#16a34a',light:'#4ade80',bg:'#f8fafc'},spring:{primary:'#16a34a',light:'#86efac',bg:'#f0fdf4'},summer:{primary:'#f59e0b',light:'#fcd34d',bg:'#fffbeb'},autumn:{primary:'#ea580c',light:'#fdba74',bg:'#fff7ed'},winter:{primary:'#0ea5e9',light:'#7dd3fc',bg:'#f0f9ff'}},banners:{}}};}
-
-function createWowLoader(season){
-  const loader=$('loader');const anim=$('loaderAnim');const sub=$('loaderSub');const details=$('loaderDetails');
-  if(!loader||!anim) return;
-  loader.className='';loader.id='loader';loader.classList.add(season.loaderClass);
-  if(sub) sub.textContent=season.text+' • Загрузка';
-  anim.innerHTML='';
-  if(season.id==='regular'){if(details) details.textContent='Обычный • Загрузка';}
-  if(season.id==='spring'){if(details) details.textContent='Весна • Загрузка'; for(let i=0;i<14;i++){const p=document.createElement('div');p.style.cssText='position:absolute;left:'+(5+i*7)+'%;top:-20px;background:linear-gradient(135deg,#f9a8d4,#f472b6);border-radius:50% 0 50% 0;width:'+(8+Math.random()*10)+'px;height:'+(8+Math.random()*10)+'px;animation:petalFall '+(4+Math.random()*3)+'s linear infinite;animation-delay:'+(Math.random()*2)+'s';anim.appendChild(p);}}
-  if(season.id==='summer'){if(details) details.textContent='Лето • Загрузка'; const sun=document.createElement('div');sun.style.cssText='position:absolute;width:120px;height:120px;background:radial-gradient(circle,#fef3c7,#fbbf24);border-radius:50%;left:50%;top:20%;transform:translateX(-50%);box-shadow:0 0 40px rgba(251,191,36,.6)';anim.appendChild(sun);}
-  if(season.id==='autumn'){if(details) details.textContent='Осень • Загрузка'; for(let i=0;i<15;i++){const leaf=document.createElement('div');leaf.textContent=['🍂','🍁','🍃'][i%3];leaf.style.cssText='position:absolute;left:'+(Math.random()*100)+'%;top:-30px;font-size:'+(14+Math.random()*12)+'px;animation:leafFall '+(5+Math.random()*4)+'s linear infinite;animation-delay:'+(Math.random()*3)+'s';anim.appendChild(leaf);}}
-  if(season.id==='winter'){if(details) details.textContent='Зима • Загрузка'; for(let i=0;i<26;i++){const snow=document.createElement('div');snow.textContent='❄';snow.style.cssText='position:absolute;left:'+(Math.random()*100)+'%;top:-20px;font-size:'+(8+Math.random()*16)+'px;color:rgba(255,255,255,'+(0.5+Math.random()*0.5)+');animation:snowFall '+(6+Math.random()*4)+'s linear infinite;animation-delay:'+(Math.random()*4)+'s';anim.appendChild(snow);}}
+function loadSaved(){
+  const se = localStorage.getItem('nc_admin_email');
+  const sp = localStorage.getItem('nc_admin_pass');
+  const rem = localStorage.getItem('nc_admin_remember');
+  if(se){ document.getElementById('email').value = se; }
+  if(sp && rem==='1'){ document.getElementById('pass').value = sp; }
 }
 
-function getSeasonByDate(){const m=new Date().getMonth(); if([2,3,4].includes(m)) return SEASONS.spring; if([5,6,7].includes(m)) return SEASONS.summer; if([8,9,10].includes(m)) return SEASONS.autumn; if([11,0,1].includes(m)) return SEASONS.winter; return SEASONS.regular;}
-function loadSeasonForLoader(){
+function logout(){sessionStorage.removeItem('nc_admin'); if(!document.getElementById('remember')?.checked){ localStorage.removeItem('nc_admin_pass'); localStorage.removeItem('nc_admin_remember'); } location.reload(); }
+async function init(){
+  const logEl = document.getElementById('dbLog');
+  function log(msg, ok=true){
+    if(!logEl) return;
+    const div = document.createElement('div');
+    div.style.cssText='font-size:11px;padding:6px 8px;border-radius:8px;margin-bottom:4px;background:'+(ok?'#f0fdf4':'#fef2f2')+';color:'+(ok?'#15803d':'#b91c1c');
+    div.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
+    logEl.prepend(div);
+  }
+  setLoad(20); log('Подключение к Google Script...');
   try{
-    const raw=localStorage.getItem('nc_site_settings');
-    let cur=getSeasonByDate();
-    if(raw){const s=JSON.parse(raw); if(s.season&&s.season.current&&SEASONS[s.season.current]&&s.season.mode==='manual') cur=SEASONS[s.season.current];}
-    document.body.classList.remove('season-regular','season-spring','season-summer','season-autumn','season-winter');
-    document.body.classList.add('season-'+cur.id);
-    createWowLoader(cur);
-    const badge=$('seasonBadge'); if(badge) badge.textContent=cur.name;
-  }catch{createWowLoader(getSeasonByDate());}
-}
-
-async function loadData(){
-  const loader=$('loader');const progress=$('loaderProgress');
-  loadSeasonForLoader();
-  let pct=0; const interval=setInterval(()=>{pct=Math.min(pct+6,90); if(progress) progress.style.width=pct+'%';},180);
-  try{
-    const data=await api.get('getAllData');
-    users=data.users||[]; schedule=data.schedule||[]; homework=data.homework||[]; messages=data.messages||[];
-    if(data.settings){const ctrl=data.settings.find(s=>s.key==='site_control'); if(ctrl){try{siteSettings=JSON.parse(ctrl.value); localStorage.setItem('nc_site_settings',ctrl.value); loadSeasonForLoader();}catch{siteSettings=getDefaultSettings();}}else siteSettings=getDefaultSettings();}
-    if(data.events&&data.events.length) localStorage.setItem('main_event',JSON.stringify({title:data.events[0].title,sub:data.events[0].sub}));
-    if(progress) progress.style.width='100%';
-  }catch(e){try{const c=localStorage.getItem('admin_cache'); if(c){const d=JSON.parse(c); users=d.users||[]; schedule=d.schedule||[]; homework=d.homework||[]; messages=d.messages||[];}}catch{} if(!siteSettings) siteSettings=getDefaultSettings();}
-  clearInterval(interval);
-  setTimeout(()=>{if(loader) loader.classList.add('hide');},2000);
-  renderNav(); renderPage(); if(window.lucide) lucide.createIcons();
-}
-
-function renderNav(){
-  const tabs=[
-    {id:'overview',label:'Обзор',icon:'layout-dashboard'},
-    {id:'users',label:'Пользователи',icon:'users'},
-    {id:'schedule',label:'Расписание',icon:'calendar-days'},
-    {id:'homework',label:'ДЗ',icon:'book-open'},
-    {id:'chat',label:'Чат',icon:'message-circle'},
-    {id:'event',label:'Объявления',icon:'megaphone'},
-    {id:'seasons',label:'Сезоны + ',icon:'palette'},
-    {id:'control',label:'Управление',icon:'settings'}
-  ];
-  $('nav').innerHTML=tabs.map(t=>`<button class="nav-btn ${currentTab===t.id?'active':''}" onclick="switchTab('${t.id}')"><i data-lucide="${t.icon}" style="width:16px;height:16px"></i> ${t.label} ${t.id==='users'?`(${users.length})`:''}</button>`).join('');
-  if(window.lucide) lucide.createIcons();
-}
-window.switchTab=(id)=>{currentTab=id;renderNav();renderPage(); if(window.innerWidth<=900) toggleSide();}
-
-function renderPage(){
-  const page=$('page'); if(!page) return; page.innerHTML='';
-  const today = new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
-  if(currentTab==='overview'){
-    page.innerHTML=`<div class="card" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff"><div style="font-weight:700;display:flex;align-items:center;gap:8px"><i data-lucide="sparkles" style="width:18px;height:18px"></i> Админка ${todayDay} • ${today}</div><div style="font-size:12px;opacity:.9;margin-top:4px">5 сезонов: Обычный, Весенний (насыщенные), Летний (картинка в расписании), Осенний (картинка), Зимний (снежинки в меню) • Автоопределение дня недели • Фикс Понедельник</div></div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px">
-      <div class="card" style="text-align:center"><div style="font-size:22px;font-weight:800">${users.length}</div><div style="font-size:11px;color:var(--muted)">Пользователей</div></div>
-      <div class="card" style="text-align:center"><div style="font-size:22px;font-weight:800">${schedule.length}</div><div style="font-size:11px;color:var(--muted)">Уроков</div></div>
-      <div class="card" style="text-align:center"><div style="font-size:22px;font-weight:800">${homework.length}</div><div style="font-size:11px;color:var(--muted)">ДЗ</div></div>
-      <div class="card" style="text-align:center"><div style="font-size:22px;font-weight:800">${todayDay}</div><div style="font-size:11px;color:var(--muted)">Сегодня • Авто</div></div>
-    </div>`;
-  }
-  if(currentTab==='users'){page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-weight:700"><i data-lucide="users" style="width:16px;height:16px"></i> Пользователи • ${users.length}</div><input id="userSearch" class="input" placeholder="Поиск..." style="width:180px" oninput="renderUsers(this.value)"></div><div id="userList">${renderUsersHTML('')}</div>`;}
-  if(currentTab==='schedule'){page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-weight:700">Расписание • ${schedule.length} • Сегодня ${todayDay}</div><button class="btn primary" onclick="openSchedModal()"><i data-lucide="plus" style="width:14px;height:14px"></i> Урок</button></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">${DAYS.map(d=>{const isToday=d===todayDay; return `<button class="btn ${activeDay===d?'primary':''}" onclick="activeDay='${d}';renderPage()">${d}${isToday?' • Сегодня':''}</button>`;}).join('')}</div><div>${schedule.filter(s=>s.day===activeDay).map(s=>`<div class="row"><div><div style="font-size:11px;color:var(--muted)">${s.time}</div><div style="font-weight:600">${s.subject}</div><div style="font-size:11px;color:var(--muted)">${s.teacher||''} ${s.room||''}</div></div><div style="display:flex;gap:6px"><button class="btn-icon" onclick="editSched('${s.id}')"><i data-lucide="pencil" style="width:14px;height:14px"></i></button><button class="btn-icon danger" onclick="deleteSched('${s.id}')"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button></div></div>`).join('')||'<div class="card" style="text-align:center;color:var(--muted)">Нет уроков на '+activeDay+'</div>'}</div>`;}
-  if(currentTab==='homework'){page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-weight:700">ДЗ • ${homework.length} • Сегодня ${todayDay}</div><button class="btn primary" onclick="openHwModal()"><i data-lucide="plus" style="width:14px;height:14px"></i> Задание</button></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">${DAYS.map(d=>{const isToday=d===todayDay; return `<button class="btn ${activeDay===d?'primary':''}" onclick="activeDay='${d}';renderPage()">${d}${isToday?' • Сегодня':''}</button>`;}).join('')}</div><div>${homework.filter(h=>h.day===activeDay).map(h=>`<div class="row"><div><div style="font-weight:600">${h.subject}</div><div style="font-size:12px">${h.task}</div><div style="font-size:11px;color:var(--muted)">${h.deadline||''}</div></div><div style="display:flex;gap:6px"><button class="btn-icon" onclick="editHw('${h.id}')"><i data-lucide="pencil" style="width:12px;height:12px"></i></button><button class="btn-icon danger" onclick="deleteHw('${h.id}')"><i data-lucide="trash-2" style="width:12px;height:12px"></i></button></div></div>`).join('')||'<div class="card" style="text-align:center;color:var(--muted)">Нет ДЗ на '+activeDay+'</div>'}</div>`;}
-  if(currentTab==='chat'){page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-weight:700">Чат • ${messages.length}</div><button class="btn danger" onclick="clearChat()"><i data-lucide="trash-2" style="width:12px;height:12px"></i> Очистить</button></div><div>${messages.slice(-30).map(m=>`<div class="row"><div style="flex:1"><div style="font-size:13px">${(m.text||'').slice(0,150)}</div><div style="font-size:11px;color:var(--muted)">${m.user} • ${m.time||''}</div></div><button class="btn-icon danger" onclick="deleteMsg('${m.id}')"><i data-lucide="x" style="width:12px;height:12px"></i></button></div>`).join('')||'<div class="card" style="text-align:center;color:var(--muted)">Нет сообщений</div>'}</div>`;}
-  if(currentTab==='event'){const ev=JSON.parse(localStorage.getItem('main_event')||'null'); page.innerHTML=`<div class="card"><div style="font-weight:700"><i data-lucide="megaphone" style="width:16px;height:16px"></i> Объявление</div><div style="margin-top:10px;padding:12px;background:var(--bg);border-radius:12px"><div style="font-weight:600">${ev?ev.title:'Нет объявления'}</div><div style="font-size:12px;color:var(--muted)">${ev?ev.sub:''}</div></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" onclick="openModal('modalEvent')"><i data-lucide="pencil" style="width:12px;height:12px"></i> Изменить</button><button class="btn" onclick="clearEvent()"><i data-lucide="trash-2" style="width:12px;height:12px"></i> Удалить</button></div></div>`;}
-    if(currentTab==='seasons'){
-    const s=siteSettings||getDefaultSettings(); const cfg=s.season;
-    page.innerHTML=`<div class="card"><div style="font-weight:700;display:flex;align-items:center;gap:8px"><i data-lucide="palette" style="width:16px;height:16px"></i> Сезоны • Сегодня ${todayDay}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">5 сезонов: Обычный, Весенний, Летний, Осенний, Зимний. Каждый со своей -загрузкой. Авто по дате или ручной выбор.</div>
-    <div style="margin-top:12px"><div style="font-weight:600;font-size:13px">Режим</div><div style="display:flex;gap:8px;margin-top:6px"><button class="btn ${cfg.mode==='auto'?'primary':''}" onclick="setSeasonMode('auto')"><i data-lucide="clock" style="width:12px;height:12px"></i> Авто по дате</button><button class="btn ${cfg.mode==='manual'?'primary':''}" onclick="setSeasonMode('manual')"><i data-lucide="hand" style="width:12px;height:12px"></i> Ручной</button></div></div>
-    ${cfg.mode==='manual'?`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px">${Object.values(SEASONS).map(se=>`<div class="season-card ${cfg.current===se.id?'active':''}" onclick="setCurrentSeason('${se.id}')"><div style="display:flex;align-items:center;gap:6px;font-weight:600"><i data-lucide="${se.icon}" style="width:14px;height:14px"></i> ${se.name}</div><div style="font-size:10px;opacity:.8;margin-top:4px">${se.text}</div></div>`).join('')}</div>`:''}
-    <button class="btn primary" style="width:100%;margin-top:14px;justify-content:center" onclick="saveSettings()"><i data-lucide="save" style="width:14px;height:14px"></i> Сохранить</button></div>`;
-  }
-  if(currentTab==='control'){const s=siteSettings||getDefaultSettings(); page.innerHTML=`<div class="card"><div style="font-weight:700"><i data-lucide="settings" style="width:16px;height:16px"></i> Управление • Сегодня ${todayDay} • ${new Date().toLocaleDateString('ru-RU')}</div><div style="margin-top:12px"><div style="font-size:12px;font-weight:600">Сообщение при техработах</div><input id="maintMsg" class="input" value="${s.maintenance_msg||''}" style="margin-top:4px"></div><div style="margin-top:10px"><div style="font-size:12px;font-weight:600">Баннер</div><input id="bannerMsg" class="input" value="${s.global_banner||''}" style="margin-top:4px"></div><button class="btn primary" style="width:100%;margin-top:12px;justify-content:center" onclick="saveControl()"><i data-lucide="save" style="width:12px;height:12px"></i> Сохранить</button></div>`;}
-  if(window.lucide) lucide.createIcons();
-}
-function renderUsersHTML(q){
-  const filter=(q||'').toLowerCase(); 
-  const list=users.filter(u=>!filter||u.name.toLowerCase().includes(filter)||u.email.toLowerCase().includes(filter)); 
-  if(!list.length) return '<div class="card" style="text-align:center;color:var(--muted);padding:32px"><i data-lucide="users" style="width:32px;height:32px;opacity:.3;margin-bottom:8px"></i><div>Нет пользователей</div><div style="font-size:11px;margin-top:4px">Попробуйте изменить поиск</div></div>'; 
-  return list.map(u=>`
-    <div class="row" style="flex-wrap:wrap">
-      <div style="display:flex;gap:10px;align-items:center;flex:1;min-width:200px">
-        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;box-shadow:0 4px 12px rgba(22,163,74,.2)">${u.name[0].toUpperCase()}</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${u.name}</div>
-          <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${u.email}</div>
-          <div style="margin-top:4px;display:flex;gap:6px;align-items:center">
-            <span style="padding:3px 8px;border-radius:100px;background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:700">${ROLES[u.role]||u.role}</span>
-            <span style="font-size:10px;color:var(--muted)">ID: ${u.id.slice(0,8)}...</span>
-          </div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px">
-        <select class="input" style="width:150px;padding:6px 10px;font-size:12px;font-weight:600" onchange="quickChangeRole('${u.id}', this.value)" title="Быстро изменить обязанность">
-          ${ROLE_ORDER.map(r=>`<option value="${r}" ${r===u.role?'selected':''}>${ROLES[r]}</option>`).join('')}
-        </select>
-        <div style="display:flex;gap:6px">
-          <button class="btn-icon view" onclick="viewUser('${u.id}')" title="Просмотр"><i data-lucide="eye" style="width:14px;height:14px"></i></button>
-          <button class="btn-icon" onclick="editUser('${u.id}')" title="Изменить имя и обязанность"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
-          <button class="btn-icon danger" onclick="deleteUser('${u.id}')" title="Удалить"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-window.renderUsers=(q)=>{const el=$('userList'); if(el){el.innerHTML=renderUsersHTML(q); if(window.lucide) lucide.createIcons();}}
-window.viewUser=(id)=>{const u=users.find(x=>x.id==id); if(!u) return; $('previewName').textContent=u.name+' • '+u.email; $('previewContent').innerHTML=`<div class="card"><div style="font-size:13px">Email: ${u.email}<br>Роль: ${ROLES[u.role]||u.role}<br>ID: ${u.id}</div></div>`; openModal('modalPreview');}
-window.openSchedModal=()=>{editingSchedId=null;$('mDay').value=activeDay;$('mTime').value='';$('mSubj').value='';$('mTeacher').value='';$('mRoom').value='';openModal('modalSched');}
-window.editSched=(id)=>{const s=schedule.find(x=>x.id==id); if(!s) return; editingSchedId=id;$('mDay').value=s.day;$('mTime').value=s.time;$('mSubj').value=s.subject;$('mTeacher').value=s.teacher;$('mRoom').value=s.room; openModal('modalSched');}
-window.saveSched=()=>{const data={day:$('mDay').value,time:$('mTime').value.trim(),subject:$('mSubj').value.trim(),teacher:$('mTeacher').value.trim(),room:$('mRoom').value.trim()}; if(!data.subject||!data.time){alert('Заполните');return;} if(editingSchedId){const idx=schedule.findIndex(x=>x.id==editingSchedId); if(idx>=0) schedule[idx]={...schedule[idx],...data}; api.post({action:'save_schedule',schedule:schedule[idx]}).then(()=>{showToast('Урок обновлен и сохранен в таблицу'); setSaveBtnState('saved');}).catch(()=>{});}else{const sc={id:Date.now().toString(),...data}; schedule.push(sc); api.post({action:'save_schedule',schedule:sc}).then(()=>{showToast('Новый урок добавлен и сохранен'); setSaveBtnState('saved');}).catch(()=>{});} closeModal('modalSched'); renderPage();}
-window.deleteSched=(id)=>{if(!confirm('Удалить?')) return; schedule=schedule.filter(x=>x.id!=id); api.post({action:'delete_schedule',id}).catch(()=>{}); renderPage();}
-window.openHwModal=()=>{editingHwId=null;$('hwDay').value=activeDay;$('hwSubject').value='';$('hwTask').value='';$('hwDeadline').value=''; openModal('modalHw');}
-window.editHw=(id)=>{const h=homework.find(x=>x.id==id); if(!h) return; editingHwId=id;$('hwDay').value=h.day;$('hwSubject').value=h.subject;$('hwTask').value=h.task;$('hwDeadline').value=h.deadline; openModal('modalHw');}
-window.saveHw=()=>{const data={day:$('hwDay').value,subject:$('hwSubject').value.trim(),task:$('hwTask').value.trim(),deadline:$('hwDeadline').value.trim()}; if(!data.subject||!data.task){alert('Заполните');return;} if(editingHwId){const idx=homework.findIndex(x=>x.id==editingHwId); if(idx>=0) homework[idx]={...homework[idx],...data}; api.post({action:'save_homework',homework:homework[idx]}).catch(()=>{});}else{const nh={id:Date.now().toString(),...data}; homework.push(nh); api.post({action:'save_homework',homework:nh}).catch(()=>{});} closeModal('modalHw'); renderPage();}
-window.deleteHw=(id)=>{if(!confirm('Удалить?')) return; homework=homework.filter(x=>x.id!=id); api.post({action:'delete_homework',id}).catch(()=>{}); renderPage();}
-window.editUser=(id)=>{
-  const u=users.find(x=>x.id==id); 
-  if(!u) {showToast('Пользователь не найден', true); return;} 
-  editingUserId=id;
-  $('euName').value=u.name;
-  $('euEmail').value=u.email;
-  $('euRole').innerHTML=ROLE_ORDER.map(r=>`<option value="${r}" ${r===u.role?'selected':''}>${ROLES[r]} — ${r}</option>`).join('');
-  const modal=$('modalEditUser');
-  if(modal){
-    const oldHead=modal.querySelector('.personal-header');
-    if(oldHead) oldHead.remove();
-    const card=modal.querySelector('.modal-card');
-    if(card){
-      const head=document.createElement('div');
-      head.className='personal-header';
-      head.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)';
-      head.innerHTML=`<div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">${u.name[0].toUpperCase()}</div><div><div style="font-weight:700">${u.name}</div><div style="font-size:11px;color:var(--muted)">${u.email} • Сейчас: ${ROLES[u.role]||u.role}</div></div>`;
-      card.prepend(head);
-    }
-  }
-  openModal('modalEditUser');
-};
-window.saveUser=()=>{
-  const u=users.find(x=>x.id==editingUserId); 
-  if(!u) return; 
-  const name=$('euName').value.trim(),role=$('euRole').value; 
-  if(!name) {showToast('Введите имя', true); return;} 
-  const oldRole=u.role;
-  u.name=name; 
-  u.role=role; 
-  setSaveBtnState('saving');
-  api.post({action:'update_user',id:u.id,name,role,email:u.email})
-    .then(()=>{
-      setSaveBtnState('saved');
-      showToast(`Обязанность изменена: ${u.name} теперь ${ROLES[role]} • Было: ${ROLES[oldRole]||oldRole}`);
-      if('Notification' in window && Notification.permission==='granted'){
-        new Notification(`Обязанность изменена • ${u.name}`, {body:`${ROLES[oldRole]||oldRole} → ${ROLES[role]} • Сохранено в таблицу`});
-      }
-    })
-    .catch(e=>{
-      setSaveBtnState('saved');
-      showToast('Ошибка сохранения: '+e.message, true);
-      u.role=oldRole;
-    }); 
-  closeModal('modalEditUser'); 
-  renderPage();
-};
-window.quickChangeRole=(id, newRole)=>{
-  const u=users.find(x=>x.id==id);
-  if(!u) return;
-  if(u.role===newRole) return;
-  const oldRole=u.role;
-  const oldName=u.name;
-  if(!confirm(`Изменить обязанность для ${u.name}?\n${ROLES[oldRole]||oldRole} → ${ROLES[newRole]||newRole}`)) {
-    renderPage();
-    return;
-  }
-  u.role=newRole;
-  renderPage();
-  setSaveBtnState('saving');
-  api.post({action:'update_user',id:u.id,name:u.name,role:newRole,email:u.email})
-    .then(()=>{
-      setSaveBtnState('saved');
-      showToast(`Быстро изменено: ${oldName} теперь ${ROLES[newRole]} • Сохранено`);
-    })
-    .catch(e=>{
-      u.role=oldRole;
-      renderPage();
-      showToast('Ошибка: '+e.message, true);
-      setSaveBtnState('saved');
-    });
-};
-window.deleteUser=(id)=>{if(!confirm('Удалить?')) return; users=users.filter(x=>x.id!=id); api.post({action:'delete_user',id}).catch(()=>{}); renderPage();}
-window.deleteMsg=(id)=>{messages=messages.filter(x=>x.id!=id); api.post({action:'delete_message',id}).catch(()=>{}); renderPage();}
-window.clearChat=()=>{if(!confirm('Очистить чат?')) return; messages=[]; api.post({action:'clear_chat'}).catch(()=>{}); renderPage();}
-window.saveEvent=()=>{const t=$('evTitle').value.trim(),s=$('evSub').value.trim(); if(!t) return; localStorage.setItem('main_event',JSON.stringify({title:t,sub:s})); api.post({action:'save_event',title:t,sub:s}).catch(()=>{}); closeModal('modalEvent'); renderPage();}
-window.clearEvent=()=>{localStorage.removeItem('main_event'); api.post({action:'delete_event'}).catch(()=>{}); renderPage();}
-window.setSeasonMode=(m)=>{if(!siteSettings.season) siteSettings.season=getDefaultSettings().season; siteSettings.season.mode=m; renderPage();}
-window.setCurrentSeason=(id)=>{if(!siteSettings.season) siteSettings.season=getDefaultSettings().season; siteSettings.season.current=id; renderPage();}
-function showToast(text, isError=false){
-  const toast=$('globalToast');
-  const txt=$('toastText');
-  if(!toast||!txt) return;
-  txt.textContent=text;
-  toast.classList.add('show');
-  toast.style.background=isError?'#ef4444':'var(--text)';
-  setTimeout(()=>{toast.classList.remove('show');}, 3000);
-  if(window.lucide) lucide.createIcons();
-}
-function setSaveBtnState(state){
-  const btn=$('saveAllBtn');
-  const status=$('saveStatus');
-  if(!btn) return;
-  if(state==='saving'){
-    btn.classList.add('saving');
-    btn.innerHTML='<i data-lucide="loader-2" style="width:14px;height:14px;animation:spin 1s linear infinite"></i> Сохранение...';
-    if(status) status.innerHTML='<i data-lucide="loader-2" style="width:12px;height:12px;animation:spin 1s linear infinite"></i> Сохранение...';
-  } else if(state==='saved'){
-    btn.classList.remove('saving');
-    btn.classList.add('saved');
-    btn.innerHTML='<i data-lucide="check" style="width:14px;height:14px"></i> Сохранено ✓';
-    if(status) status.innerHTML='<i data-lucide="check" style="width:12px;height:12px;color:#22c55e"></i> Все сохранено • '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+' • Персонально';
-    setTimeout(()=>{btn.classList.remove('saved'); btn.innerHTML='<i data-lucide="save" style="width:14px;height:14px"></i> Сохранить всё'; if(window.lucide) lucide.createIcons();}, 2500);
-  } else {
-    btn.classList.remove('saving','saved');
-    btn.innerHTML='<i data-lucide="save" style="width:14px;height:14px"></i> Сохранить всё';
-    if(status) status.innerHTML='<i data-lucide="cloud" style="width:12px;height:12px"></i> Автосохранение';
-  }
-  if(window.lucide) lucide.createIcons();
-}
-window.saveAllData=async()=>{
-  setSaveBtnState('saving');
-  try{
-    if(siteSettings){ await api.post({action:'save_settings',settings:siteSettings}); }
-    for(let s of schedule){ await api.post({action:'save_schedule',schedule:s}).catch(()=>{}); }
-    for(let h of homework){ await api.post({action:'save_homework',homework:h}).catch(()=>{}); }
-    localStorage.setItem('admin_cache', JSON.stringify({users,schedule,homework,messages,settings:siteSettings}));
-    localStorage.setItem('nc_site_settings', JSON.stringify(siteSettings));
-    setSaveBtnState('saved');
-    showToast(`Все данные сохранены! ${schedule.length} уроков, ${homework.length} заданий, ${users.length} пользователей • Персонально`);
-    if('Notification' in window && Notification.permission==='granted'){
-      new Notification('NovaClass Admin • Сохранено', {body:`Все изменения сохранены в таблицу • ${new Date().toLocaleTimeString()}`});
+    const start = Date.now();
+    const d = await apiGet({action:'getAllData'});
+    const took = Date.now()-start;
+    setLoad(60);
+    if(d.status==='ok'){
+      DATA=d; DATA.users=DATA.users||[]; DATA.schedule=DATA.schedule||[]; DATA.homework=DATA.homework||[]; DATA.messages=DATA.messages||[]; DATA.banner=DATA.banner||[]; DATA.events=DATA.events||[]; DATA.siteControl=DATA.siteControl||{maintenance:false,primaryColor:'#16a34a'};
+      log('База загружена за '+took+'ms: users='+d.users.length+', schedule='+d.schedule.length+', hw='+d.homework.length+', messages='+d.messages.length);
+      document.getElementById('apiDot').style.background='#22c55e';
+      document.getElementById('apiDot').title='API подключен, '+took+'ms';
+      if((d.siteControl||{}).primaryColor){ applyColor(d.siteControl.primaryColor); log('Тема: '+d.siteControl.primaryColor); }
+      if((d.siteControl||{}).maintenance){ log('Сайт в режиме техобслуживания', false); }
+      if(d.banner&&d.banner[0]){ log('Баннер: '+d.banner[0].title); }
+    } else {
+      log('Ошибка API: '+(d.message||'unknown'), false);
+      document.getElementById('apiDot').style.background='#ef4444';
     }
   }catch(e){
-    setSaveBtnState('saved');
-    showToast('Ошибка: '+e.message, true);
+    log('Ошибка загрузки БД: '+e.message, false);
+    console.error(e);
+    document.getElementById('apiDot').style.background='#ef4444';
+    document.getElementById('apiDot').title='Ошибка: '+e.message;
   }
-};
-window.saveSettings=()=>{
-  setSaveBtnState('saving');
-  api.post({action:'save_settings',settings:siteSettings}).then(()=>{
-    setSaveBtnState('saved');
-    showToast('Настройки сезона сохранены! Теперь у всех пользователей • Сезон: '+SEASONS[siteSettings.season.current].name);
-  }).catch(e=>{
-    setSaveBtnState('saved');
-    showToast('Ошибка: '+e.message, true);
-  });
-};
-window.saveControl=()=>{
-  siteSettings.maintenance_msg=$('maintMsg').value; 
-  siteSettings.global_banner=$('bannerMsg').value||null; 
-  saveSettings();
-};
-window.saveEvent=()=>{
-  const t=$('evTitle').value.trim(),s=$('evSub').value.trim(); 
-  if(!t) {showToast('Введите заголовок', true); return;}
-  localStorage.setItem('main_event',JSON.stringify({title:t,sub:s})); 
-  setSaveBtnState('saving');
-  api.post({action:'save_event',title:t,sub:s}).then(()=>{
-    setSaveBtnState('saved');
-    showToast(`Объявление "${t}" сохранено и показано всем ученикам`);
-  }).catch(e=>{
-    setSaveBtnState('saved');
-    showToast('Ошибка: '+e.message, true);
-  });
-  closeModal('modalEvent'); 
-  renderPage();
-};
-(function(){const sel=$('mDay'); if(sel) sel.innerHTML=DAYS.map(d=>`<option>${d}</option>`).join(''); const sel2=$('hwDay'); if(sel2) sel2.innerHTML=DAYS.map(d=>`<option>${d}</option>`).join(''); if(window.lucide) lucide.createIcons();})();
+  setLoad(90);
+  try{
+    renderDash(); log('Дашборд отрисован');
+    renderUsers(); log('Пользователи: '+(DATA.users||[]).length);
+    renderSched(); log('Расписание: '+DATA.schedule.length+' уроков');
+    renderHw(); log('ДЗ: '+DATA.homework.length);
+    renderBanner(); log('Баннер готов');
+    renderCtrl(); log('Управление готово');
+  }catch(e){ log('Ошибка отрисовки: '+e.message, false); }
+  setLoad(100);
+  setTimeout(()=>{document.getElementById('loader').classList.add('hide'); log('Готово. Все данные из Google Таблицы загружены');},400);
+  lucide.createIcons();
+}
+function check(){
+  const saved = localStorage.getItem('nc_admin_remember')==='1' && localStorage.getItem('nc_admin_email')?.toLowerCase()===ADMIN_EMAIL && localStorage.getItem('nc_admin_pass')===ADMIN_PASS;
+  if(sessionStorage.getItem('nc_admin') || saved){
+    if(saved) sessionStorage.setItem('nc_admin','1');
+    document.getElementById('app').style.display='block';
+    init();
+  }else{
+    document.getElementById('auth').style.display='flex';
+    document.getElementById('loader').classList.add('hide');
+  }
+}setTimeout(()=>{loadSaved(); check();},600);
+function tab(t){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===t));['dash','users','sched','hw','banner','ctrl'].forEach(x=>document.getElementById('p-'+x).style.display=x===t?'block':'none');lucide.createIcons();}
+function renderDash(){document.getElementById('p-dash').innerHTML=`<div class="banner"><div><div style="font-size:24px;font-weight:800">Панель управления NovaClass</div><div style="opacity:.9;margin-top:4px">Добро пожаловать, админ • ${(DATA.users||[]).length} пользователей в системе</div></div><div style="width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px">⚡</div></div><div class="grid4"><div class="card"><div style="font-size:12px;color:var(--muted)">Пользователей</div><div style="font-size:28px;font-weight:800">${(DATA.users||[]).length}</div><div style="font-size:11px;color:var(--primary)">● live из таблицы</div></div><div class="card"><div style="font-size:12px;color:var(--muted)">Уроков</div><div style="font-size:28px;font-weight:800">${DATA.schedule.length}</div></div><div class="card"><div style="font-size:12px;color:var(--muted)">ДЗ</div><div style="font-size:28px;font-weight:800">${DATA.homework.length}</div></div><div class="card"><div style="font-size:12px;color:var(--muted)">Сообщений</div><div style="font-size:28px;font-weight:800">${DATA.messages.length}</div></div></div><div class="grid2"><div class="card"><b>Последние пользователи</b><div style="margin-top:12px">${DATA.users.slice(-5).reverse().map(u=>`<div class="row"><div><b>${u.name||'—'}</b><div style="font-size:11px;color:var(--muted)">${u.email}</div></div><span class="badge">${u.role||'ученик'}</span></div>`).join('')||'Пусто'}</div></div><div class="card"><b>Система</b><div style="margin-top:12px;font-size:13px;line-height:1.8"><div>API: <span style="color:#22c55e">● подключено</span></div><div>Сайт: ${(DATA.siteControl||{}).maintenance?'<span style="color:#ef4444">● остановлен</span>':'<span style="color:#22c55e">● работает</span>'}</div><div>Цвет: <span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:${(DATA.siteControl||{}).primaryColor||'#16a34a'};vertical-align:middle"></span> ${(DATA.siteControl||{}).primaryColor||'#16a34a'}</div><div>Баннер: ${DATA.banner[0]?.title||'не задан'}</div></div></div></div>`}
+function renderUsers(){document.getElementById('p-users').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>Пользователи — ${(DATA.users||[]).length}</b><input id="uSearch" class="input" placeholder="Поиск по имени или email" style="max-width:220px;margin:0" oninput="renderUsersList()"></div><div id="uList" style="margin-top:12px"></div></div>`;renderUsersList()}
+function renderUsersList(){const q=(document.getElementById('uSearch')?.value||'').toLowerCase();const list=DATA.users.filter(u=>(u.name+' '+u.email).toLowerCase().includes(q));document.getElementById('uList').innerHTML=list.map(u=>`<div class="row"><div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">${(u.name||'U')[0].toUpperCase()}</div><div><b>${u.name}</b><div style="font-size:11px;color:var(--muted)">${u.email} • ${u.id}</div></div></div><div style="display:flex;gap:8px"><select class="input" style="width:120px;margin:0" onchange="changeRole('${u.id}',this.value)"><option ${u.role==='ученик'?'selected':''}>ученик</option><option ${u.role==='учитель'?'selected':''}>учитель</option><option ${u.role==='админ'?'selected':''}>админ</option></select><button class="btn" onclick="delUser('${u.id}')" style="color:#ef4444">Удалить</button></div></div>`).join('')||'<div style="padding:20px;text-align:center;color:var(--muted)">Нет пользователей</div>'}
+async function changeRole(id,role){const u=DATA.users.find(x=>x.id==id);await apiPost({action:'update_user',id,role,name:u.name,email:u.email});u.role=role;toast('Роль: '+role)}
+async function delUser(id){if(!confirm('Удалить пользователя?'))return;await apiPost({action:'delete_user',id});DATA.users=DATA.users.filter(x=>x.id!=id);renderUsers();renderDash()}
+function renderSched(){document.getElementById('p-sched').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>Расписание — ${activeDay}</b><button class="btn primary" style="width:auto" onclick="openSched()">+ Урок</button></div><div class="week" style="margin-top:12px">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderSched()">${d.slice(0,2)}</button>`).join('')}</div><div>${DATA.schedule.filter(s=>s.day===activeDay).map(s=>`<div class="row"><div><b>${s.time} • ${s.subject}</b><div style="font-size:12px;color:var(--muted)">${s.teacher||''} ${s.room? '• '+s.room:''}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="openSched('${s.id}')">Изм</button><button class="btn" style="color:#ef4444" onclick="delSched('${s.id}')">✕</button></div></div>`).join('')||'<div style="padding:16px;color:var(--muted);text-align:center">Нет уроков на этот день</div>'}</div></div>`}
+function openSched(id){const s=id?DATA.schedule.find(x=>x.id==id):null;document.getElementById('modalBody').innerHTML=`<h3 style="margin-bottom:14px">${s?'Редактировать':'Новый урок'}</h3><select id="f_day" class="input">${DAYS.map(d=>`<option ${d===(s?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select><input id="f_time" class="input" placeholder="Время 09:00" value="${s?.time||''}"><input id="f_subj" class="input" placeholder="Предмет" value="${s?.subject||''}"><input id="f_teacher" class="input" placeholder="Учитель" value="${s?.teacher||''}"><input id="f_room" class="input" placeholder="Кабинет" value="${s?.room||''}"><button class="btn primary" onclick="saveSched('${s?.id||''}')">Сохранить</button>`;document.getElementById('modal').classList.add('show')}
+async function saveSched(id){const o={id:id||Date.now().toString(),day:document.getElementById('f_day').value,time:document.getElementById('f_time').value.trim(),subject:document.getElementById('f_subj').value.trim(),teacher:document.getElementById('f_teacher').value.trim(),room:document.getElementById('f_room').value.trim()};if(!o.subject||!o.time){toast('Заполни время и предмет');return;}await apiPost({action:'save_schedule',schedule:o});const i=DATA.schedule.findIndex(x=>x.id==o.id);if(i>=0)DATA.schedule[i]=o;else DATA.schedule.push(o);closeM();renderSched();renderDash();toast('Сохранено')}
+async function delSched(id){if(!confirm('Удалить урок?'))return;await apiPost({action:'delete_schedule',id});DATA.schedule=DATA.schedule.filter(x=>x.id!=id);renderSched()}
+function renderHw(){document.getElementById('p-hw').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>Домашка — ${activeDay}</b><button class="btn primary" style="width:auto" onclick="openHw()">+ Задание</button></div><div class="week" style="margin-top:12px">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderHw()">${d.slice(0,2)}</button>`).join('')}</div><div style="margin-top:12px">${DATA.homework.filter(h=>h.day===activeDay).map(h=>`<div class="row"><div><b>${h.subject}</b><div style="font-size:13px;margin-top:2px">${h.task}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${h.deadline||'Без дедлайна'}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="openHw('${h.id}')">Изм</button><button class="btn" style="color:#ef4444" onclick="delHw('${h.id}')">✕</button></div></div>`).join('')||'<div style="padding:16px;text-align:center;color:var(--muted)">Нет заданий</div>'}</div></div>`}
+function openHw(id){const h=id?DATA.homework.find(x=>x.id==id):null;document.getElementById('modalBody').innerHTML=`<h3 style="margin-bottom:14px">${h?'Редактировать':'Новое ДЗ'}</h3><select id="h_day" class="input">${DAYS.map(d=>`<option ${d===(h?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select><input id="h_subj" class="input" placeholder="Предмет" value="${h?.subject||''}"><textarea id="h_task" class="input" style="min-height:90px" placeholder="Задание">${h?.task||''}</textarea><input id="h_dead" class="input" placeholder="Дедлайн 20.05" value="${h?.deadline||''}"><button class="btn primary" onclick="saveHw('${h?.id||''}')">Сохранить</button>`;document.getElementById('modal').classList.add('show')}
+async function saveHw(id){const o={id:id||Date.now().toString(),day:document.getElementById('h_day').value,subject:document.getElementById('h_subj').value.trim(),task:document.getElementById('h_task').value.trim(),deadline:document.getElementById('h_dead').value.trim()};if(!o.subject||!o.task){toast('Заполни');return;}await apiPost({action:'save_homework',homework:o});const i=DATA.homework.findIndex(x=>x.id==o.id);if(i>=0)DATA.homework[i]=o;else DATA.homework.push(o);closeM();renderHw();toast('Сохранено')}
+async function delHw(id){if(!confirm('Удалить?'))return;await apiPost({action:'delete_homework',id});DATA.homework=DATA.homework.filter(x=>x.id!=id);renderHw()}
+function renderBanner(){const b=(DATA.banner&&DATA.banner[0])||(DATA.events&&DATA.events[0])||{title:'NovaClass',sub:'Добро пожаловать в NovaClass',bgFrom:'#16a34a',bgTo:'#22c55e',enabled:true};document.getElementById('p-banner').innerHTML=`<div class="card" style="background:linear-gradient(135deg,${b.bgFrom||'#16a34a'},${b.bgTo||'#22c55e'});color:#fff;padding:22px"><div style="font-size:22px;font-weight:800">${b.title}</div><div style="opacity:.9;margin-top:4px">${b.sub||''}</div><div style="margin-top:12px;font-size:11px;opacity:.7">Превью баннера главной</div></div><div class="card"><b>Редактировать баннер</b><div style="display:grid;gap:10px;margin-top:12px"><input id="b_title" class="input" placeholder="Заголовок" value="${b.title||''}"><input id="b_sub" class="input" placeholder="Подзаголовок" value="${b.sub||''}"><input id="b_btn" class="input" placeholder="Текст кнопки" value="${b.btnText||'Начать'}"><input id="b_img" class="input" placeholder="URL картинки (необязательно)" value="${b.image||''}"><div class="grid2"><div><label style="font-size:11px">Цвет 1</label><input id="b_c1" type="color" class="input" style="height:42px;padding:4px" value="${b.bgFrom||'#16a34a'}"></div><div><label style="font-size:11px">Цвет 2</label><input id="b_c2" type="color" class="input" style="height:42px;padding:4px" value="${b.bgTo||'#22c55e'}"></div></div><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input id="b_en" type="checkbox" ${b.enabled!==false?'checked':''}> Показывать баннер</label><button class="btn primary" onclick="saveBanner()">Сохранить баннер на главную</button></div></div>`}
+async function saveBanner(){const o={title:document.getElementById('b_title').value,sub:document.getElementById('b_sub').value,btnText:document.getElementById('b_btn').value,image:document.getElementById('b_img').value,bgFrom:document.getElementById('b_c1').value,bgTo:document.getElementById('b_c2').value,enabled:document.getElementById('b_en').checked};await apiPost({action:'save_banner',banner:o});await apiPost({action:'save_event',title:o.title,sub:o.sub,image:o.image});DATA.banner=[o];toast('Баннер сохранен');renderBanner();renderDash()}
+function renderCtrl(){const sc=DATA.siteControl||{};document.getElementById('p-ctrl').innerHTML=`<div class="grid2"><div class="card"><b>Состояние сайта</b><div style="margin-top:12px"><label style="display:flex;gap:10px;align-items:center;cursor:pointer"><input id="maint" type="checkbox" ${sc.maintenance?'checked':''} onchange="toggleMaint()" style="width:18px;height:18px"><span>Режим техобслуживания</span></label><div style="font-size:11px;color:var(--muted);margin-top:8px">При включении все увидят заглушку кроме тебя</div><div style="margin-top:12px;padding:10px;background:${sc.maintenance?'#fef2f2':'#f0fdf4'};border-radius:10px;font-size:12px;color:${sc.maintenance?'#b91c1c':'#15803d'}">${sc.maintenance?'● Сайт остановлен':'● Сайт работает'}</div></div></div><div class="card"><b>Основной цвет</b><div style="margin-top:12px;display:flex;gap:10px;align-items:center"><input id="mainColor" type="color" value="${sc.primaryColor||'#16a34a'}" class="input" style="width:70px;height:44px;padding:4px"><div><div style="font-size:13px;font-weight:600">${sc.primaryColor||'#16a34a'}</div><div style="font-size:11px;color:var(--muted)">Меняется у всех</div></div><button class="btn primary" style="width:auto" onclick="saveColor()">Применить</button></div></div></div><div class="card"><b>Массовая рассылка — СМС всем</b><div style="font-size:12px;color:var(--muted);margin-top:4px">Отправит сообщение в чат каждому пользователю (${(DATA.users||[]).length})</div><textarea id="bc_text" class="input" placeholder="Напиши объявление для всех..." style="min-height:90px;margin-top:12px"></textarea><button class="btn primary" onclick="broadcast()" style="margin-top:8px">📢 Отправить всем ${(DATA.users||[]).length} пользователям</button></div><div class="card" style="border-color:#fecaca;background:#fff5f5"><b style="color:#ef4444">Опасная зона</b><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" onclick="clearChat()">Очистить чат</button><button class="btn" onclick="if(confirm('Сбросить цвет?')){localStorage.removeItem('nc_theme');location.reload()}">Сбросить тему</button></div></div>`}
+async function toggleMaint(){const v=document.getElementById('maint').checked;await apiPost({action:'save_settings',settings:{maintenance:v}});(DATA.siteControl||{}).maintenance=v;toast(v?'Сайт остановлен':'Сайт запущен');renderCtrl()}
+function applyColor(c){document.documentElement.style.setProperty('--primary',c);document.documentElement.style.setProperty('--green',c)}
+async function saveColor(){const c=document.getElementById('mainColor').value;applyColor(c);await apiPost({action:'save_settings',settings:{primaryColor:c}});(DATA.siteControl||{}).primaryColor=c;toast('Цвет сохранен: '+c);renderCtrl()}
+async function broadcast(){const t=document.getElementById('bc_text').value.trim();if(!t){toast('Напиши текст');return;}if(!confirm(`Отправить "${t.slice(0,30)}..." всем ${(DATA.users||[]).length}?`))return;const r=await apiPost({action:'broadcast_message',text:t});toast(`Отправлено ${r.sent||(DATA.users||[]).length} пользователям`);document.getElementById('bc_text').value=''}
+async function clearChat(){if(!confirm('Очистить весь чат?'))return;await apiPost({action:'clear_chat'});toast('Чат очищен')}
+function closeM(){document.getElementById('modal').classList.remove('show')}
 </script>
 </body>
 </html>
