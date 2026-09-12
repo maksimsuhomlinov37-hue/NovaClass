@@ -1,34 +1,22 @@
 
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- saved from url=(0356)https://scontent-arn2-1.xx.fbcdn.net/m1/v/t0.71334-6/An_zN8UafonPYXqAJ5-uTJgx-21vC56ZEr84pO7PXJOVWGnLgoJJDeGg3AQcdieM61hVx9ILSvRHhC7eD8XOpbm4PTbcSKZrKfChKb8edpPx?_nc_gid=OwRJW4-SSbWS0e2vx2USqg&_nc_oc=Ado5SbGHSAP0ofM0V03ZJDyt1wi-MBrw0h8wwGqVFsp6-FKHXBe1wggIxOwkC8L2DH0&ccb=10-5&oh=00_AQIuit6w8NscH37FvLwmLL5w4rRB-KoW9IFNJbi-HTFu_Q&oe=6AA76C17&_nc_sid=5962a6 -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaClass</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link href="./NovaClass_files/css2" rel="stylesheet">
+<script src="./NovaClass_files/lucide.js.download"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--green:#16a34a;--bg:#f8fafb;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--primary:#16a34a;--primary-light:#22c55e;--primary-soft:#dcfce7}
 body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
-body.dark{--bg:#0f1115;--card:#1a1d23;--text:#f1f5f9;--muted:#94a3b8;--border:#2a2f3a;--primary-soft:#14532d}
-body.season-regular{--primary:#16a34a;--primary-light:#4ade80;--primary-soft:#dcfce7;--bg:#f8fafc}
-body.season-spring{--primary:#16a34a;--primary-light:#86efac;--primary-soft:#f0fdf4;--bg:#f0fdf4}
-body.season-summer{--primary:#f59e0b;--primary-light:#fcd34d;--primary-soft:#fffbeb;--bg:#fffbeb}
-body.season-autumn{--primary:#ea580c;--primary-light:#fdba74;--primary-soft:#fff7ed;--bg:#fff7ed}
-body.season-winter{--primary:#0ea5e9;--primary-light:#7dd3fc;--primary-soft:#f0f9ff;--bg:#f0f9ff}
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes floatSlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes petalFall{0%{transform:translateY(-20px) rotate(0deg) translateX(0);opacity:0}10%{opacity:1}100%{transform:translateY(400px) rotate(360deg) translateX(60px);opacity:0}}
-@keyframes leafFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:.8}100%{transform:translateY(450px) rotate(720deg) translateX(-40px);opacity:0}}
-@keyframes snowFall{0%{transform:translateY(-20px) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(500px) translateX(20px);opacity:0}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.4)}50%{box-shadow:0 0 0 12px rgba(255,255,255,0)}}
 @keyframes scaleIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-
-/* Персонализация и уведомления */
 .personal-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 .personal-ava{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .personal-name{font-weight:700;font-size:14px}
@@ -46,87 +34,310 @@ body.season-winter{--primary:#0ea5e9;--primary-light:#7dd3fc;--primary-soft:#f0f
 .notif-btn:hover{transform:translateY(-1px)}
 .personal-banner{position:relative;overflow:hidden}
 .personal-banner::before{content:'';position:absolute;top:-50%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.15),transparent);border-radius:50%}
-
-#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;transition:opacity .7s ease;overflow:hidden}
-#loader.hide{opacity:0;pointer-events:none;visibility:hidden}
-.welcome-title{font-family:Manrope,sans-serif;font-weight:800;font-size:44px;letter-spacing:-1.5px;animation:fadeIn .6s ease}
-.welcome-sub{font-weight:600;font-size:14px;opacity:.92;margin-top:8px;letter-spacing:.3px;animation:fadeIn .6s ease .1s both}
-.loader-bar{margin-top:26px;width:260px;height:5px;background:rgba(255,255,255,.25);border-radius:100px;overflow:hidden;backdrop-filter:blur(4px)}
-.loader-progress{height:100%;width:0%;background:#fff;border-radius:100px;transition:width .5s cubic-bezier(.4,0,.2,1);position:relative;box-shadow:0 0 12px rgba(255,255,255,.6)}
-.loader-progress::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:shimmer 1.2s infinite}
-.loader-regular{background:linear-gradient(135deg,#16a34a,#22c55e,#4ade80)}
-.loader-spring{background:linear-gradient(135deg,#16a34a,#4ade80,#bbf7d0,#f0fdf4)}
-.loader-summer{background:linear-gradient(135deg,#f59e0b,#fbbf24,#fde68a,#fef3c7)}
-.loader-autumn{background:linear-gradient(135deg,#9a3412,#ea580c,#fb923c,#fed7aa)}
-.loader-winter{background:linear-gradient(135deg,#0c4a6e,#0ea5e9,#7dd3fc,#e0f2fe)}
+#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;transition:opacity .8s cubic-bezier(.4,0,.2,1);overflow:hidden;background:linear-gradient(135deg,#16a34a 0%,#22c55e 50%,#4ade80 100%);background-size:200% 200%;animation:gradientShift 4s ease infinite}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+#loader.hide{opacity:0;pointer-events:none;visibility:hidden;transform:scale(1.05)}
+.welcome-title{font-family:Manrope,sans-serif;font-weight:800;font-size:42px;letter-spacing:-1.2px;animation:fadeIn .8s ease}
+.welcome-sub{font-weight:600;font-size:13px;opacity:.92;letter-spacing:.4px;animation:fadeIn .8s ease .15s both}
 #authRoot{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;background:var(--bg)} 
 #authRoot.hide{opacity:0;pointer-events:none;transform:scale(.98);transition:.4s}
 .auth-card{width:100%;max-width:410px;background:var(--card);border:1px solid var(--border);border-radius:22px;padding:30px;box-shadow:0 16px 48px rgba(0,0,0,.08);animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
 .hidden{display:none!important}
-.top{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(255,255,255,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:20}
-body.dark .top{background:rgba(26,29,35,.85)}
-.burger{width:44px;height:44px;border-radius:12px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s}
-.burger:hover{background:var(--bg);transform:scale(1.06) rotate(2deg)}
+.top{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(255,255,255,.88);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:none;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:30;border-radius:0}
+
+
+.burger{width:42px;height:42px;border-radius:12px;border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--text)}
+.burger:hover{background:rgba(255,255,255,.95)}
+
 .layout{display:flex;min-height:100vh;padding-top:62px}
-.side{position:fixed;left:0;top:62px;bottom:0;width:290px;background:var(--card);border-right:1px solid var(--border);padding:14px;overflow-y:auto;z-index:30;transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 24px rgba(0,0,0,.04)}
+.side{position:fixed;left:0;top:62px;bottom:0;width:290px;background:rgba(255,255,255,.88);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-right:none;padding:14px;display:flex;flex-direction:column;overflow-y:auto;z-index:19;transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:4px 12px 24px rgba(0,0,0,.04);border-radius:0 18px 18px 0}
+
 .side.closed{transform:translateX(-100%)}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(6px);z-index:25;display:none}.overlay.show{display:block;animation:fadeIn .25s ease}
 .nav-btn{width:100%;display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:transparent;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;text-align:left;margin-bottom:4px;transition:all .25s;position:relative;overflow:hidden}
-.nav-btn:hover{background:var(--bg);transform:translateX(3px);color:var(--text)}
-.nav-btn.active{background:var(--text);color:#fff;font-weight:700;transform:translateX(3px);box-shadow:0 6px 16px rgba(0,0,0,.12)}
-body.season-winter .nav-btn::after{content:'❄';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;opacity:0;transition:all .3s;pointer-events:none}
-body.season-winter .nav-btn:hover::after, body.season-winter .nav-btn.active::after{opacity:.7}
+.nav-btn:hover{background:var(--bg);color:var(--text)}
+.nav-btn.active{background:var(--text);color:#fff;font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,.12)}
 .main{margin-left:290px;flex:1;padding:22px;min-width:0}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px;transition:all .3s;animation:fadeIn .5s ease;position:relative;overflow:hidden}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:16px;margin-bottom:12px;transition:all .3s;animation:fadeIn .5s ease;position:relative;overflow:hidden}
+
 .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
 .row{display:flex;justify-content:space-between;gap:12px;padding:13px 14px;border:1px solid var(--border);border-radius:14px;margin-bottom:9px;align-items:center;background:var(--card);transition:all .25s;animation:fadeIn .35s ease}
-.row:hover{border-color:var(--primary);transform:translateX(3px)}
+.row:hover{border-color:var(--primary)}
 .btn{padding:10px 14px;border-radius:11px;border:1px solid var(--border);background:var(--card);font-weight:600;cursor:pointer;font-size:13px;transition:all .25s;display:inline-flex;align-items:center;gap:7px}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;border-color:var(--primary);box-shadow:0 4px 14px rgba(22,163,74,.25)}
 .input{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);outline:none;font-size:14px;transition:all .25s}
 .input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-soft)}
 .error{padding:10px 12px;border-radius:12px;background:#fef2f2;color:#b91c1c;font-size:12px;margin-bottom:10px;display:none}.error.show{display:block;animation:fadeIn .3s ease}
-.day-tabs{display:flex;gap:6px;padding:6px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow-x:auto}
-.day-tab{padding:8px 15px;border-radius:10px;border:none;background:transparent;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .25s}
-.day-tab.active{background:var(--text);color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.day-nav-day{display:flex;align-items:center;justify-content:space-between;background:var(--primary);border-radius:14px;overflow:hidden;height:44px;box-shadow:0 4px 12px rgba(22,163,74,.2)}
+.day-nav-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.08);border:none;color:#fff;cursor:pointer;transition:all .2s;flex-shrink:0}
+.day-nav-btn:hover{background:rgba(0,0,0,.15)}
+.day-nav-btn i{width:18px;height:18px}
+.day-nav-center{flex:1;text-align:center;font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:#fff}
+
+.day-nav-week{display:flex;align-items:center;background:#22c55e;border-radius:12px;overflow:hidden;height:44px;box-shadow:0 4px 12px rgba(22,163,74,.2);position:relative;isolation:isolate}
+.week-btn{display:flex;align-items:center;gap:6px;padding:0 16px;height:44px;background:#16a34a;border:none;color:rgba(255,255,255,.9);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;z-index:2;position:relative}
+.week-btn:hover{background:#15803d;color:#fff}
+.day-week-btn{flex:1;height:36px;margin:4px 2px;border:none;background:transparent;color:#fff;font-weight:700;font-size:12px;letter-spacing:.3px;text-transform:uppercase;cursor:pointer;transition:color .2s ease;white-space:nowrap;border-radius:10px;position:relative;z-index:2}
+.day-week-btn:hover{background:rgba(255,255,255,.12)}
+.day-week-btn.active{color:#0f172a;font-weight:800;background:transparent}
+.day-week-slider{position:absolute;top:4px;height:36px;background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.12);z-index:1;transition:transform .45s cubic-bezier(.34,1.56,.64,1), width .45s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.day-nav-day{display:flex;align-items:center;justify-content:space-between;background:#22c55e;border-radius:12px;height:44px;box-shadow:0 4px 12px rgba(22,163,74,.2);overflow:hidden}
+.day-nav-day .day-nav-btn{background:#16a34a;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;color:#fff;cursor:pointer;flex-shrink:0}
+.day-nav-day .day-nav-center{flex:1;text-align:center;font-weight:800;font-size:13px;color:#fff;letter-spacing:.5px;text-transform:uppercase;transition:all .3s ease}
+@media(max-width:1024px){.day-nav-week{display:none!important} .day-nav-day{display:flex!important}}
+@media(min-width:1025px){.day-nav-day{display:none!important} .day-nav-week{display:flex!important}}
+.schedule-wrapper{overflow:hidden;position:relative}
+.schedule-inner{transition:transform .45s cubic-bezier(.4,0,.2,1), opacity .35s ease;will-change:transform,opacity}
+.schedule-inner.slide-out-left{transform:translateX(-50px);opacity:0}
+.schedule-inner.slide-out-right{transform:translateX(50px);opacity:0}
+.schedule-inner.slide-in-left{transform:translateX(-50px);opacity:0}
+.schedule-inner.slide-in-right{transform:translateX(50px);opacity:0}
+.schedule-inner.slide-active{transform:translateX(0);opacity:1}
+
 .banner{border-radius:22px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:24px;display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;animation:fadeIn .6s ease;box-shadow:0 8px 24px rgba(22,163,74,.2)}
 .banner::after{content:'';position:absolute;top:-30%;right:-10%;width:220px;height:220px;background:rgba(255,255,255,.14);border-radius:50%;animation:float 5s ease-in-out infinite}
 .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
 .empty-illustration{width:100%;max-width:460px;margin:0 auto;display:block;animation:floatSlow 4s ease-in-out infinite}
-@media(max-width:900px){.side{transform:translateX(-100%)}.side.open{transform:translateX(0);animation:slideIn .35s cubic-bezier(.4,0,.2,1)}.main{margin-left:0;padding:16px}}
+
+/* PC - бургер скрыт, сайдбар всегда открыт */
+@media(min-width:1025px){
+  .burger.menu-toggle{display:none!important}
+  .side{transform:translateX(0)!important;width:290px;border-radius:0 18px 18px 0;border-right:none}
+  .main{margin-left:290px}
+  .overlay{display:none!important}
+}
+/* Tablet - КАПСУЛЫ РОВНО - чистый стык без линий как на 2 скрине */
+@media(min-width:701px) and (max-width:1024px){
+  /* убираем любые серые стрелки и скроллы на планшете */
+  .day-tabs, .day-tab{display:none!important}
+  /* Верхняя панель - капсула без рамки и без линии снизу */
+  .top{
+    left:16px!important;
+    right:16px!important;
+    top:16px!important;
+    width:auto!important;
+    height:62px!important;
+    border-radius:18px!important;
+    border:none!important;
+    box-shadow:0 4px 16px rgba(0,0,0,.06)!important;
+    transition:all .4s cubic-bezier(.4,0,.2,1);
+  }
+  
+
+  /* Бургер меню - капсула без рамки, чистый зазор 16px без линий */
+  .side{
+    width:72px!important;
+    left:16px!important;
+    top:94px!important;
+    bottom:16px!important;
+    right:auto!important;
+    height:auto!important;
+    transform:translateX(0)!important;
+    border-radius:18px!important;
+    border:none!important;
+    box-shadow:0 4px 16px rgba(0,0,0,.06)!important;
+    padding:12px 8px!important;
+    transition:all .4s cubic-bezier(.4,0,.2,1);
+    background:rgba(255,255,255,.92)!important;
+    backdrop-filter:blur(24px) saturate(180%)!important;
+  }
+  /* Убираем псевдо-элементы и тени которые создавали неудобный момент */
+  .side::before, .side::after{display:none!important}
+
+  
+
+  .side .nav-btn{justify-content:center;align-items:center;padding:12px 8px;border-radius:12px;width:100%;margin:0 auto;display:flex}
+  .side .nav-btn span{display:none}
+  .side #sname, .side #srole{display:none}
+  .side .btn{padding:8px}
+  .side .btn span, .side .btn i + span{display:none}
+  .main{margin-left:100px!important;transition:margin .4s cubic-bezier(.4,0,.2,1)}
+
+  /* При открытии - все становится обычным прямоугольным и касается краев */
+  .side.open{
+    left:0!important;
+    top:0!important;
+    bottom:0!important;
+    width:290px!important;
+    border-radius:0 18px 18px 0!important;
+    border:none!important;
+    border-right:none!important;
+    padding:76px 14px 14px 14px!important;
+    box-shadow:4px 12px 24px rgba(0,0,0,.06);
+  }
+  .side.open .nav-btn{justify-content:flex-start;padding:12px 14px}
+  .side.open .nav-btn span{display:inline}
+  .side.open #sname, .side.open #srole{display:block}
+
+  /* Когда меню открыто - верхняя панель тоже становится обычной */
+  .top.menu-open{
+    left:0!important;
+    right:0!important;
+    top:0!important;
+    border-radius:0!important;
+    border:none!important;
+    border-bottom:none!important;
+    box-shadow:none!important;
+  }
+
+  .side.open + .main, .side.open ~ .main{margin-left:290px!important}
+  .overlay.show{display:none!important}
+}
+
+/* Phone - оффканвас */
+@media(max-width:700px){
+  .side{transform:translateX(-100%);width:290px}
+  .side.open{transform:translateX(0);animation:slideIn .35s cubic-bezier(.4,0,.2,1)}
+  .main{margin-left:0;padding:16px}
+}
+
+
+/* Темная тема - полный фикс */
+
+
+
+
+
+
+
+
+
+
+
+
+/* Bottom nav - FIX TABLET: centered fixed bottom */
+.bottom-nav{display:none}
+@media(max-width:1024px){
+  .bottom-nav{
+    display:flex;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:96%;max-width:520px;height:68px;
+    background:rgba(255,255,255,.94);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(0,0,0,.06);border-radius:22px;
+    box-shadow:0 12px 32px rgba(0,0,0,.12);padding:8px;justify-content:space-around;align-items:center;z-index:40;
+  }
+  .bottom-nav .bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 4px;border-radius:16px;border:none;background:transparent;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer}
+  .bottom-nav .bnav-btn i{width:22px;height:22px}
+  .bottom-nav .bnav-btn.active{background:var(--primary-soft);color:var(--primary)}
+  .main{padding-bottom:100px!important}
+  .side{display:none!important}
+  .burger.menu-toggle{display:none!important}
+}
+
+
+/* Единое стекло - верх и боковое меню без шва и угла */
+@media(min-width:701px){
+  .top{
+    background:rgba(255,255,255,.88);
+    border-bottom:none;
+    border-radius:0;
+    box-shadow:none;
+  }
+  
+  .side{
+    top:62px;
+    bottom:0;
+    background:rgba(255,255,255,.88);
+    border-right:none;
+    border-radius:0 18px 18px 0;
+    box-shadow:4px 12px 24px rgba(0,0,0,.04);
+    padding:14px;
+  }
+  
+  .layout{padding-top:62px}
+  /* Разделение сайта и панели - только после закругления, тонкая линия */
+  .main{position:relative}
+  .main::before{
+    content:'';
+    position:absolute;
+    left:0;
+    top:18px;
+    bottom:18px;
+    width:1px;
+    background:rgba(0,0,0,.06);
+    pointer-events:none;
+  }
+  
+}
+
+
+
+/* Улучшенное расписание - удобно */
+.timeline{position:relative;padding-left:56px}
+.timeline::before{content:'';position:absolute;left:20px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--border),var(--border) 60%,transparent);border-radius:2px}
+.lesson-row{display:flex;gap:12px;margin-bottom:12px;position:relative}
+.lesson-time{position:absolute;left:-56px;top:0;width:44px;text-align:right}
+.lesson-time .t{font-weight:800;font-size:13px;color:var(--text);line-height:1}
+.lesson-time .n{font-size:10px;color:var(--muted);font-weight:700;margin-top:2px}
+.lesson-dot{position:absolute;left:-40px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--card);border:2px solid var(--border);z-index:2;transition:all .3s ease}
+.lesson-row.now .lesson-dot{background:var(--primary);border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-soft);animation:pulseDot 2s infinite}
+@keyframes pulseDot{0%{box-shadow:0 0 0 4px var(--primary-soft)}50%{box-shadow:0 0 0 8px rgba(34,197,94,.12)}100%{box-shadow:0 0 0 4px var(--primary-soft)}}
+.lesson-card{flex:1;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:all .25s ease;position:relative;overflow:hidden}
+.lesson-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--subj-color,#22c55e);border-radius:14px 0 0 14px}
+.lesson-card:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.06);border-color:var(--primary-soft)}
+.lesson-row.now .lesson-card{border-color:var(--primary);box-shadow:0 8px 24px rgba(34,197,94,.15);background:linear-gradient(135deg,var(--card),var(--primary-soft))}
+.lesson-card .subj{font-weight:800;font-size:14px;color:var(--text);line-height:1.2}
+.lesson-card .meta{font-size:11px;color:var(--muted);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lesson-card .meta span{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);padding:2px 6px;border-radius:100px}
+.lesson-card .room{font-weight:700;color:var(--text);background:var(--bg);border:1px solid var(--border);padding:4px 8px;border-radius:8px;font-size:12px;white-space:nowrap}
+.now-badge{display:inline-flex;align-items:center;gap:4px;background:var(--primary);color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:100px;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.7}}
+.progress{position:absolute;bottom:0;left:0;height:3px;background:var(--primary);border-radius:0 0 14px 14px;transition:width 1s linear}
+.break-row{display:flex;align-items:center;gap:8px;margin:4px 0 12px 0;padding-left:2px;color:var(--muted);font-size:11px;font-weight:600}
+.break-row::before{content:'';flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--border),var(--border) 6px,transparent 6px,transparent 12px)}
+.break-row::after{content:'';flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--border),var(--border) 6px,transparent 6px,transparent 12px)}
+.day-header-compact{display:flex;align-items:center;justify-content:space-between;margin:12px 0 14px 0;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:12px}
+.day-header-compact .d{font-weight:800}
+.day-header-compact .c{font-size:12px;color:var(--muted)}
+
+
+/* === ФИКС: СВЕТЛАЯ ЛЕНТА КАК НА СКРИНАХ === */
+:root{--week-green:#65D78E}
+.week-strip{display:flex;align-items:stretch;background:var(--week-green);border-radius:10px 10px 0 0;overflow:hidden;height:48px;user-select:none;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.week-strip .ws-prev,.week-strip .ws-next{display:flex;align-items:center;gap:6px;padding:0 16px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;border:none}
+.week-strip .ws-prev:hover,.week-strip .ws-next:hover{background:rgba(255,255,255,0.25)}
+.week-strip .ws-days{flex:1;display:flex;align-items:stretch;gap:2px;padding:4px 2px 0 2px}
+.week-strip .ws-day{flex:1;display:flex;align-items:center;justify-content:center;background:transparent;color:#fff;font-size:13px;font-weight:700;text-transform:uppercase;cursor:pointer;border:none;border-radius:8px 8px 0 0}
+.week-strip .ws-day.active{background:#fff;color:#0f172a;box-shadow:0 -2px 10px rgba(0,0,0,.08);margin-top:2px}
+.week-strip .ws-day:hover:not(.active){background:rgba(255,255,255,0.18)}
+.week-date{padding:14px 16px;font-size:24px;font-weight:800;color:#4EC67E;text-transform:uppercase;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;margin-bottom:14px}
+.week-strip-mobile{display:none;align-items:stretch;background:var(--week-green);border-radius:10px 10px 0 0;height:48px;overflow:hidden}
+.week-strip-mobile .ws-arrow{width:56px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.15);color:#fff;border:none;cursor:pointer;font-size:22px}
+.week-strip-mobile .ws-current{flex:1;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.6px}
+@media(max-width:900px){.week-strip{display:none!important}.week-strip-mobile{display:flex!important}.week-date{font-size:20px;padding:12px 14px}}
+
 </style>
 </head>
 <body>
 
-<div id="loader" class="loader-regular">
- <div id="loaderAnim" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div>
- <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center">
-  <div class="welcome-title">NovaClass</div>
-  <div class="welcome-sub" id="loaderSub">Основной интерфейс • Загрузка</div>
-  <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
-  <div style="margin-top:14px;font-size:11px;opacity:.85" id="loaderDetails">Загрузка...</div>
+<div id="loader" class="hide" style="display: flex;">
+ <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center">
+  <div style="width:72px;height:72px;border-radius:20px;background:rgba(255,255,255,.18);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:32px;box-shadow:0 12px 32px rgba(0,0,0,.15);animation:float 2.5s ease-in-out infinite;border:1px solid rgba(255,255,255,.25)">N</div>
+  <div class="welcome-title" style="margin-top:18px">NovaClass</div>
+  <div class="welcome-sub" id="loaderSub" style="margin-top:6px;opacity:.9">Привет, maksimsuhomlinov52@gmail.com!</div>
+  <div style="margin-top:28px;width:180px;height:4px;background:rgba(255,255,255,.2);border-radius:100px;overflow:hidden;backdrop-filter:blur(4px)"><div class="loader-progress" id="loaderProgress" style="height: 100%; width: 100%; background: rgb(255, 255, 255); border-radius: 100px; box-shadow: rgba(255, 255, 255, 0.8) 0px 0px 12px; transition: width 0.4s;"></div></div>
+  <div style="margin-top:12px;font-size:11px;opacity:.7;letter-spacing:.5px" id="loaderDetails">Добро пожаловать!</div>
  </div>
+ <div style="position:absolute;top:-20%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);border-radius:50%;animation:floatSlow 6s ease-in-out infinite"></div>
+ <div style="position:absolute;bottom:-15%;left:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);border-radius:50%;animation:float 5s ease-in-out infinite reverse"></div>
 </div>
 
-<div id="authRoot">
+<div id="authRoot" class="hide" style="display: none;">
 <div class="auth-card">
  <div id="authLanding">
   <div style="text-align:center"><div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin:0 auto;font-size:22px;box-shadow:0 8px 20px rgba(22,163,74,.25);animation:float 3s ease-in-out infinite">N</div><div style="font-weight:800;margin-top:14px;font-size:20px">NovaClass</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Школьная платформа</div></div>
   <div style="margin-top:22px;display:grid;gap:10px">
-   <button class="btn primary" style="justify-content:center;padding:13px;font-size:14px" onclick="openAuth('login')"><i data-lucide="log-in" style="width:16px;height:16px"></i> Вход</button>
-   <button class="btn" style="justify-content:center;padding:13px;font-size:14px" onclick="openAuth('register')"><i data-lucide="user-plus" style="width:16px;height:16px"></i> Регистрация</button>
+   <button class="btn primary" style="justify-content:center;padding:13px;font-size:14px" onclick="openAuth('login')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="log-in" aria-hidden="true" style="width:16px;height:16px" class="lucide lucide-log-in"><path d="m10 17 5-5-5-5"></path><path d="M15 12H3"></path><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path></svg> Вход</button>
+   <button class="btn" style="justify-content:center;padding:13px;font-size:14px" onclick="openAuth('register')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-plus" aria-hidden="true" style="width:16px;height:16px" class="lucide lucide-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg> Регистрация</button>
   </div>
  </div>
  <div id="loginPage" class="hidden">
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><button class="btn" onclick="openAuth('landing')"><i data-lucide="arrow-left" style="width:16px;height:16px"></i></button><div style="font-weight:700">Вход</div></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><button class="btn" onclick="openAuth('landing')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-left" aria-hidden="true" style="width:16px;height:16px" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></button><div style="font-weight:700">Вход</div></div>
   <div id="errLogin" class="error"></div>
   <input id="loginEmail" class="input" placeholder="Email" style="margin-bottom:8px">
   <input id="loginPass" class="input" type="password" placeholder="Пароль" style="margin-bottom:16px">
   <button class="btn primary" style="width:100%;justify-content:center;padding:12px" id="loginBtn" onclick="doLogin()">Войти</button>
  </div>
  <div id="registerPage" class="hidden">
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><button class="btn" onclick="openAuth('landing')"><i data-lucide="arrow-left" style="width:16px;height:16px"></i></button><div style="font-weight:700">Регистрация</div></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><button class="btn" onclick="openAuth('landing')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-left" aria-hidden="true" style="width:16px;height:16px" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></button><div style="font-weight:700">Регистрация</div></div>
   <div id="errReg" class="error"></div>
   <input id="regName" class="input" placeholder="Имя Фамилия" style="margin-bottom:8px">
   <input id="regEmail" class="input" placeholder="Email" style="margin-bottom:8px">
@@ -136,46 +347,46 @@ body.season-winter .nav-btn:hover::after, body.season-winter .nav-btn.active::af
 </div>
 </div>
 
-<div id="appRoot" style="display:none">
+<div id="appRoot" style="display: block;">
 <div class="top">
  <div style="display:flex;align-items:center;gap:12px">
-  <button class="burger" onclick="toggleSide()"><i data-lucide="menu" style="width:18px;height:18px"></i></button>
+  <button class="burger menu-toggle" onclick="toggleSide()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="menu" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-menu"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg></button>
   <div style="width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 4px 12px rgba(22,163,74,.2)">N</div>
   <div style="font-weight:800;letter-spacing:-.3px">NovaClass</div>
-  <div id="seasonBadge" style="padding:4px 10px;border-radius:100px;background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:700;display:flex;align-items:center;gap:4px">Обычный</div>
  </div>
- <button class="burger" onclick="toggleTheme()"><i data-lucide="moon" style="width:16px;height:16px"></i></button>
+ 
 </div>
 <div class="overlay" id="overlay" onclick="toggleSide()"></div>
 
 <div id="notifPermissionPrompt">
-  <div class="notif-icon"><i data-lucide="bell" style="width:20px;height:20px;color:var(--primary)"></i></div>
+  <div class="notif-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bell" aria-hidden="true" style="width:20px;height:20px;color:var(--primary)" class="lucide lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg></div>
   <div class="notif-content">
     <div class="notif-title">Разрешить уведомления?</div>
-    <div class="notif-text"><span id="notifSiteName">NovaClass</span> хочет показывать уведомления о новых сообщениях в чате, как Google запрашивает разрешение на отправку SMS. Вы будете получать уведомления, даже когда вкладка закрыта.</div>
+    <div class="notif-text">NovaClass хочет показывать уведомления о новых сообщениях в чате. Вы будете получать уведомления, даже когда вкладка закрыта.</div>
     <div class="notif-actions">
-      <button class="notif-btn allow" onclick="allowNotifications()"><i data-lucide="check" style="width:12px;height:12px"></i> Разрешить</button>
+      <button class="notif-btn allow" onclick="allowNotifications()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" aria-hidden="true" style="width:12px;height:12px" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"></path></svg> Разрешить</button>
       <button class="notif-btn block" onclick="blockNotifications()">Блокировать</button>
     </div>
   </div>
-  <button class="btn" onclick="blockNotifications()" style="width:32px;height:32px;padding:0;justify-content:center;flex-shrink:0"><i data-lucide="x" style="width:14px;height:14px"></i></button>
+  <button class="btn" onclick="blockNotifications()" style="width:32px;height:32px;padding:0;justify-content:center;flex-shrink:0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" style="width:14px;height:14px" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
 </div>
 
 <div class="layout">
  <aside class="side" id="side">
-  <div id="nav"></div>
-  <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-   <div style="display:flex;align-items:center;gap:10px"><div id="ava" style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">U</div><div><div id="sname" style="font-size:13px;font-weight:700">User</div><div id="srole" style="font-size:11px;color:var(--muted)"></div></div></div>
-   <button class="btn" style="width:100%;margin-top:14px;justify-content:center" onclick="logout()"><i data-lucide="log-out" style="width:14px;height:14px"></i> Выйти</button>
+  <div id="nav" style="flex:1"><button class="nav-btn active" onclick="switchTab('home')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-home"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Главная </span></button><button class="nav-btn " onclick="switchTab('schedule')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calendar-days" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-calendar-days"><path d="M8 2v3"></path><path d="M16 2v3"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M8 13h.01"></path><path d="M12 13h.01"></path><path d="M16 13h.01"></path><path d="M8 17h.01"></path><path d="M12 17h.01"></path><path d="M16 17h.01"></path></svg><span>Расписание </span></button><button class="nav-btn " onclick="switchTab('homework')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book-open" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-book-open"><path d="M12 5v16"></path><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"></path></svg><span>Домашние задания </span></button><button class="nav-btn " onclick="switchTab('diary')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book-marked" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-book-marked"><path d="M10 2v7.751a.25.25 0 00.407.195l2.28-1.834a.5.5 0 01.627 0l2.28 1.834A.25.25 0 0016 9.751V2"></path><path d="M4 19.5v-15A2.5 2.5 0 016.5 2H19a1 1 0 011 1v18a1 1 0 01-1 1H6.5a1 1 0 010-5H20"></path></svg><span>Дневник <span style="font-size:10px;opacity:.6;font-weight:400">в разработке</span></span></button><button class="nav-btn " onclick="switchTab('chat')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-circle" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-message-circle"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg><span>Чат </span></button></div>
+  <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border);position:sticky;bottom:0;background:inherit">
+   <div style="display:flex;align-items:center;gap:10px"><div id="ava" style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">M</div><div><div id="sname" style="font-size:13px;font-weight:700">maksimsuhomlinov52@gmail.com</div><div id="srole" style="font-size:11px;color:var(--muted)">Ученик</div></div></div>
+   <button class="btn" style="width:100%;margin-top:14px;justify-content:center" onclick="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="log-out" aria-hidden="true" style="width:14px;height:14px" class="lucide lucide-log-out"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg> Выйти</button>
   </div>
  </aside>
- <main class="main"><div id="page"></div></main>
+ <main class="main"><div id="page"><div class="banner personal-banner" style="border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:22px;position:relative;overflow:hidden"><div style="position:relative;z-index:2"><div style="font-weight:800;font-size:22px;line-height:1.2">Добро пожаловать</div><div style="font-size:13px;opacity:.92;margin-top:6px">Официальная платформа • Для maksimsuhomlinov52@gmail.com</div></div></div></div></main>
 </div>
+<div class="bottom-nav" id="bottomNav"><button class="bnav-btn active" onclick="switchTab('home')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" aria-hidden="true" class="lucide lucide-home"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Главная</span></button><button class="bnav-btn " onclick="switchTab('schedule')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calendar-days" aria-hidden="true" class="lucide lucide-calendar-days"><path d="M8 2v3"></path><path d="M16 2v3"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M8 13h.01"></path><path d="M12 13h.01"></path><path d="M16 13h.01"></path><path d="M8 17h.01"></path><path d="M12 17h.01"></path><path d="M16 17h.01"></path></svg><span>Расписание</span></button><button class="bnav-btn " onclick="switchTab('homework')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book-open" aria-hidden="true" class="lucide lucide-book-open"><path d="M12 5v16"></path><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"></path></svg><span>Домашние задания</span></button><button class="bnav-btn " onclick="switchTab('chat')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-circle" aria-hidden="true" class="lucide lucide-message-circle"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg><span>Чат</span></button></div>
 </div>
 
-<div id="modalSched" style="position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);z-index:60;display:none;align-items:center;justify-content:center;padding:16px"><div class="card" style="width:100%;max-width:420px;animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 20px 60px rgba(0,0,0,.15)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="font-weight:800;display:flex;align-items:center;gap:8px"><i data-lucide="calendar-plus" style="width:18px;height:18px"></i> <span id="schedModalTitle">Новый урок</span></div><button class="btn" onclick="closeModal('modalSched')" style="width:36px;height:36px;padding:0;justify-content:center"><i data-lucide="x" style="width:16px;height:16px"></i></button></div><div style="display:grid;gap:12px"><select id="mDay" class="input"></select><input id="mTime" class="input" placeholder="08:00 — 08:45"><input id="mSubj" class="input" placeholder="Предмет"><input id="mTeacher" class="input" placeholder="Учитель"><input id="mRoom" class="input" placeholder="Кабинет"></div><div style="display:flex;gap:10px;margin-top:18px"><button class="btn" style="flex:1;justify-content:center" onclick="closeModal('modalSched')">Отмена</button><button class="btn primary" style="flex:1;justify-content:center" onclick="saveSched()"><i data-lucide="check" style="width:14px;height:14px"></i> Сохранить</button></div></div></div>
+<div id="modalSched" style="position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);z-index:60;display:none;align-items:center;justify-content:center;padding:16px"><div class="card" style="width:100%;max-width:420px;animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 20px 60px rgba(0,0,0,.15)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="font-weight:800;display:flex;align-items:center;gap:8px"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calendar-plus" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-calendar-plus"><path d="M16 18h6"></path><path d="M16 2v3"></path><path d="M19 15v6"></path><path d="M21 11.5V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h8.3"></path><path d="M3 9h18"></path><path d="M8 2v3"></path></svg> <span id="schedModalTitle">Новый урок</span></div><button class="btn" onclick="closeModal('modalSched')" style="width:36px;height:36px;padding:0;justify-content:center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" style="width:16px;height:16px" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div><div style="display:grid;gap:12px"><select id="mDay" class="input"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Четверг</option><option>Пятница</option><option>Суббота</option></select><input id="mTime" class="input" placeholder="08:00 — 08:45"><input id="mSubj" class="input" placeholder="Предмет"><input id="mTeacher" class="input" placeholder="Учитель"><input id="mRoom" class="input" placeholder="Кабинет"></div><div style="display:flex;gap:10px;margin-top:18px"><button class="btn" style="flex:1;justify-content:center" onclick="closeModal('modalSched')">Отмена</button><button class="btn primary" style="flex:1;justify-content:center" onclick="saveSched()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" aria-hidden="true" style="width:14px;height:14px" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"></path></svg> Сохранить</button></div></div></div>
 
-<div id="modalHw" style="position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);z-index:60;display:none;align-items:center;justify-content:center;padding:16px"><div class="card" style="width:100%;max-width:420px;animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 20px 60px rgba(0,0,0,.15)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="font-weight:800;display:flex;align-items:center;gap:8px"><i data-lucide="book-open" style="width:18px;height:18px"></i> <span id="hwModalTitle">Домашнее задание</span></div><button class="btn" onclick="closeModal('modalHw')" style="width:36px;height:36px;padding:0;justify-content:center"><i data-lucide="x" style="width:16px;height:16px"></i></button></div><div style="display:grid;gap:12px"><select id="hwDay" class="input"></select><input id="hwSubject" class="input" placeholder="Предмет"><textarea id="hwTask" class="input" placeholder="Задание" style="min-height:80px;resize:vertical"></textarea><input id="hwDeadline" class="input" placeholder="Срок сдачи"></div><div style="display:flex;gap:10px;margin-top:18px"><button class="btn" style="flex:1;justify-content:center" onclick="closeModal('modalHw')">Отмена</button><button class="btn primary" style="flex:1;justify-content:center" onclick="saveHw()"><i data-lucide="check" style="width:14px;height:14px"></i> Сохранить</button></div></div></div>
+<div id="modalHw" style="position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);z-index:60;display:none;align-items:center;justify-content:center;padding:16px"><div class="card" style="width:100%;max-width:420px;animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 20px 60px rgba(0,0,0,.15)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="font-weight:800;display:flex;align-items:center;gap:8px"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book-open" aria-hidden="true" style="width:18px;height:18px" class="lucide lucide-book-open"><path d="M12 5v16"></path><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"></path></svg> <span id="hwModalTitle">Домашнее задание</span></div><button class="btn" onclick="closeModal('modalHw')" style="width:36px;height:36px;padding:0;justify-content:center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" style="width:16px;height:16px" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div><div style="display:grid;gap:12px"><select id="hwDay" class="input"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Четверг</option><option>Пятница</option><option>Суббота</option></select><input id="hwSubject" class="input" placeholder="Предмет"><textarea id="hwTask" class="input" placeholder="Задание" style="min-height:80px;resize:vertical"></textarea><input id="hwDeadline" class="input" placeholder="Срок сдачи"></div><div style="display:flex;gap:10px;margin-top:18px"><button class="btn" style="flex:1;justify-content:center" onclick="closeModal('modalHw')">Отмена</button><button class="btn primary" style="flex:1;justify-content:center" onclick="saveHw()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" aria-hidden="true" style="width:14px;height:14px" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"></path></svg> Сохранить</button></div></div></div>
 
 <script>
 const GAS_URL='https://script.google.com/macros/s/AKfycbzIHwTxKCJUpZUuqJd0-QHJ-tjTx3CCIDEyvzpZVCxYWkcYprY1Wp723J5jP9s_PA/exec';
@@ -193,8 +404,51 @@ function getTodayFull(){
 }
 let todayDay=getTodayDayName();
 const DAYS_ALL=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
-let activeDay=(['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'].includes(todayDay)?todayDay:'Понедельник');
+let activeDay=(['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'].includes(todayDay)?todayDay:'Понедельник');
 const DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+
+
+
+function getNowLessonInfo(lessons){
+  if(!lessons||!lessons.length) return null;
+  if(activeDay!==todayDay) return null;
+  const now = new Date();
+  const nowMin = now.getHours()*60+now.getMinutes();
+  for(let s of lessons){
+    if(!s.time) continue;
+    const parts = s.time.split('—').map(p=>p.trim());
+    if(parts.length<2) continue;
+    const st = parseTime(parts[0]);
+    const en = parseTime(parts[1]);
+    if(nowMin>=st && nowMin<=en){
+      const prog = Math.max(0,Math.min(100, ((nowMin-st)/(en-st))*100 ));
+      return {id:s.id, progress:prog};
+    }
+  }
+  return null;
+}
+function getSubjectColors(){
+  const colors = ['#22c55e','#3b82f6','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#10b981'];
+  const map={};
+  let i=0;
+  for(let s of schedule){
+    if(!map[s.subject]){
+      map[s.subject]=colors[i%colors.length];
+      i++;
+    }
+  }
+  return map;
+}
+function jumpToday(){
+  activeDay=todayDay;
+  currentDayIndex=DAYS.indexOf(activeDay);
+  renderPage();
+}
+function formatDateShort(dt){
+  if(!dt) return '';
+  try{return dt.toLocaleDateString('ru-RU',{day:'2-digit',month:'short'}).toUpperCase();}catch{return '';}
+}
+
 const ROLES={student:'Ученик',starosta:'Староста',teacher:'Учитель',moderator:'Модератор',admin:'Администратор',creator:'Создатель',director:'Директор',curator:'Куратор'};
 async function hashPwd(p){
  try{
@@ -218,9 +472,26 @@ function getStoredSessionKey(){const keys=['nc_session_key','nc_session_key_v1',
 function saveSessionKeys(key,user){if(!key) return; try{localStorage.setItem('nc_session_key',key);localStorage.setItem('nc_session_key_v1',key);localStorage.setItem('nc_session_key_backup',key);localStorage.setItem('nc_sess',key);localStorage.setItem('session',JSON.stringify({...user,_session_key:key}));localStorage.setItem('nc_user_persistent',JSON.stringify(user));}catch{}}
 function getStoredUser(){try{const s=localStorage.getItem('session'); if(s){const u=JSON.parse(s); if(u.email) return u;}const p=localStorage.getItem('nc_user_persistent'); if(p) return JSON.parse(p);}catch{}return null;}
 function openAuth(which){$('authLanding').classList.add('hidden');$('loginPage').classList.add('hidden');$('registerPage').classList.add('hidden');if(which==='login')$('loginPage').classList.remove('hidden');else if(which==='register')$('registerPage').classList.remove('hidden');else $('authLanding').classList.remove('hidden'); if(window.lucide) lucide.createIcons();}
-function toggleSide(){sideOpen=!sideOpen;const side=$('side');const overlay=$('overlay');if(sideOpen){side.classList.add('open');side.classList.remove('closed');overlay.classList.add('show');}else{side.classList.remove('open');side.classList.add('closed');overlay.classList.remove('show');}if(window.lucide) lucide.createIcons();}
-function toggleTheme(){document.body.classList.toggle('dark');localStorage.setItem('nc_theme',document.body.classList.contains('dark')?'dark':'light');}
-if(localStorage.getItem('nc_theme')==='dark') document.body.classList.add('dark');
+
+function toggleSide(){
+  const w = window.innerWidth;
+  const side=$('side');
+  const overlay=$('overlay');
+  const top=document.querySelector('.top');
+  if(w > 1024){ return; }
+  if(w > 700 && w <= 1024){
+    side.classList.toggle('open');
+    if(top) top.classList.toggle('menu-open', side.classList.contains('open'));
+    if(window.lucide) lucide.createIcons();
+    return;
+  }
+  sideOpen=!sideOpen;
+  if(sideOpen){side.classList.add('open');side.classList.remove('closed');overlay.classList.add('show');}
+  else{side.classList.remove('open');side.classList.add('closed');overlay.classList.remove('show');}
+  if(window.lucide) lucide.createIcons();
+}
+
+function toggleTheme(){}
 function showApp(user){
   $('authRoot').classList.add('hide');
   $('authRoot').style.display='none';
@@ -228,15 +499,11 @@ function showApp(user){
   $('sname').textContent=user.name;
   $('ava').textContent=user.name[0].toUpperCase();
   $('srole').textContent=ROLES[user.role]||user.role;
-  loadSeason();
   renderNav();
   loadData();
-  // Персонализация: приветствие в загрузке
   const loaderSub=$('loaderSub');
-  if(loaderSub) loaderSub.textContent=`Привет, ${user.name.split(' ')[0]}! • Загрузка...`;
-  // Показать запрос на уведомления как Google через 2 сек
+  if(loaderSub) loaderSub.textContent=`Загрузка...`;
   setTimeout(()=>{checkAndShowNotifPrompt();}, 2500);
-  // Запустить проверку новых сообщений каждые 8 сек
   setInterval(()=>{checkNewMessages();}, 8000);
   if(window.lucide) lucide.createIcons();
 }
@@ -244,89 +511,56 @@ function showAuth(){$('authRoot').style.display='flex';$('authRoot').classList.r
 async function doLogin(){const email=$('loginEmail').value.trim().toLowerCase(),pass=$('loginPass').value.trim(),err=$('errLogin');if(!email||!pass){err.textContent='Заполните поля';err.classList.add('show');return;}$('loginBtn').textContent='...';$('loginBtn').disabled=true;try{const h=await hashPwd(pass);const res=await api.post({action:'login',email,passHash:h});const key=res.session_key||res.sessionKey||'nc_sess_'+Date.now()+Math.random().toString(36).slice(2);saveSessionKeys(key,res.user);try{await api.post({action:'save_session',session_key:key,email:res.user.email,user_id:res.user.id});}catch{}currentUser=res.user;showApp(res.user);}catch(e){err.textContent=e.message;err.classList.add('show');}finally{$('loginBtn').textContent='Войти';$('loginBtn').disabled=false;}}
 async function doRegister(){const name=$('regName').value.trim(),email=$('regEmail').value.trim().toLowerCase(),pass=$('regPass').value.trim(),err=$('errReg');if(name.length<2){err.textContent='Имя мин 2';err.classList.add('show');return;}if(!email.includes('@')){err.textContent='Неверный email';err.classList.add('show');return;}if(pass.length<6){err.textContent='Пароль мин 6';err.classList.add('show');return;}$('regBtn').textContent='...';$('regBtn').disabled=true;try{const h=await hashPwd(pass);const res=await api.post({action:'register',name,email,passHash:h,role:'student'});const key=res.session_key||res.sessionKey||'nc_sess_'+Date.now()+Math.random().toString(36).slice(2);saveSessionKeys(key,res.user);try{await api.post({action:'save_session',session_key:key,email:res.user.email,user_id:res.user.id});}catch{}currentUser=res.user;showApp(res.user);}catch(e){err.textContent=e.message;err.classList.add('show');}finally{$('regBtn').textContent='Создать аккаунт';$('regBtn').disabled=false;}}
 function logout(){try{const k=getStoredSessionKey();if(k) api.post({action:'delete_session',session_key:k}).catch(()=>{});}catch{}['nc_session_key','nc_session_key_v1','nc_session_key_backup','nc_sess','session','nc_user_persistent'].forEach(k=>{try{localStorage.removeItem(k)}catch{}});location.reload();}
-const SEASONS={
- regular:{id:'regular',name:'Обычный',icon:'layout',color:'#16a34a',light:'#4ade80',loaderClass:'loader-regular',text:'Основной интерфейс',desc:'Чистый и стабильный'},
- spring:{id:'spring',name:'Весенний',icon:'flower-2',color:'#16a34a',light:'#86efac',loaderClass:'loader-spring',text:'Весна • ',desc:'Яркая зелень и цветение'},
- summer:{id:'summer',name:'Летний',icon:'sun',color:'#f59e0b',light:'#fcd34d',loaderClass:'loader-summer',text:'Лето • Солнечные дни',desc:''},
- autumn:{id:'autumn',name:'Осенний',icon:'leaf',color:'#ea580c',light:'#fdba74',loaderClass:'loader-autumn',text:'',desc:''},
- winter:{id:'winter',name:'Зимний',icon:'snowflake',color:'#0ea5e9',light:'#7dd3fc',loaderClass:'loader-winter',text:'Зима • Снежная сказка',desc:'Снежинки в меню'}
-};
-function getSeasonById(id){return SEASONS[id]||SEASONS.regular;}
-function getCurrentSeasonByDate(){const m=new Date().getMonth();if([2,3,4].includes(m)) return SEASONS.spring;if([5,6,7].includes(m)) return SEASONS.summer;if([8,9,10].includes(m)) return SEASONS.autumn;if([11,0,1].includes(m)) return SEASONS.winter;return SEASONS.regular;}
-function createWowLoader(season){
- const loader=$('loader');const anim=$('loaderAnim');const sub=$('loaderSub');const details=$('loaderDetails');
- if(!loader||!anim) return;
- loader.className='';loader.id='loader';loader.classList.add(season.loaderClass);
- if(sub) sub.textContent=season.text;
- anim.innerHTML='';
- if(season.id==='regular'){
-  if(details) details.textContent='Стабильная загрузка • Основной режим';
-  for(let i=0;i<3;i++){const d=document.createElement('div');d.style.cssText='position:absolute;width:80px;height:80px;border:2px solid rgba(255,255,255,.2);border-radius:16px;left:50%;top:50%;transform:translate(-50%,-50%) rotate('+i*15+'deg);animation:spinSlow '+(8+i*2)+'s linear infinite';anim.appendChild(d);}
- }
- if(season.id==='spring'){
-  if(details) details.textContent='Цветение • Насыщенные зеленые оттенки';
-  for(let i=0;i<14;i++){const p=document.createElement('div');p.style.cssText='position:absolute;left:'+(5+i*7)+'%;top:-20px;background:linear-gradient(135deg,'+['#f9a8d4','#f472b6','#a7f3d0','#6ee7b7'][i%4]+','+['#f472b6','#ec4899','#34d399','#10b981'][i%4]+');border-radius:50% 0 50% 0;width:'+(8+Math.random()*10)+'px;height:'+(8+Math.random()*10)+'px;animation:petalFall '+(4+Math.random()*3)+'s linear infinite;animation-delay:'+(Math.random()*2)+'s';anim.appendChild(p);}
- }
- if(season.id==='summer'){
-  if(details) details.textContent='Солнце • Загрузка';
-  const sun=document.createElement('div');sun.style.cssText='position:absolute;width:120px;height:120px;background:radial-gradient(circle,#fef3c7,#fbbf24);border-radius:50%;left:50%;top:20%;transform:translateX(-50%);box-shadow:0 0 40px rgba(251,191,36,.6),0 0 80px rgba(251,191,36,.3);animation:pulseGlow 2.5s ease-in-out infinite';anim.appendChild(sun);
- }
- if(season.id==='autumn'){
-  if(details) details.textContent='Листопад • Красота осени в загрузке';
-  for(let i=0;i<15;i++){const leaf=document.createElement('div');leaf.textContent=['🍂','🍁','🍃'][i%3];leaf.style.cssText='position:absolute;left:'+(Math.random()*100)+'%;top:-30px;font-size:'+(14+Math.random()*12)+'px;animation:leafFall '+(5+Math.random()*4)+'s linear infinite;animation-delay:'+(Math.random()*3)+'s';anim.appendChild(leaf);}
- }
- if(season.id==='winter'){
-  if(details) details.textContent='Снегопад • Загрузка';
-  for(let i=0;i<26;i++){const snow=document.createElement('div');snow.textContent='❄';snow.style.cssText='position:absolute;left:'+(Math.random()*100)+'%;top:-20px;font-size:'+(8+Math.random()*16)+'px;color:rgba(255,255,255,'+(0.5+Math.random()*0.5)+');animation:snowFall '+(6+Math.random()*4)+'s linear infinite;animation-delay:'+(Math.random()*4)+'s';anim.appendChild(snow);}
- }
-}
-function loadSeason(){
- try{
-  const raw=localStorage.getItem('nc_site_settings');
-  let cur=getCurrentSeasonByDate();
-  if(raw){
-   const settings=JSON.parse(raw);
-   if(settings.season){
-    const cfg=settings.season;
-    if(cfg.mode==='manual'&&cfg.current&&SEASONS[cfg.current]) cur=SEASONS[cfg.current];
-    if(cfg.customColors&&cfg.customColors[cur.id]&&cfg.customColors[cur.id].primary){
-     document.documentElement.style.setProperty('--primary',cfg.customColors[cur.id].primary);
-     document.documentElement.style.setProperty('--primary-light',cfg.customColors[cur.id].light||cfg.customColors[cur.id].primary);
-    }else{
-     document.documentElement.style.setProperty('--primary',cur.color);
-     document.documentElement.style.setProperty('--primary-light',cur.light);
-    }
-   }else{
-    document.documentElement.style.setProperty('--primary',cur.color);
-    document.documentElement.style.setProperty('--primary-light',cur.light);
-   }
-  }else{
-   document.documentElement.style.setProperty('--primary',cur.color);
-   document.documentElement.style.setProperty('--primary-light',cur.light);
-  }
-  document.body.classList.remove('season-regular','season-spring','season-summer','season-autumn','season-winter');
-  document.body.classList.add('season-'+cur.id);
-  createWowLoader(cur);
-  const badge=$('seasonBadge'); if(badge) badge.textContent=cur.name;
- }catch(e){createWowLoader(getCurrentSeasonByDate());}
-}
 async function loadData(){
  const loader=$('loader');const progress=$('loaderProgress');
- if(loader) loader.style.display='flex';
+ const details=$('loaderDetails');
+ const sub=$('loaderSub');
+ if(loader){loader.style.display='flex';loader.classList.remove('hide');}
+ const startTime = Date.now();
+ const MIN_LOAD_TIME = 3000;
  loadCache();
- let pct=0;const interval=setInterval(()=>{pct=Math.min(pct+7,88);if(progress) progress.style.width=pct+'%';},140);
- try{
-  const key=getStoredSessionKey();
-  const data=await api.get('getAllData',{session_key:key||''});
-  schedule=data.schedule||[];homework=data.homework||[];messages=data.messages||[];
-  if(data.settings){const ctrl=data.settings.find(s=>s.key==='site_control'); if(ctrl){localStorage.setItem('nc_site_settings',ctrl.value);loadSeason();}}
-  if(data.events&&data.events.length) localStorage.setItem('main_event',JSON.stringify({title:data.events[0].title,sub:data.events[0].sub}));
-  saveCache();
-  if(progress) progress.style.width='100%';
- }catch(e){}
- clearInterval(interval);
- setTimeout(()=>{if(loader) loader.classList.add('hide');},2600);
- renderPage();
+ if(schedule.length>0 || homework.length>0){ renderPage(); }
+ let pct=0;
+ const progressInterval=setInterval(()=>{
+   const elapsed = Date.now() - startTime;
+   pct = Math.min((elapsed / MIN_LOAD_TIME) * 100, 100);
+   if(progress) progress.style.width=pct+'%';
+   if(details){
+     if(pct<25) details.textContent='Подключение...';
+     else if(pct<50) details.textContent='Загрузка расписания...';
+     else if(pct<75) details.textContent='Синхронизация...';
+     else if(pct<95) details.textContent='Почти готово...';
+     else details.textContent='Добро пожаловать!';
+   }
+ }, 50);
+ (async()=>{
+   try{
+     const key=getStoredSessionKey();
+     const qs=new URLSearchParams({action:'getAllData',session_key:key||'',t:Date.now()}).toString();
+     const r=await fetch(GAS_URL+'?'+qs,{cache:'no-store'});
+     if(r.ok){
+       const data=await r.json();
+       if(data.status!=='error'){
+         schedule=data.schedule||schedule;
+         homework=data.homework||homework;
+         messages=data.messages||messages;
+         if(data.settings){const ctrl=data.settings.find(s=>s.key==='site_control'); if(ctrl){localStorage.setItem('nc_site_settings',ctrl.value);}}
+         if(data.events&&data.events.length) localStorage.setItem('main_event',JSON.stringify({title:data.events[0].title,sub:data.events[0].sub}));
+         saveCache();
+         renderPage();
+       }
+     }
+   }catch(e){}
+ })();
+ await new Promise(res=>setTimeout(res, MIN_LOAD_TIME));
+ clearInterval(progressInterval);
+ if(progress) progress.style.width='100%';
+ if(sub) sub.textContent=`Привет, ${getFirstName()}!`;
+ if(details) details.textContent='Добро пожаловать!';
+ setTimeout(()=>{
+   if(loader) loader.classList.add('hide');
+   renderPage();
+ }, 300);
 }
 function renderNav(){
  const tabs=[
@@ -337,80 +571,222 @@ function renderNav(){
   {id:'chat',label:'Чат',icon:'message-circle'}
  ];
  $('nav').innerHTML=tabs.map(t=>`<button class="nav-btn ${currentTab===t.id?'active':''}" onclick="switchTab('${t.id}')"><i data-lucide="${t.icon}" style="width:18px;height:18px"></i><span>${t.label} ${t.sub?`<span style="font-size:10px;opacity:.6;font-weight:400">${t.sub}</span>`:''}</span></button>`).join('');
+ // bottom nav - without diary (в разработке)
+ const bottomTabs = tabs.filter(t=>t.id!=='diary');
+ const bottomNavEl = $('bottomNav');
+ if(bottomNavEl){
+   bottomNavEl.innerHTML = bottomTabs.map(t=>`<button class="bnav-btn ${currentTab===t.id?'active':''}" onclick="switchTab('${t.id}')"><i data-lucide="${t.icon}"></i><span>${t.label}</span></button>`).join('');
+ }
  if(window.lucide) lucide.createIcons();
 }
-window.switchTab=(id)=>{currentTab=id;renderNav();renderPage();if(window.innerWidth<=900 && sideOpen) toggleSide();}
-function getEmptyScheduleHTML(season){
+window.switchTab=(id)=>{currentTab=id;renderNav();renderPage();if(window.innerWidth<=700 && sideOpen) toggleSide();}
+function getEmptyScheduleHTML(){
+  return `<div class="card" style="text-align:center;padding:28px 20px;border:1px dashed var(--border);background:var(--bg)"><div style="width:56px;height:56px;border-radius:14px;background:var(--primary-soft);display:flex;align-items:center;justify-content:center;margin:0 auto"><i data-lucide="coffee" style="width:24px;height:24px;color:var(--primary)"></i></div><div style="font-weight:700;margin-top:12px">Свободный день</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Уроков на ${activeDay.toLowerCase()} нет • Отдохни!</div><button class="btn primary" style="margin:14px auto 0" onclick="openSchedModal()"><i data-lucide="plus" style="width:12px;height:12px"></i> Добавить урок</button></div>`;
+}
+function getEmptyScheduleHTML_old(){
   const firstName = (typeof getFirstName==='function'?getFirstName():'Ученик');
   return `
   <div class="card" style="text-align:center;padding:40px 24px;background:linear-gradient(135deg,var(--card),var(--bg));border:1px solid var(--border);position:relative;overflow:hidden">
     <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--primary-soft),transparent 70%);opacity:.6;pointer-events:none"></div>
     <div style="position:relative;z-index:2">
-      <div style="display:inline-flex;align-items:center;gap:8px;margin:0 auto 12px;padding:6px 12px;border-radius:100px;background:var(--bg);border:1px solid var(--border);font-size:11px;font-weight:600;color:var(--muted)"><div style="width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">${(currentUser?currentUser.name[0].toUpperCase():'U')}</div> Персонально для ${firstName} • ${season.name}</div>
+      <div style="display:inline-flex;align-items:center;gap:8px;margin:0 auto 12px;padding:6px 12px;border-radius:100px;background:var(--bg);border:1px solid var(--border);font-size:11px;font-weight:600;color:var(--muted)"><div style="width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">${(currentUser?currentUser.name[0].toUpperCase():'U')}</div> </div>
       <div style="width:72px;height:72px;border-radius:20px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto;animation:float 3s ease-in-out infinite"><i data-lucide="calendar-x" style="width:32px;height:32px;color:var(--muted)"></i></div>
-      <div style="font-weight:800;font-size:20px;color:var(--text);margin-top:16px">Расписание уроков отсутствует, ${firstName}</div>
-      <div style="font-size:14px;color:var(--muted);margin-top:8px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.5">Расписание для выбранного дня еще не составлено, ${firstName}. Пожалуйста, обратитесь к создателю сайта.</div>
-      
-      <div style="position:relative;width:100%;max-width:420px;height:160px;margin:24px auto 0">
-        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:180px;height:100px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.06);display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px">
-          <div style="height:18px;background:var(--bg);border-radius:6px;border:1px dashed var(--border)"></div>
-          <div style="height:18px;background:var(--bg);border-radius:6px;border:1px dashed var(--border)"></div>
-          <div style="height:18px;background:var(--bg);border-radius:6px;border:1px dashed var(--border)"></div>
-          <div style="height:18px;background:var(--bg);border-radius:6px;border:1px dashed var(--border)"></div>
-          <div style="height:18px;background:var(--primary-soft);border-radius:6px"></div>
-          <div style="height:18px;background:var(--bg);border-radius:6px;border:1px dashed var(--border)"></div>
-        </div>
-        <div style="position:absolute;left:18%;top:16%;width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);animation:float 3.2s ease-in-out infinite"><i data-lucide="book-open" style="width:16px;height:16px;color:var(--muted)"></i></div>
-        <div style="position:absolute;right:18%;top:18%;width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);animation:float 3.5s ease-in-out infinite;animation-delay:.4s"><i data-lucide="graduation-cap" style="width:16px;height:16px;color:var(--muted)"></i></div>
-      </div>
+      <div style="font-weight:800;font-size:20px;color:var(--text);margin-top:16px">Расписание уроков отсутствует</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:8px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.5">Расписание для выбранного дня еще не составлено.</div>
     </div>
   </div>`;
 }
-
-
-
 function renderPage(){
  const page=$('page'); if(!page) return; page.innerHTML='';
  const ev=JSON.parse(localStorage.getItem('main_event')||'null');
- const season=(()=>{try{const raw=localStorage.getItem('nc_site_settings'); if(raw){const s=JSON.parse(raw); if(s.season&&s.season.current&&SEASONS[s.season.current]){if(s.season.mode==='manual') return SEASONS[s.season.current];}} }catch{} return getCurrentSeasonByDate();})();
  const todaySched=schedule.filter(s=>s.day===todayDay);
  const todayHw=homework.filter(h=>h.day===todayDay);
- if(currentTab==='home'){
-  page.innerHTML=`<div class="banner personal-banner"><div style="position:relative;z-index:2"><div style="font-size:11px;opacity:.9;display:flex;align-items:center;gap:6px;font-weight:600"><i data-lucide="${season.icon}" style="width:14px;height:14px"></i> ${season.name} • Лично для ${getFirstName()}</div><div style="font-weight:800;font-size:22px;margin-top:6px;line-height:1.2">${ev?ev.title:`Привет, ${getFirstName()}! Добро пожаловать в NovaClass`}</div><div style="font-size:13px;opacity:.92;margin-top:6px">${ev?ev.sub:`Официальная платформа • Сегодня ${todayDay} • ${getTodayFull()} • Для ${currentUser?currentUser.name:''}`}</div><div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap"><span style="padding:6px 14px;border-radius:100px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);font-size:11px;font-weight:600">Сегодня • ${getTodayFull()}</span></div></div><div style="width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.2);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;animation:float 3s ease-in-out infinite;position:relative;z-index:2"><i data-lucide="${season.icon}" style="width:28px;height:28px"></i></div></div>
-  <div class="stats-grid"><div class="card" style="text-align:center;background:linear-gradient(135deg,var(--card),var(--primary-soft))"><div style="font-size:24px;font-weight:800;color:var(--primary)">${todaySched.length}</div><div style="font-size:11px;color:var(--muted);font-weight:600">УРОКОВ СЕГОДНЯ</div><div style="font-size:10px;color:var(--muted)">Всего </div></div><div class="card" style="text-align:center;background:linear-gradient(135deg,var(--card),var(--primary-soft))"><div style="font-size:24px;font-weight:800;color:var(--primary)">${todayHw.length}</div><div style="font-size:11px;color:var(--muted);font-weight:600">ДЗ СЕГОДНЯ</div><div style="font-size:10px;color:var(--muted)">Всего ${homework.length}</div></div></div>
-  <div class="card"><div style="font-weight:700;display:flex;align-items:center;gap:8px"><i data-lucide="clock-3" style="width:16px;height:16px;color:var(--primary)"></i> Сегодня</div><div style="margin-top:12px">${todaySched.slice(0,3).map(s=>`<div style="padding:12px;border-radius:12px;background:linear-gradient(135deg,var(--bg),var(--primary-soft));border:1px solid var(--border);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600;font-size:13px">${s.subject}</div><div style="font-size:11px;color:var(--muted)">${s.time}</div></div><i data-lucide="chevron-right" style="width:14px;height:14px;color:var(--muted)"></i></div>`).join('')||'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">Нет занятий сегодня</div>'}</div></div>`;
+        if(currentTab==='home'){
+  const evList = (()=>{try{const e=localStorage.getItem('main_event'); if(!e) return []; const j=JSON.parse(e); if(j && j.title) return [j]; return [];}catch{return []}})();
+  // Зеленый баннер всегда есть
+  const bannerTitle = evList.length>0 ? evList[0].title : `Добро пожаловать`;
+  const bannerSub = evList.length>0 ? evList[0].sub : `Официальная платформа • Для ${currentUser?currentUser.name:''}`;
+  // Белую карточку с полоской слева (Добро пожаловать + Скоро) - УДАЛЯЕМ полностью
+  page.innerHTML=`<div class="banner personal-banner" style="border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:22px;position:relative;overflow:hidden"><div style="position:relative;z-index:2"><div style="font-weight:800;font-size:22px;line-height:1.2">${bannerTitle}</div><div style="font-size:13px;opacity:.92;margin-top:6px">${bannerSub}</div></div></div>`;
  }
  if(currentTab==='schedule'){
-  const isWeekend = todayDay==='Воскресенье';
   if(schedule.length===0){
-   page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-weight:800;display:flex;align-items:center;gap:8px"><i data-lucide="calendar-days" style="width:18px;height:18px"></i> Расписание • Сегодня Сегодня • ${getTodayFull()}</div><button class="btn primary" onclick="openSchedModal()"><i data-lucide="plus" style="width:14px;height:14px"></i> Урок</button></div>`+getEmptyScheduleHTML(season);
+   page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-weight:800;display:flex;align-items:center;gap:8px"><i data-lucide="calendar-days" style="width:18px;height:18px"></i> Расписание</div><button class="btn primary" onclick="openSchedModal()"><i data-lucide="plus" style="width:14px;height:14px"></i> Урок</button></div>`+getEmptyScheduleHTML();
   }else{
-   page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div><div style="font-weight:800;display:flex;align-items:center;gap:8px"><i data-lucide="calendar-days" style="width:18px;height:18px"></i> Расписание •  • Сегодня Сегодня ${isWeekend?'(выходной)':''}</div><div style="font-size:11px;color:var(--muted)">${getTodayFull()} • ${season.name}</div></div><button class="btn primary" onclick="openSchedModal()"><i data-lucide="plus" style="width:14px;height:14px"></i> Урок</button></div>
-   <div class="day-tabs">${DAYS.map(d=>{const isToday=d===todayDay; return `<button class="day-tab ${activeDay===d?'active':''}" onclick="activeDay='${d}';renderPage()">${d}${isToday?' • Сегодня':''}</button>`;}).join('')}</div>
-   <div style="margin-top:14px">${schedule.filter(s=>s.day===activeDay).map(s=>`<div class="row" style="border-left:4px solid var(--primary)"><div><div style="font-size:11px;color:var(--muted)">${s.time}</div><div style="font-weight:700">${s.subject}</div><div style="font-size:11px;color:var(--muted)">${s.teacher||''} ${s.room||''}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="editSched('${s.id}')"><i data-lucide="pencil" style="width:12px;height:12px"></i></button><button class="btn" onclick="deleteSched('${s.id}')"><i data-lucide="trash-2" style="width:12px;height:12px"></i></button></div></div>`).join('')||getEmptyScheduleHTML(season)}</div>`;
+   page.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div><div style="font-weight:800;display:flex;align-items:center;gap:8px"><i data-lucide="calendar-days" style="width:18px;height:18px"></i> Расписание • ${todayDay==='Воскресенье'?'(выходной)':''}</div></div><button class="btn primary" onclick="openSchedModal()"><i data-lucide="plus" style="width:14px;height:14px"></i> Урок</button></div>
+   ${getDayNavHTML()}<div class="schedule-wrapper" id="scheduleWrapper"><div class="schedule-inner slide-active" id="scheduleInner"><div style="margin-top:14px">${schedule.filter(s=>s.day===activeDay).map(s=>`<div class="row" style="border-left:4px solid var(--primary)"><div><div style="font-size:11px;color:var(--muted)">${s.time}</div><div style="font-weight:700">${s.subject}</div><div style="font-size:11px;color:var(--muted)">${s.teacher||''} ${s.room||''}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="editSched('${s.id}')"><i data-lucide="pencil" style="width:12px;height:12px"></i></button><button class="btn" onclick="deleteSched('${s.id}')"><i data-lucide="trash-2" style="width:12px;height:12px"></i></button></div></div>`).join('')||getEmptyScheduleHTML()}</div></div></div>`;
   }
  }
  if(currentTab==='homework'){
-  page.innerHTML=`<div style="font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px"><i data-lucide="book-open" style="width:18px;height:18px"></i> Домашние задания • ${homework.length}</div><div class="day-tabs">${DAYS.map(d=>{const isToday=d===todayDay; return `<button class="day-tab ${activeDay===d?'active':''}" onclick="activeDay='${d}';renderPage()">${d}${isToday?' • Сегодня':''}</button>`;}).join('')}</div><div style="margin-top:14px">${homework.filter(h=>h.day===activeDay).map(h=>`<div class="row"><div style="flex:1"><div style="font-weight:600">${h.subject}</div><div style="font-size:13px;margin-top:4px">${h.task}</div><div style="font-size:11px;color:var(--muted)">${h.deadline||''}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="editHw('${h.id}')"><i data-lucide="pencil" style="width:12px;height:12px"></i></button><button class="btn" onclick="deleteHw('${h.id}')"><i data-lucide="trash-2" style="width:12px;height:12px"></i></button></div></div>`).join('')||'<div class="card" style="text-align:center;color:var(--muted)">Нет заданий</div>'}</div>`;
+  page.innerHTML=`<div style="font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px"><i data-lucide="book-open" style="width:18px;height:18px"></i> Домашние задания • ${homework.length}</div>${getDayNavHTML()}<div class="schedule-wrapper" id="scheduleWrapper"><div class="schedule-inner slide-active" id="scheduleInner"><div style="margin-top:14px">${homework.filter(h=>h.day===activeDay).map(h=>`<div class="row"><div style="flex:1"><div style="font-weight:600">${h.subject}</div><div style="font-size:13px;margin-top:4px">${h.task}</div><div style="font-size:11px;color:var(--muted)">${h.deadline||''}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="editHw('${h.id}')"><i data-lucide="pencil" style="width:12px;height:12px"></i></button><button class="btn" onclick="deleteHw('${h.id}')"><i data-lucide="trash-2" style="width:12px;height:12px"></i></button></div></div>`).join('')||'<div class="card" style="text-align:center;color:var(--muted)">Нет заданий</div>'}</div></div></div>`;
  }
  if(currentTab==='diary'){
-  page.innerHTML=`<div class="card" style="text-align:center;padding:50px 20px;background:linear-gradient(135deg,var(--card),var(--primary-soft))"><div style="width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;align-items:center;justify-content:center;margin:0 auto;animation:float 3s ease-in-out infinite"><i data-lucide="book-marked" style="width:32px;height:32px;color:#fff"></i></div><div style="font-weight:800;margin-top:18px;font-size:20px">Дневник</div><div style="font-size:11px;color:var(--muted);margin-top:6px;padding:5px 12px;border-radius:100px;background:var(--bg);border:1px solid var(--border);display:inline-flex">в разработке</div><div style="font-size:13px;color:var(--muted);margin-top:12px">Скоро оценки и средний балл<br><span style="font-size:11px">${season.name} • </span></div></div>`;
+  page.innerHTML=`<div class="card" style="text-align:center;padding:50px 20px;background:linear-gradient(135deg,var(--card),var(--primary-soft))"><div style="width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;align-items:center;justify-content:center;margin:0 auto;animation:float 3s ease-in-out infinite"><i data-lucide="book-marked" style="width:32px;height:32px;color:#fff"></i></div><div style="font-weight:800;margin-top:18px;font-size:20px">Дневник</div><div style="font-size:11px;color:var(--muted);margin-top:6px;padding:5px 12px;border-radius:100px;background:var(--bg);border:1px solid var(--border);display:inline-flex">в разработке</div><div style="font-size:13px;color:var(--muted);margin-top:12px"></div></div>`;
  }
  if(currentTab==='chat'){
   page.innerHTML=`<div class="card" style="padding:0;overflow:hidden;display:flex;flex-direction:column;height:64vh"><div id="chatMsgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,var(--bg),var(--card))">${messages.map(m=>`<div style="max-width:82%;padding:12px 16px;border-radius:18px;font-size:13px;animation:fadeIn .35s ease;${currentUser&&m.email===currentUser.email?'background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;align-self:flex-end;border-bottom-right-radius:6px':'background:var(--card);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:6px'}">${(m.text||'').replace(/</g,'&lt;')}<div style="font-size:10px;opacity:.75;margin-top:5px">${m.user||''}</div></div>`).join('')||'<div style="text-align:center;color:var(--muted);padding:40px">Нет сообщений</div>'}</div><div style="display:flex;gap:10px;padding:12px;border-top:1px solid var(--border);background:var(--card)"><input id="chatInput" class="input" placeholder="Сообщение..." onkeydown="if(event.key==='Enter') sendChat()"><button class="btn primary" onclick="sendChat()"><i data-lucide="send" style="width:16px;height:16px"></i></button></div></div>`;
   setTimeout(()=>{const el=$('chatMsgs');if(el) el.scrollTop=el.scrollHeight;},80);
  }
+ currentDayIndex = DAYS.indexOf(activeDay);
  if(window.lucide) lucide.createIcons();
+ setTimeout(()=>{ updateDaySlider(); }, 50);
 }
 function closeModal(id){const el=$(id); if(!el) return; el.style.display='none';}
-
-// === ПЕРСОНАЛИЗАЦИЯ И УВЕДОМЛЕНИЯ КАК GOOGLE ===
 function getFirstName(){return currentUser?currentUser.name.split(' ')[0]:'Ученик';}
-function getPersonalHeaderHTML(){
-  if(!currentUser) return '';
-  return `<div class="personal-header"><div class="personal-ava">${currentUser.name[0].toUpperCase()}</div><div><div class="personal-name">${currentUser.name}</div><div class="personal-role">${ROLES[currentUser.role]||currentUser.role} • ${currentUser.email}</div></div></div>`;
+
+let currentDayIndex = DAYS.indexOf(activeDay);
+let lastSliderPos = null;
+
+
+let weekOffset = 0;
+function getWeekStart(offset=0){
+  const now=new Date();
+  const day=now.getDay(); // 0=Вс
+  const diff=(day===0?-6:1-day); // для Вс -6 = прошлый понедельник
+  const monday=new Date(now);
+  monday.setDate(now.getDate()+diff+offset*7);
+  monday.setHours(0,0,0,0);
+  return monday;
+}
+function getDateForDay(dayName){
+  const DISPLAY_DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+  // если это сегодня и мы на текущей неделе - возвращаем реальную сегодняшнюю дату
+  if(weekOffset===0 && dayName===todayDay){
+    const t=new Date(); t.setHours(0,0,0,0); return t;
+  }
+  let idx=DISPLAY_DAYS.indexOf(dayName);
+  if(idx===-1){
+    return getWeekStart(weekOffset);
+  }
+  const mon=getWeekStart(weekOffset);
+  const d=new Date(mon);
+  d.setDate(mon.getDate()+idx);
+  // корректировка: если сегодня воскресенье, getWeekStart возвращает завтрашний понедельник (14), а воскресенье должно быть сегодня (13)
+  // поэтому для воскресенья в текущей неделе возвращаем сегодня
+  if(weekOffset===0 && todayDay==='Воскресенье'){
+    // пересчитываем от реального понедельника этой недели (7 сентября)
+    const realMon=new Date(); realMon.setDate(realMon.getDate()-6); realMon.setHours(0,0,0,0);
+    const realD=new Date(realMon); realD.setDate(realMon.getDate()+idx);
+    // если день в будущем относительно сегодня (пн будущей недели) - сдвигаем
+    if(dayName==='Понедельник'){ // для понедельника после воскресенья показываем завтра
+      const tomorrow=new Date(); tomorrow.setDate(tomorrow.getDate()+1); tomorrow.setHours(0,0,0,0); return tomorrow;
+    }
+    return realD;
+  }
+  return d;
+}
+function formatDateGreen(d){if(!d)return'';const day=String(d.getDate()).padStart(2,'0');const months=['ЯНВАРЯ','ФЕВРАЛЯ','МАРТА','АПРЕЛЯ','МАЯ','ИЮНЯ','ИЮЛЯ','АВГУСТА','СЕНТЯБРЯ','ОКТЯБРЯ','НОЯБРЯ','ДЕКАБРЯ'];return `${day} ${months[d.getMonth()]}`;}
+function getDayNavHTML(){const DISPLAY_DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница'];const weekDaysHtml=DISPLAY_DAYS.map(d=>`<button class="ws-day ${activeDay===d?'active':''}" onclick="switchDaySmooth('${d}')">${d}</button>`).join('');const dateObj=getDateForDay(activeDay);const dateStr=formatDateGreen(dateObj);return `<div class="week-strip"><button class="ws-prev" onclick="prevWeek()"><span style="font-size:20px">‹</span> Предыдущая неделя</button><div class="ws-days">${weekDaysHtml}</div><button class="ws-next" onclick="nextWeek()">Следующая неделя <span style="font-size:20px">›</span></button></div><div class="week-strip-mobile"><button class="ws-arrow" onclick="prevDay()">‹</button><div class="ws-current">${activeDay.toUpperCase()}</div><button class="ws-arrow" onclick="nextDay()">›</button></div><div class="week-date">${dateStr}</div>`;}
+function prevDay(){const DD=['Понедельник','Вторник','Среда','Четверг','Пятница'];let idx=DD.indexOf(activeDay);if(idx<=0){weekOffset--;idx=DD.length-1;}else idx--;activeDay=DD[idx];currentDayIndex=DD.indexOf(activeDay);renderPage();}
+function nextDay(){const DD=['Понедельник','Вторник','Среда','Четверг','Пятница'];let idx=DD.indexOf(activeDay);if(idx>=DD.length-1){weekOffset++;idx=0;}else idx++;activeDay=DD[idx];currentDayIndex=DD.indexOf(activeDay);renderPage();}
+function prevWeek(){weekOffset--;renderPage();}
+function nextWeek(){weekOffset++;renderPage();}
+
+function switchDaySmooth(newDay){
+  if(newDay===activeDay) return;
+  const newIdx = DAYS.indexOf(newDay);
+  const direction = newIdx > currentDayIndex ? 1 : -1;
+  
+  // Запоминаем старую позицию слайдера
+  const nav = document.getElementById('weekNav');
+  const slider = document.getElementById('daySlider');
+  const oldActiveBtn = document.querySelector('.day-week-btn.active');
+  let oldLeft = 0, oldWidth = 0, prevWidth = 0;
+  if(nav && oldActiveBtn){
+    const navRect = nav.getBoundingClientRect();
+    const oldRect = oldActiveBtn.getBoundingClientRect();
+    const prevBtn = nav.querySelector('.week-btn');
+    prevWidth = prevBtn ? prevBtn.getBoundingClientRect().width : 0;
+    oldLeft = oldRect.left - navRect.left - prevWidth - 4;
+    oldWidth = oldRect.width;
+    lastSliderPos = {left: oldLeft, width: oldWidth, prevWidth};
+  }
+  
+  currentDayIndex = newIdx;
+  animateScheduleSwitch(newDay, direction, lastSliderPos);
 }
 
+function animateScheduleSwitch(newDay, direction, oldPos){
+  const inner = document.getElementById('scheduleInner');
+  if(inner){
+    inner.classList.remove('slide-active');
+    inner.classList.add(direction===1 ? 'slide-out-left' : 'slide-out-right');
+  }
+  setTimeout(()=>{
+    activeDay=newDay;
+    renderPage();
+    requestAnimationFrame(()=>{
+      const newInner=document.getElementById('scheduleInner');
+      const nav=document.getElementById('weekNav');
+      const slider=document.getElementById('daySlider');
+      const newActiveBtn=document.querySelector('.day-week-btn.active');
+      
+      if(nav && slider && newActiveBtn){
+        const navRect=nav.getBoundingClientRect();
+        const newRect=newActiveBtn.getBoundingClientRect();
+        const prevBtn=nav.querySelector('.week-btn');
+        const prevWidth=prevBtn?prevBtn.getBoundingClientRect().width:0;
+        const newLeft = newRect.left - navRect.left - prevWidth - 4;
+        const newWidth = newRect.width;
+        
+        if(oldPos){
+          // Ставим слайдер на СТАРУЮ позицию без анимации
+          slider.style.transition='none';
+          slider.style.width=oldPos.width+'px';
+          slider.style.left=oldPos.prevWidth+4+'px';
+          slider.style.transform=`translateX(${oldPos.left}px)`;
+          // Форсируем reflow
+          void slider.offsetWidth;
+          // Теперь включаем анимацию и плывем к НОВОЙ
+          slider.style.transition='transform .45s cubic-bezier(.34,1.56,.64,1), width .45s cubic-bezier(.34,1.56,.64,1)';
+          slider.style.width=newWidth+'px';
+          slider.style.transform=`translateX(${newLeft}px)`;
+        } else {
+          // Если нет старой позиции - просто ставим новую
+          slider.style.transition='transform .45s cubic-bezier(.34,1.56,.64,1), width .45s cubic-bezier(.34,1.56,.64,1)';
+          slider.style.width=newWidth+'px';
+          slider.style.left=prevWidth+4+'px';
+          slider.style.transform=`translateX(${newLeft}px)`;
+        }
+      }
+      
+      if(newInner){
+        newInner.classList.add(direction===1 ? 'slide-in-right' : 'slide-in-left');
+        requestAnimationFrame(()=>{
+          newInner.classList.remove('slide-in-right','slide-in-left');
+          newInner.classList.add('slide-active');
+        });
+      }
+    });
+  }, 200);
+}
+
+function updateDaySlider(){
+  requestAnimationFrame(()=>{
+    const slider=document.getElementById('daySlider');
+    const nav=document.getElementById('weekNav');
+    const activeBtn=document.querySelector('.day-week-btn.active');
+    if(!slider||!nav||!activeBtn) return;
+    const navRect=nav.getBoundingClientRect();
+    const btnRect=activeBtn.getBoundingClientRect();
+    const prevBtn=nav.querySelector('.week-btn');
+    const prevWidth=prevBtn?prevBtn.getBoundingClientRect().width:0;
+    slider.style.transition='none';
+    slider.style.width=btnRect.width+'px';
+    slider.style.left=prevWidth+4+'px';
+    slider.style.transform=`translateX(${btnRect.left - navRect.left - prevWidth - 4}px)`;
+    void slider.offsetWidth;
+    slider.style.transition='transform .45s cubic-bezier(.34,1.56,.64,1), width .45s cubic-bezier(.34,1.56,.64,1)';
+  });
+}
+
+
+
+
+function getPersonalHeaderHTML(){
+  if(!currentUser) return '';
+  return `<div class="personal-header"><div class="personal-ava">${currentUser.name[0].toUpperCase()}</div><div><div class="personal-name">${currentUser.name}</div><div class="personal-role">${ROLES[currentUser.role]||currentUser.role}</div></div></div>`;
+}
 function checkAndShowNotifPrompt(){
   try{
     if(!('Notification' in window)) return;
@@ -421,7 +797,6 @@ function checkAndShowNotifPrompt(){
     if(prompt){prompt.classList.add('show'); if(window.lucide) lucide.createIcons();}
   }catch{}
 }
-
 window.allowNotifications=async()=>{
   const prompt=$('notifPermissionPrompt');
   if(prompt) prompt.classList.remove('show');
@@ -430,20 +805,17 @@ window.allowNotifications=async()=>{
     if(perm==='granted'){
       localStorage.setItem('nc_notif_allowed','1');
       new Notification('NovaClass • Уведомления включены', {body:`Спасибо, ${getFirstName()}! Теперь вы будете получать уведомления о новых сообщениях`, icon:''});
-      // Персонализированное окно подтверждения
       showPersonalToast(`Уведомления включены, ${getFirstName()}!`);
     } else {
       localStorage.setItem('nc_notif_blocked','1');
     }
-  }catch(e){console.log(e);}
+  }catch(e){}
 };
-
 window.blockNotifications=()=>{
   const prompt=$('notifPermissionPrompt');
   if(prompt) prompt.classList.remove('show');
   localStorage.setItem('nc_notif_blocked','1');
 };
-
 function showPersonalToast(text){
   let toast=document.getElementById('personalToast');
   if(!toast){
@@ -456,10 +828,8 @@ function showPersonalToast(text){
   toast.style.display='block';
   setTimeout(()=>{toast.style.display='none';}, 3000);
 }
-
 let lastMessagesCount=0;
 let lastMessagesIds=new Set();
-
 async function checkNewMessages(){
   if(!currentUser) return;
   try{
@@ -475,13 +845,11 @@ async function checkNewMessages(){
       const fresh=newMessages.filter(m=>!lastMessagesIds.has(m.id) && m.email!==currentUser.email);
       if(fresh.length>0){
         const last=fresh[fresh.length-1];
-        // Показать персонализированное уведомление
         if(Notification.permission==='granted'){
           new Notification(`Новое сообщение • ${last.user}`, {body: last.text.slice(0,100), tag:'novaclass-chat'});
         } else {
           showPersonalToast(`Новое сообщение от ${last.user}: ${last.text.slice(0,40)}`);
         }
-        // Если чат открыт - обновить
         if(currentTab==='chat') renderPage();
       }
       lastMessagesCount=newMessages.length;
@@ -492,8 +860,6 @@ async function checkNewMessages(){
     }
   }catch(e){}
 }
-
-// Персонализировать модалки
 function personalizeModal(modalId){
   const modal=$(modalId);
   if(!modal) return;
@@ -502,12 +868,11 @@ function personalizeModal(modalId){
   if(currentUser){
     const header=document.createElement('div');
     header.className='personal-header';
-    header.innerHTML=`<div class="personal-ava">${currentUser.name[0].toUpperCase()}</div><div><div class="personal-name">${currentUser.name} • ${getFirstName()}, это для вас</div><div class="personal-role">${ROLES[currentUser.role]||currentUser.role} • Персональное окно</div></div>`;
+    header.innerHTML=`<div class="personal-ava">${currentUser.name[0].toUpperCase()}</div><div><div class="personal-name">${currentUser.name} • ${getFirstName()}</div><div class="personal-role">${ROLES[currentUser.role]||currentUser.role}</div></div>`;
     const card=modal.querySelector('.card');
     if(card) card.prepend(header);
   }
 }
-
 const _origOpenModal=window.openModal || function(id){const el=document.getElementById(id); if(el) el.style.display='flex';};
 window.openModal=function(id){
   const el=$(id);
@@ -516,13 +881,9 @@ window.openModal=function(id){
   if(id==='modalSched' || id==='modalHw') personalizeModal(id);
   if(window.lucide) lucide.createIcons();
 };
-
-
 window.sendChat=async()=>{const inp=$('chatInput'); if(!inp||!inp.value.trim()) return;const txt=inp.value.trim();inp.value='';messages.push({id:Date.now().toString(),text:txt,user:currentUser.name,email:currentUser.email});renderPage();saveCache();try{await api.post({action:'send_message',email:currentUser.email,user:currentUser.name,text:txt});}catch{}};
-
 let editingSchedId=null;
 let editingHwId=null;
-
 window.openSchedModal=()=>{editingSchedId=null;$('schedModalTitle').textContent='Новый урок';$('mDay').value=activeDay;$('mTime').value='';$('mSubj').value='';$('mTeacher').value='';$('mRoom').value='';openModal('modalSched');}
 window.editSched=(id)=>{const s=schedule.find(x=>x.id==id); if(!s) return; editingSchedId=id;$('schedModalTitle').textContent='Редактировать урок';$('mDay').value=s.day;$('mTime').value=s.time;$('mSubj').value=s.subject;$('mTeacher').value=s.teacher||'';$('mRoom').value=s.room||'';openModal('modalSched');}
 window.saveSched=async()=>{
@@ -533,7 +894,6 @@ window.saveSched=async()=>{
   closeModal('modalSched'); editingSchedId=null; renderPage(); saveCache();
 };
 window.deleteSched=(id)=>{if(!confirm('Удалить урок?')) return;schedule=schedule.filter(x=>x.id!=id);renderPage();saveCache();api.post({action:'delete_schedule',id}).catch(()=>{});};
-
 window.openHwModal=()=>{editingHwId=null;$('hwModalTitle').textContent='Новое задание';$('hwDay').value=activeDay;$('hwSubject').value='';$('hwTask').value='';$('hwDeadline').value='';openModal('modalHw');}
 window.editHw=(id)=>{const h=homework.find(x=>x.id==id); if(!h) return; editingHwId=id;$('hwModalTitle').textContent='Редактировать задание';$('hwDay').value=h.day;$('hwSubject').value=h.subject;$('hwTask').value=h.task;$('hwDeadline').value=h.deadline||'';openModal('modalHw');}
 window.saveHw=async()=>{
@@ -544,7 +904,6 @@ window.saveHw=async()=>{
   closeModal('modalHw'); editingHwId=null; renderPage(); saveCache();
 };
 window.deleteHw=(id)=>{if(!confirm('Удалить задание?')) return;homework=homework.filter(x=>x.id!=id);renderPage();saveCache();api.post({action:'delete_homework',id}).catch(()=>{});};
-
 (function(){
  const saved=getStoredUser();
  if(saved){currentUser=saved;$('authRoot').style.display='none';$('appRoot').style.display='block';showApp(saved);}
@@ -553,5 +912,6 @@ window.deleteHw=(id)=>{if(!confirm('Удалить задание?')) return;hom
  if(window.lucide) lucide.createIcons();
 })();
 </script> 
-</body>
-</html>
+
+
+</body></html>
