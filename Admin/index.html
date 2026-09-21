@@ -2,175 +2,772 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaClass ADMIN FINAL WORKING</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaClass Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}:root{--primary:#16a34a;--bg:#f8fafb;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#eef2f7;--danger:#ef4444}
-body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text)}
-#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;background:linear-gradient(135deg,#16a34a,#22c55e);transition:opacity .4s}
-#loader.hide{opacity:0;pointer-events:none}
-.auth{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:90}
-.auth-card{width:100%;max-width:400px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px}
-.input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;outline:none;margin-bottom:8px}
-.btn{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:#fff;font-weight:600;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f8fafb;--bg-soft:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;
+  --border:#eef2f7;--primary:#16a34a;--primary-2:#22c55e;--danger:#ef4444;--warn:#f59e0b;
+  --week:#65D78E;--shadow-sm:0 2px 6px rgba(0,0,0,.05);--shadow:0 6px 20px rgba(0,0,0,.08);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.18)
+}
+body.dark{
+  --bg:#0b1220;--bg-soft:#111a2e;--card:#131c30;--text:#e8eefc;--muted:#8fa0bd;
+  --border:#1e2a44;--shadow-sm:0 2px 6px rgba(0,0,0,.3);--shadow:0 6px 20px rgba(0,0,0,.4);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.55)
+}
+body.oled{
+  --bg:#000;--bg-soft:#0a0a0a;--card:#0a0a0a;--text:#f5f5f5;--muted:#8a8a8a;
+  --border:#161616;--shadow-sm:0 2px 6px rgba(0,0,0,.6);--shadow:0 6px 20px rgba(0,0,0,.7);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.85)
+}
+body{font-family:'Comfortaa',cursive,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+button,input,textarea,select{font-family:'Comfortaa',cursive,sans-serif}
+.msr{font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size:20px;display:inline-flex;align-items:center;justify-content:center}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmerLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+@keyframes pulseDot{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes ripple{from{transform:scale(0);opacity:.5}to{transform:scale(4);opacity:0}}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-2));transition:opacity .4s}
+#loader.hide{opacity:0;pointer-events:none;display:none}
+#loader .lg{width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px}
+#loader .tt{font-size:30px;font-weight:700;margin-top:14px;letter-spacing:-.5px}
+
+/* AUTH */
+.auth{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:90;padding:16px}
+.auth-card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;animation:fadeInUp .35s ease;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--primary-2));animation:shimmerLine 3s infinite}
+.auth-logo{width:52px;height:52px;border-radius:14px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;margin:0 auto}
+.input{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-soft);color:var(--text);outline:none;font-size:13px;transition:all .2s;margin-bottom:9px}
+.input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+.input::placeholder{color:var(--muted)}
+.btn{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);font-weight:600;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:6px;color:var(--text);transition:all .2s;position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+.btn:active{transform:scale(.95)}
 .btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
-.top{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:30}
-.side{position:fixed;left:0;top:56px;bottom:0;width:250px;background:#fff;border-right:1px solid var(--border);padding:10px;overflow-y:auto}
-.nav-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-weight:600;cursor:pointer;margin-bottom:2px;text-align:left}
-.nav-btn.active{background:var(--text);color:#fff}
-.nav-btn .count{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
+.btn.danger{background:var(--danger);color:#fff;border-color:var(--danger)}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:ripple .6s ease;pointer-events:none}
+
+/* TOP */
+.top{position:fixed;top:0;left:0;right:0;height:56px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:30}
+.top-left{display:flex;align-items:center;gap:10px}
+.top-logo{width:32px;height:32px;background:var(--primary);color:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.top-brand{font-weight:700;font-size:15px;letter-spacing:-.3px}
+.top-title{font-weight:600;font-size:11px;color:var(--muted);padding:3px 8px;border:1px solid var(--border);border-radius:100px}
+.dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;transition:background .3s;animation:pulseDot 1.6s infinite}
+.dot.ok{background:#22c55e;animation:none}
+.dot.err{background:#ef4444;animation:none}
+
+/* SIDEBAR + INDICATOR */
+.side{position:fixed;left:0;top:56px;bottom:0;width:250px;background:var(--card);border-right:1px solid var(--border);padding:12px;overflow-y:auto;z-index:19}
+#navWrap{position:relative}
+#navIndicator{position:absolute;left:0;right:0;top:0;height:42px;background:var(--text);border-radius:10px;transition:transform .38s cubic-bezier(.34,1.3,.4,1),height .25s ease;z-index:0;pointer-events:none;opacity:0}
+#navIndicator.ready{opacity:1}
+.nav-btn{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;text-align:left;margin-bottom:2px;transition:color .2s,transform .2s;position:relative;z-index:1}
+.nav-btn:hover{transform:translateX(3px);color:var(--text)}
+.nav-btn.active{color:var(--card);font-weight:700}
+.nav-btn.active:hover{color:var(--card)}
+
+/* MAIN */
 .main{margin-left:250px;padding:20px;padding-top:76px;min-height:100vh}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
-.row{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:#fff}
-.tab{display:none}.tab.active{display:block}
-.week{display:flex;gap:2px;background:#65D78E;padding:4px;border-radius:10px;margin:12px 0}
-.week button{flex:1;border:none;background:transparent;color:#fff;font-weight:700;padding:8px;border-radius:8px;cursor:pointer}
-.week button.active{background:#fff;color:#0f172a}
+.tab{display:none}
+.tab.active{display:block;animation:fadeInUp .3s ease}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;transition:box-shadow .2s}
+.card:hover{box-shadow:var(--shadow-sm)}
+.card.hero{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;position:relative;overflow:hidden}
+.card.hero::after{content:'';position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmerLine 3.5s infinite}
+
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;background:var(--card);transition:all .2s;animation:fadeInUp .3s ease}
+.row:hover{transform:translateY(-1px);border-color:var(--primary);box-shadow:0 4px 12px rgba(22,163,74,.08)}
+.row.danger{border-left:3px solid var(--danger)}
+.row.warn{border-left:3px solid var(--warn)}
+.row.ok{border-left:3px solid var(--primary)}
+
+.week{display:flex;gap:2px;background:var(--week);padding:4px;border-radius:10px;margin:12px 0}
+.week button{flex:1;border:none;background:transparent;color:rgba(255,255,255,.85);font-weight:700;padding:9px;border-radius:8px;cursor:pointer;font-size:11px;text-transform:uppercase;transition:all .2s}
+.week button:hover{background:rgba(255,255,255,.15);color:#fff}
+.week button.active{background:#fff;color:#0f172a;font-weight:700}
+
+.empty{padding:36px 20px;text-align:center;color:var(--muted);font-size:13px;border:1px dashed var(--border);border-radius:12px}
+.badge{font-size:10px;padding:2px 8px;border-radius:20px;background:#fef3c7;color:#92400e;font-weight:700}
+.badge.done{background:#dcfce7;color:#166534}
+.badge.ignored{background:#f1f5f9;color:#475569}
+body.dark .badge,body.oled .badge{background:#3b2f0d;color:#fde68a}
+body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
+
+/* THEME SWITCHER */
+.ts-wrap{display:flex;gap:5px;align-items:center;padding:4px;background:var(--bg-soft);border:1px solid var(--border);border-radius:100px}
+.ts{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .2s}
+.ts:hover{transform:scale(1.12)}
+.ts.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(22,163,74,.25)}
+.ts[data-th="light"]{background:linear-gradient(135deg,#fff,#e2e8f0)}
+.ts[data-th="dark"]{background:linear-gradient(135deg,#1e293b,#0f172a)}
+.ts[data-th="oled"]{background:linear-gradient(135deg,#000,#1a1a1a)}
+
+/* MODAL */
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+#modal.show{display:flex}
+#modalBody{background:var(--card);border-radius:16px;padding:22px;width:100%;max-width:420px;animation:scaleIn .25s;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+#modalBody h3{font-size:17px;font-weight:700;margin-bottom:14px}
+
+/* TOAST */
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);z-index:10001;background:var(--text);color:var(--card);padding:11px 18px;border-radius:10px;font-size:12px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:440px;height:62px;background:var(--card);border:1px solid var(--border);border-radius:18px;display:none;justify-content:space-around;align-items:center;padding:4px;z-index:40;box-shadow:var(--shadow)}
+#bnavIndicator{position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--text);border-radius:14px;transition:transform .38s cubic-bezier(.34,1.3,.4,1),width .3s;z-index:0;pointer-events:none}
+.bnav-btn{flex:1;display:flex;align-items:center;justify-content:center;height:52px;border-radius:14px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:color .2s,transform .2s;position:relative;z-index:1}
+.bnav-btn .msr{font-size:24px}
+.bnav-btn:active{transform:scale(.9)}
+.bnav-btn.active{color:var(--card)}
+
+@media(max-width:900px){
+  .bottom-nav{display:flex}
+  .side{display:none}
+  .main{margin-left:0;padding:14px;padding-top:70px;padding-bottom:100px}
+  .top-title{display:none}
+}
 </style>
 </head>
 <body>
-<div id="loader"><div style="text-align:center"><div style="width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px">N</div><div style="font-weight:800;font-size:24px;margin-top:10px">NovaClass</div><div id="loaderText" style="font-size:12px;margin-top:4px">Загрузка...</div><div style="margin-top:12px;width:140px;height:3px;background:rgba(255,255,255,.3);border-radius:10px"><div id="loadBar" style="height:100%;width:0%;background:#fff;transition:width .3s"></div></div></div></div>
 
-<div id="auth" class="auth" style="display:none"><div class="auth-card"><div style="text-align:center"><div style="width:48px;height:48px;background:var(--primary);color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;margin:0 auto">N</div><div style="font-weight:800;margin-top:10px">NovaClass Admin</div></div><input id="email" class="input" placeholder="Email" style="margin-top:14px"><input id="pass" class="input" type="password" placeholder="Пароль"><button class="btn primary" style="width:100%" onclick="login()">Войти</button><div id="authErr" style="color:var(--danger);font-size:12px;margin-top:8px;display:none"></div></div></div>
+<!-- LOADER -->
+<div id="loader">
+  <div class="lg">N</div>
+  <div class="tt">NovaClass</div>
+</div>
 
+<!-- AUTH -->
+<div id="auth" class="auth" style="display:none">
+  <div class="auth-card">
+    <div style="text-align:center">
+      <div class="auth-logo">N</div>
+      <div style="font-weight:700;margin-top:12px;font-size:19px">NovaClass</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Панель управления</div>
+    </div>
+    <div style="margin-top:20px">
+      <input id="email" class="input" placeholder="Email" autocomplete="username">
+      <input id="pass" class="input" type="password" placeholder="Пароль" autocomplete="current-password">
+      <button class="btn primary" style="width:100%;justify-content:center;padding:12px" onclick="login()">
+        <span class="msr">login</span> Войти
+      </button>
+    </div>
+    <div id="authErr" style="color:var(--danger);font-size:12px;margin-top:10px;display:none;text-align:center"></div>
+  </div>
+</div>
+
+<!-- APP -->
 <div id="app" style="display:none">
-<div class="top"><div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--primary);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800">N</div><b>NovaClass</b><span style="font-size:10px;background:#dcfce7;color:#16a34a;padding:3px 8px;border-radius:20px">FINAL WORKING</span><span id="apiDot" style="width:8px;height:8px;border-radius:50%;background:#ccc;margin-left:8px"></span></div><div style="display:flex;gap:6px"><button class="btn" onclick="init()">Обновить</button><button class="btn" onclick="logout()">Выйти</button></div></div>
-<div class="side">
-<button class="nav-btn active" data-t="dash" onclick="tab('dash')">Дашборд</button>
-<button class="nav-btn" data-t="users" onclick="tab('users')">Пользователи <span id="c-users" class="count">0</span></button>
-<button class="nav-btn" data-t="messages" onclick="tab('messages')">Все СМС чата <span id="c-msg" class="count">0</span></button>
-<button class="nav-btn" data-t="complaints" onclick="tab('complaints')">Жалобы на СМС <span id="c-comp" class="count" style="display:none">0</span></button>
-<button class="nav-btn" data-t="appeals" onclick="tab('appeals')">Апелляции/Баги <span id="c-appeal" class="count" style="display:none">0</span></button>
-<button class="nav-btn" data-t="sched" onclick="tab('sched')">Расписание</button>
-<button class="nav-btn" data-t="hw" onclick="tab('hw')">Домашка</button>
-<button class="nav-btn" data-t="banner" onclick="tab('banner')">Баннер + Контроль</button>
+  <div class="top">
+    <div class="top-left">
+      <div class="top-logo">N</div>
+      <div class="top-brand">NovaClass</div>
+      <div class="top-title">Admin</div>
+      <span id="apiDot" class="dot"></span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="ts-wrap" id="tsWrap">
+        <div class="ts" data-th="light" onclick="setTheme('light')"></div>
+        <div class="ts" data-th="dark" onclick="setTheme('dark')"></div>
+        <div class="ts" data-th="oled" onclick="setTheme('oled')"></div>
+      </div>
+      <button class="btn" onclick="init()" title="Обновить"><span class="msr" style="font-size:16px">refresh</span></button>
+      <button class="btn" onclick="logout()" title="Выйти"><span class="msr" style="font-size:16px">logout</span></button>
+    </div>
+  </div>
+
+  <div class="side">
+    <div id="navWrap">
+      <div id="navIndicator"></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="p-dash" class="tab active"></div>
+    <div id="p-users" class="tab"></div>
+    <div id="p-messages" class="tab"></div>
+    <div id="p-complaints" class="tab"></div>
+    <div id="p-appeals" class="tab"></div>
+    <div id="p-sched" class="tab"></div>
+    <div id="p-hw" class="tab"></div>
+    <div id="p-banner" class="tab"></div>
+  </div>
+
+  <div class="bottom-nav" id="bottomNav"><div id="bnavIndicator"></div></div>
 </div>
-<div class="main">
-<div id="p-dash" class="tab active"></div>
-<div id="p-users" class="tab"></div>
-<div id="p-messages" class="tab"></div>
-<div id="p-complaints" class="tab"></div>
-<div id="p-appeals" class="tab"></div>
-<div id="p-sched" class="tab"></div>
-<div id="p-hw" class="tab"></div>
-<div id="p-banner" class="tab"></div>
-</div>
-</div>
+
+<div id="modal" onclick="if(event.target===this)closeModal()"><div id="modalBody"></div></div>
+<div id="toast"></div>
 
 <script>
+/* ============ CONFIG ============ */
 const API_URL='https://script.google.com/macros/s/AKfycbzIHwTxKCJUpZUuqJd0-QHJ-tjTx3CCIDEyvzpZVCxYWkcYprY1Wp723J5jP9s_PA/exec';
 const ADMIN_EMAIL='maksimsuhomlinov37@gmail.com';
-let DATA={users:[],schedule:[],homework:[],messages:[],banner:[],siteControl:{maintenance:false,primaryColor:'#16a34a'},complaints:[],appeals:[]};
-let activeDay='Понедельник';
+const ADMIN_PASS='Suxmaks_12';
+
+const $=id=>document.getElementById(id);
 const DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
 
-function apiGet(p){return fetch(API_URL+'?'+new URLSearchParams(p),{cache:'no-store',signal:AbortSignal.timeout(8000)}).then(r=>r.json())}
-function apiPost(d){return fetch(API_URL,{method:'POST',body:JSON.stringify(d)}).then(r=>r.json())}
-function setLoad(p){const el=document.getElementById('loadBar'); if(el) el.style.width=p+'%';}
-function login(){const e=document.getElementById('email').value.trim().toLowerCase();const p=document.getElementById('pass').value.trim();if(e===ADMIN_EMAIL && p==='Suxmaks_12'){sessionStorage.setItem('nc_admin','1');document.getElementById('auth').style.display='none';document.getElementById('app').style.display='block';init();}else{const err=document.getElementById('authErr');err.style.display='block';err.textContent='Неверный логин';}}
-function logout(){sessionStorage.removeItem('nc_admin');location.reload();}
-function tab(t){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===t));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.id==='p-'+t)); if(t==='dash') renderDash(); if(t==='users') renderUsers(); if(t==='messages') renderMessages(); if(t==='complaints') renderComplaints(); if(t==='appeals') renderAppeals(); if(t==='sched') renderSched(); if(t==='hw') renderHw(); if(t==='banner') renderBanner();}
+let DATA={users:[],schedule:[],homework:[],messages:[],banner:[],siteControl:{maintenance:false,primaryColor:'#16a34a'},complaints:[],appeals:[]};
+let activeDay='Понедельник';
+let currentTab='dash';
 
+/* ============ API ============ */
+function apiGet(p){return fetch(API_URL+'?'+new URLSearchParams(p),{cache:'no-store'}).then(r=>r.json())}
+function apiPost(d){
+  return fetch(API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify(d)
+  }).then(r=>r.json());
+}
+
+/* ============ UI helpers ============ */
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2200);}
+
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.btn');
+  if(!btn)return;
+  const r=btn.getBoundingClientRect();
+  const s=document.createElement('span');
+  const size=Math.max(r.width,r.height);
+  s.className='ripple';
+  s.style.width=s.style.height=size+'px';
+  s.style.left=(e.clientX-r.left-size/2)+'px';
+  s.style.top=(e.clientY-r.top-size/2)+'px';
+  btn.appendChild(s);
+  setTimeout(()=>s.remove(),600);
+});
+
+/* ============ THEME ============ */
+function setTheme(t){
+  document.body.classList.remove('dark','oled');
+  if(t==='dark')document.body.classList.add('dark');
+  if(t==='oled')document.body.classList.add('oled');
+  localStorage.setItem('nc_admin_theme',t);
+  document.querySelectorAll('.ts').forEach(x=>x.classList.toggle('active',x.dataset.th===t));
+  setTimeout(()=>{moveNavIndicator();moveBottomIndicator();},50);
+}
+function loadTheme(){setTheme(localStorage.getItem('nc_admin_theme')||'light');}
+
+/* ============ AUTH ============ */
+function login(){
+  const e=$('email').value.trim().toLowerCase();
+  const p=$('pass').value.trim();
+  if(e===ADMIN_EMAIL&&p===ADMIN_PASS){
+    sessionStorage.setItem('nc_admin','1');
+    $('auth').style.display='none';
+    $('app').style.display='block';
+    buildNav();
+    loadTheme();
+    init();
+  }else{
+    const err=$('authErr');
+    err.style.display='block';
+    err.textContent='Неверный логин или пароль';
+  }
+}
+function logout(){sessionStorage.removeItem('nc_admin');location.reload();}
+
+/* ============ NAV ============ */
+const NAV=[
+  {id:'dash',label:'Дашборд',icon:'dashboard'},
+  {id:'users',label:'Пользователи',icon:'group'},
+  {id:'messages',label:'СМС чата',icon:'chat_bubble'},
+  {id:'complaints',label:'Жалобы',icon:'flag'},
+  {id:'appeals',label:'Апелляции',icon:'gavel'},
+  {id:'sched',label:'Расписание',icon:'calendar_month'},
+  {id:'hw',label:'Домашка',icon:'menu_book'},
+  {id:'banner',label:'Баннер',icon:'wallpaper'}
+];
+
+function buildNav(){
+  const wrap=$('navWrap');
+  wrap.querySelectorAll('.nav-btn').forEach(x=>x.remove());
+  NAV.forEach(n=>{
+    const b=document.createElement('button');
+    b.className='nav-btn'+(currentTab===n.id?' active':'');
+    b.dataset.t=n.id;
+    b.innerHTML=`<span class="msr">${n.icon}</span><span>${n.label}</span>`;
+    b.onclick=()=>tab(n.id);
+    wrap.appendChild(b);
+  });
+  const bn=$('bottomNav');
+  bn.querySelectorAll('.bnav-btn').forEach(x=>x.remove());
+  NAV.slice(0,5).forEach(n=>{
+    const b=document.createElement('button');
+    b.className='bnav-btn'+(currentTab===n.id?' active':'');
+    b.dataset.t=n.id;
+    b.innerHTML=`<span class="msr">${n.icon}</span>`;
+    b.onclick=()=>tab(n.id);
+    bn.appendChild(b);
+  });
+  requestAnimationFrame(()=>{moveNavIndicator();moveBottomIndicator();});
+}
+function moveNavIndicator(){
+  const active=document.querySelector('.nav-btn.active');
+  const ind=$('navIndicator');
+  if(!active||!ind)return;
+  ind.style.height=active.offsetHeight+'px';
+  ind.style.transform=`translateY(${active.offsetTop}px)`;
+  ind.classList.add('ready');
+}
+function moveBottomIndicator(){
+  const active=document.querySelector('.bnav-btn.active');
+  const ind=$('bnavIndicator');
+  if(!active||!ind)return;
+  const parent=$('bottomNav').getBoundingClientRect();
+  const r=active.getBoundingClientRect();
+  ind.style.width=r.width+'px';
+  ind.style.transform=`translateX(${r.left-parent.left-4}px)`;
+}
+window.addEventListener('resize',()=>{moveNavIndicator();moveBottomIndicator();});
+
+function tab(t){
+  currentTab=t;
+  document.querySelectorAll('.nav-btn,.bnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===t));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.id==='p-'+t));
+  moveNavIndicator();moveBottomIndicator();
+  if(t==='dash')renderDash();
+  if(t==='users')renderUsers();
+  if(t==='messages')renderMessages();
+  if(t==='complaints')renderComplaints();
+  if(t==='appeals')renderAppeals();
+  if(t==='sched')renderSched();
+  if(t==='hw')renderHw();
+  if(t==='banner')renderBanner();
+}
+
+/* ============ INIT ============ */
 async function init(){
-  setLoad(20);
+  $('apiDot').className='dot';
   try{
     const d=await apiGet({action:'getAllData',t:Date.now()});
-    setLoad(70);
     if(d.status==='ok'){
-      DATA.users=d.users||[]; DATA.schedule=d.schedule||[]; DATA.homework=d.homework||[]; DATA.messages=d.messages||[]; DATA.banner=d.banner||[]; DATA.complaints=d.complaints||[]; DATA.appeals=d.appeals||[]; DATA.siteControl=d.siteControl||{maintenance:false,primaryColor:'#16a34a'};
-      document.getElementById('apiDot').style.background='#22c55e';
-      updateCounts(); renderDash(); renderUsers(); renderSched(); renderHw(); renderBanner();
-      try{ localStorage.setItem('nc_admin_cache', JSON.stringify(DATA)); }catch{}
+      DATA.users=d.users||[];
+      DATA.schedule=d.schedule||[];
+      DATA.homework=d.homework||[];
+      DATA.messages=d.messages||[];
+      DATA.banner=d.banner||[];
+      DATA.complaints=d.complaints||[];
+      DATA.appeals=d.appeals||[];
+      DATA.siteControl=d.siteControl||{maintenance:false,primaryColor:'#16a34a'};
+      $('apiDot').className='dot ok';
+      tab(currentTab);
+      try{localStorage.setItem('nc_admin_cache',JSON.stringify(DATA));}catch{}
+    }else{
+      $('apiDot').className='dot err';
+      toast('Ошибка: '+(d.message||'нет ответа'));
     }
-    setLoad(100);
   }catch(e){
     console.error(e);
-    document.getElementById('apiDot').style.background='#ef4444';
-    try{ const cached=JSON.parse(localStorage.getItem('nc_admin_cache')||'{}'); if(cached.users){ DATA=cached; updateCounts(); renderDash(); } }catch{}
-  } finally {
-    setTimeout(()=>{document.getElementById('loader').classList.add('hide');},400);
+    $('apiDot').className='dot err';
+    try{
+      const cached=JSON.parse(localStorage.getItem('nc_admin_cache')||'{}');
+      if(cached.users){DATA=cached;tab(currentTab);toast('Показаны кешированные данные');}
+    }catch{}
+  }finally{
+    $('loader').classList.add('hide');
   }
 }
 
-function updateCounts(){
-  document.getElementById('c-users').textContent=DATA.users.length;
-  document.getElementById('c-msg').textContent=DATA.messages.length;
-  const nc=DATA.complaints.filter(c=>c.status==='new').length; const el1=document.getElementById('c-comp'); el1.textContent=nc; el1.style.display=nc?'inline':'none';
-  const na=DATA.appeals.filter(c=>c.status==='new').length; const el2=document.getElementById('c-appeal'); el2.textContent=na; el2.style.display=na?'inline':'none';
-}
-
+/* ============ DASH ============ */
 function renderDash(){
-  document.getElementById('p-dash').innerHTML=`<div class="card" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff"><div style="font-size:20px;font-weight:800">Панель управления NovaClass</div><div style="opacity:.9;font-size:13px">Пользователей: ${DATA.users.length} | СМС: ${DATA.messages.length} | Жалоб: ${DATA.complaints.length} | Апелляций: ${DATA.appeals.length}</div></div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"><div class="card"><div style="font-size:12px;color:var(--muted)">Пользователи</div><div style="font-size:24px;font-weight:800">${DATA.users.length}</div></div><div class="card"><div style="font-size:12px;color:var(--muted)">СМС</div><div style="font-size:24px;font-weight:800">${DATA.messages.length}</div></div><div class="card"><div style="font-size:12px;color:var(--muted)">Жалобы new</div><div style="font-size:24px;font-weight:800">${DATA.complaints.filter(c=>c.status==='new').length}</div></div><div class="card"><div style="font-size:12px;color:var(--muted)">Апелляции new</div><div style="font-size:24px;font-weight:800">${DATA.appeals.filter(c=>c.status==='new').length}</div></div></div>`;
+  $('p-dash').innerHTML=`
+    <div class="card hero">
+      <div style="font-size:22px;font-weight:700">Панель управления NovaClass</div>
+      <div style="opacity:.9;font-size:13px;margin-top:4px">Выберите раздел — всё в меню слева (или снизу на телефоне)</div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;font-size:14px;margin-bottom:12px">Быстрые действия</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">
+        ${NAV.slice(1).map(n=>`<button class="btn" style="justify-content:flex-start;padding:12px" onclick="tab('${n.id}')"><span class="msr" style="color:var(--primary)">${n.icon}</span> ${n.label}</button>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;font-size:14px">Статус системы</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.8">
+        Бэкенд: <b style="color:var(--primary)">Google Apps Script</b><br>
+        База: <b>Google Таблицы</b><br>
+        Режим: <b>${DATA.siteControl.maintenance?'Техобслуживание':'Работа'}</b>
+      </div>
+    </div>`;
 }
 
+/* ============ USERS ============ */
 function renderUsers(){
-  document.getElementById('p-users').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between"><b>Пользователи ${DATA.users.length}</b><input id="uSearch" class="input" placeholder="поиск по имени/email" style="max-width:200px" oninput="renderUsersList()"></div><div id="uList" style="margin-top:12px"></div></div>`; renderUsersList();
+  $('p-users').innerHTML=`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="font-weight:700">Пользователи</div>
+        <input id="uSearch" class="input" placeholder="Поиск по имени или email" style="max-width:240px;margin:0" oninput="renderUsersList()">
+      </div>
+      <div id="uList" style="margin-top:14px"></div>
+    </div>`;
+  renderUsersList();
 }
 function renderUsersList(){
-  const q=(document.getElementById('uSearch')?.value||'').toLowerCase();
+  const q=($('uSearch')?.value||'').toLowerCase();
   const list=DATA.users.filter(u=>(u.name+' '+u.email).toLowerCase().includes(q));
-  document.getElementById('uList').innerHTML=list.map(u=>`<div class="row"><div><b>${u.name}</b><div style="font-size:11px;color:var(--muted)">${u.email} | ${u.id} | ${u.role}</div></div><div style="display:flex;gap:6px"><select class="input" style="width:110px;margin:0" onchange="changeRole('${u.id}',this.value)"><option ${u.role==='ученик'?'selected':''}>ученик</option><option ${u.role==='учитель'?'selected':''}>учитель</option><option ${u.role==='админ'?'selected':''}>админ</option></select><button class="btn" style="color:var(--danger)" onclick="delUser('${u.id}')">Удалить</button></div></div>`).join('')||'<div style="text-align:center;color:var(--muted);padding:20px">Нет пользователей</div>';
+  $('uList').innerHTML=list.length?list.map(u=>`
+    <div class="row">
+      <div style="min-width:0">
+        <b>${u.name}</b>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${u.email} • ${u.id} • ${u.role}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <select class="input" style="width:110px;padding:6px 8px;margin:0" onchange="changeRole('${u.id}',this.value)">
+          <option ${u.role==='ученик'?'selected':''}>ученик</option>
+          <option ${u.role==='учитель'?'selected':''}>учитель</option>
+          <option ${u.role==='админ'?'selected':''}>админ</option>
+        </select>
+        <button class="btn danger" onclick="delUser('${u.id}')"><span class="msr" style="font-size:16px">delete</span></button>
+      </div>
+    </div>`).join(''):'<div class="empty">Нет пользователей</div>';
 }
-async function changeRole(id,role){const u=DATA.users.find(x=>x.id==id); await apiPost({action:'update_user',id,role,name:u.name,email:u.email}); u.role=role;}
-async function delUser(id){if(!confirm('Удалить?'))return; await apiPost({action:'delete_user',id}); DATA.users=DATA.users.filter(x=>x.id!=id); renderUsers(); updateCounts();}
+async function changeRole(id,role){
+  const u=DATA.users.find(x=>x.id==id);if(!u)return;
+  await apiPost({action:'update_user',id,role,name:u.name,email:u.email});
+  u.role=role;toast('Роль изменена');
+}
+async function delUser(id){
+  if(!confirm('Удалить пользователя?'))return;
+  await apiPost({action:'delete_user',id});
+  DATA.users=DATA.users.filter(x=>x.id!=id);
+  renderUsers();toast('Удалено');
+}
 
+/* ============ MESSAGES ============ */
 function renderMessages(){
-  document.getElementById('p-messages').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between"><b>Все СМС чата - ${DATA.messages.length}</b><button class="btn" style="color:var(--danger)" onclick="clearChat()">Очистить все</button></div><div style="margin-top:12px">${DATA.messages.slice().reverse().map(m=>`<div class="row"><div style="flex:1"><b>${m.user}</b> <span style="font-size:11px;color:var(--muted)">${m.email} | ${new Date(m.createdAt).toLocaleString()}</span><div style="margin-top:6px;background:#f8fafb;padding:8px;border-radius:8px;font-size:13px;white-space:pre-wrap">${m.text}</div><div style="font-size:10px;color:var(--muted)">ID: ${m.id}</div></div><button class="btn" style="color:var(--danger)" onclick="deleteMsg('${m.id}')">Удалить</button></div>`).join('')||'пусто'}</div></div>`;
+  $('p-messages').innerHTML=`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">Все СМС чата</div>
+        <button class="btn danger" onclick="clearChat()"><span class="msr" style="font-size:16px">delete_sweep</span> Очистить</button>
+      </div>
+      <div style="margin-top:14px">
+        ${DATA.messages.slice().reverse().map(m=>`
+          <div class="row">
+            <div style="flex:1;min-width:0">
+              <b>${m.user||'—'}</b> <span style="font-size:11px;color:var(--muted)">${m.email||''} • ${m.createdAt?new Date(m.createdAt).toLocaleString():''}</span>
+              <div style="margin-top:6px;background:var(--bg-soft);padding:9px;border-radius:8px;font-size:13px;white-space:pre-wrap;word-wrap:break-word">${m.text||''}</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:4px">ID: ${m.id}</div>
+            </div>
+            <button class="btn danger" onclick="deleteMsg('${m.id}')"><span class="msr" style="font-size:16px">delete</span></button>
+          </div>`).join('')||'<div class="empty">Сообщений нет</div>'}
+      </div>
+    </div>`;
 }
-async function deleteMsg(id){if(!confirm('Удалить СМС?'))return; await apiPost({action:'delete_message',id}); DATA.messages=DATA.messages.filter(m=>m.id!=id); renderMessages(); updateCounts();}
-async function clearChat(){if(!confirm('Очистить весь чат?'))return; await apiPost({action:'clear_chat'}); DATA.messages=[]; renderMessages(); updateCounts();}
+async function deleteMsg(id){
+  if(!confirm('Удалить СМС?'))return;
+  await apiPost({action:'delete_message',id});
+  DATA.messages=DATA.messages.filter(m=>m.id!=id);
+  renderMessages();toast('Удалено');
+}
+async function clearChat(){
+  if(!confirm('Очистить весь чат?'))return;
+  await apiPost({action:'clear_chat'});
+  DATA.messages=[];renderMessages();toast('Чат очищен');
+}
 
+/* ============ COMPLAINTS ============ */
 function renderComplaints(){
-  document.getElementById('p-complaints').innerHTML=`<div class="card"><b>Жалобы на СМС - ${DATA.complaints.length}</b><div style="margin-top:12px">${DATA.complaints.slice().reverse().map(c=>{const orig=DATA.messages.find(m=>m.id==c.targetId); return `<div class="row" style="border-left:4px solid ${c.status==='new'?'orange':'var(--primary)'}"><div style="flex:1"><div><span style="font-size:11px;padding:2px 6px;border-radius:10px;background:#fef3c7">${c.status}</span> <b>${c.type}</b> от ${c.from} <span style="font-size:11px">${new Date(c.createdAt).toLocaleString()}</span></div><div style="margin-top:6px"><b>Жалоба:</b> ${c.text}</div>${orig?`<div style="margin-top:6px;background:#fef2f2;padding:8px;border-radius:8px"><b>Оригинал СМС:</b> ${orig.text}<br><span style="font-size:11px">${orig.user} (${orig.email})</span></div>`:`<div style="font-size:11px;color:var(--danger)">Оригинал не найден ID:${c.targetId}</div>`}<div style="font-size:11px;color:var(--muted)">Reporter: ${c.reporterEmail}</div></div><div style="display:flex;flex-direction:column;gap:4px"><button class="btn primary" onclick="updateComp('${c.id}','done')">Решено</button><button class="btn" onclick="updateComp('${c.id}','ignored')">Игнор</button><button class="btn" style="color:var(--danger)" onclick="deleteComp('${c.id}')">Удалить</button>${orig?`<button class="btn" style="color:var(--danger)" onclick="deleteMsg('${orig.id}')">Удалить СМС</button>`:''}</div></div>`}).join('')||'нет жалоб'}</div></div>`;
+  $('p-complaints').innerHTML=`
+    <div class="card">
+      <div style="font-weight:700">Жалобы на СМС</div>
+      <div style="margin-top:14px">
+        ${DATA.complaints.slice().reverse().map(c=>{
+          const orig=DATA.messages.find(m=>m.id==c.targetId);
+          const cls=c.status==='new'?'warn':c.status==='done'?'ok':'danger';
+          return `<div class="row ${cls}">
+            <div style="flex:1;min-width:0">
+              <div><span class="badge ${c.status==='done'?'done':c.status==='ignored'?'ignored':''}">${c.status}</span> <b>${c.type||'жалоба'}</b> от ${c.from||'—'} <span style="font-size:11px;color:var(--muted)">• ${c.createdAt?new Date(c.createdAt).toLocaleString():''}</span></div>
+              <div style="margin-top:6px;font-size:13px"><b>Текст:</b> ${c.text||''}</div>
+              ${orig?`<div style="margin-top:6px;background:var(--bg-soft);padding:8px;border-radius:8px;font-size:12px"><b>Оригинал:</b> ${orig.text}<br><span style="font-size:11px;color:var(--muted)">${orig.user} (${orig.email})</span></div>`:`<div style="font-size:11px;color:var(--danger);margin-top:4px">Оригинал не найден ID: ${c.targetId}</div>`}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+              <button class="btn primary" onclick="updateComp('${c.id}','done')">Решено</button>
+              <button class="btn" onclick="updateComp('${c.id}','ignored')">Игнор</button>
+              <button class="btn danger" onclick="deleteComp('${c.id}')">Удалить</button>
+              ${orig?`<button class="btn danger" onclick="deleteMsg('${orig.id}')">Уд. СМС</button>`:''}
+            </div>
+          </div>`;
+        }).join('')||'<div class="empty">Жалоб нет</div>'}
+      </div>
+    </div>`;
 }
-async function updateComp(id,status){await apiPost({action:'update_complaint_status',id,status}); let c=DATA.complaints.find(x=>x.id==id); if(c) c.status=status; renderComplaints(); updateCounts();}
-async function deleteComp(id){await apiPost({action:'delete_complaint',id}); DATA.complaints=DATA.complaints.filter(x=>x.id!=id); renderComplaints(); updateCounts();}
+async function updateComp(id,status){
+  await apiPost({action:'update_complaint_status',id,status});
+  const c=DATA.complaints.find(x=>x.id==id);if(c)c.status=status;
+  renderComplaints();toast('Обновлено');
+}
+async function deleteComp(id){
+  await apiPost({action:'delete_complaint',id});
+  DATA.complaints=DATA.complaints.filter(x=>x.id!=id);
+  renderComplaints();toast('Удалено');
+}
 
+/* ============ APPEALS ============ */
 function renderAppeals(){
-  document.getElementById('p-appeals').innerHTML=`<div class="card"><b>Апелляции / Баги - ${DATA.appeals.length}</b><div style="margin-top:12px">${DATA.appeals.slice().reverse().map(a=>`<div class="row" style="border-left:4px solid ${a.status==='new'?'orange':'var(--primary)'}"><div style="flex:1"><div><span style="font-size:11px;padding:2px 6px;border-radius:10px;background:#fef3c7">${a.status}</span> <b>${a.type}</b> от ${a.from} <span style="font-size:11px">${new Date(a.createdAt).toLocaleString()}</span></div><div style="margin-top:6px;background:#f8fafb;padding:8px;border-radius:8px;white-space:pre-wrap">${a.text}</div>${a.adminNote?`<div style="font-size:12px;color:var(--muted);margin-top:4px">Ответ: ${a.adminNote}</div>`:''}</div><div style="display:flex;flex-direction:column;gap:4px"><button class="btn primary" onclick="updateAppeal('${a.id}','done')">Решено</button><button class="btn" onclick="answerAppeal('${a.id}')">Ответить</button><button class="btn" style="color:var(--danger)" onclick="deleteAppeal('${a.id}')">Удалить</button></div></div>`).join('')||'нет апелляций'}</div></div>`;
+  $('p-appeals').innerHTML=`
+    <div class="card">
+      <div style="font-weight:700">Апелляции / Баги</div>
+      <div style="margin-top:14px">
+        ${DATA.appeals.slice().reverse().map(a=>{
+          const cls=a.status==='new'?'warn':'ok';
+          return `<div class="row ${cls}">
+            <div style="flex:1;min-width:0">
+              <div><span class="badge ${a.status==='done'?'done':''}">${a.status}</span> <b>${a.type||'апелляция'}</b> от ${a.from||'—'} <span style="font-size:11px;color:var(--muted)">• ${a.createdAt?new Date(a.createdAt).toLocaleString():''}</span></div>
+              <div style="margin-top:6px;background:var(--bg-soft);padding:9px;border-radius:8px;font-size:13px;white-space:pre-wrap">${a.text||''}</div>
+              ${a.adminNote?`<div style="font-size:12px;color:var(--muted);margin-top:4px"><b>Ответ:</b> ${a.adminNote}</div>`:''}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+              <button class="btn primary" onclick="updateAppeal('${a.id}','done')">Решено</button>
+              <button class="btn" onclick="answerAppeal('${a.id}')">Ответить</button>
+              <button class="btn danger" onclick="deleteAppeal('${a.id}')">Удалить</button>
+            </div>
+          </div>`;
+        }).join('')||'<div class="empty">Апелляций нет</div>'}
+      </div>
+    </div>`;
 }
-async function updateAppeal(id,status,note){await apiPost({action:'update_appeal_status',id,status,adminNote:note||''}); let a=DATA.appeals.find(x=>x.id==id); if(a){a.status=status; if(note) a.adminNote=note;} renderAppeals(); updateCounts();}
-async function deleteAppeal(id){await apiPost({action:'delete_appeal',id}); DATA.appeals=DATA.appeals.filter(x=>x.id!=id); renderAppeals(); updateCounts();}
-function answerAppeal(id){const note=prompt('Ответ админа:'); if(note!==null) updateAppeal(id,'done',note);}
+async function updateAppeal(id,status,note){
+  await apiPost({action:'update_appeal_status',id,status,adminNote:note||''});
+  const a=DATA.appeals.find(x=>x.id==id);
+  if(a){a.status=status;if(note)a.adminNote=note;}
+  renderAppeals();toast('Обновлено');
+}
+async function deleteAppeal(id){
+  await apiPost({action:'delete_appeal',id});
+  DATA.appeals=DATA.appeals.filter(x=>x.id!=id);
+  renderAppeals();toast('Удалено');
+}
+function answerAppeal(id){
+  const note=prompt('Ответ админа:');
+  if(note!==null)updateAppeal(id,'done',note);
+}
 
+/* ============ SCHEDULE ============ */
 function renderSched(){
-  document.getElementById('p-sched').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between"><b>Расписание - ${activeDay}</b><button class="btn primary" onclick="openSched()">+ Урок</button></div><div class="week">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderSched()">${d.slice(0,2)}</button>`).join('')}</div><div>${DATA.schedule.filter(s=>s.day===activeDay).map(s=>`<div class="row"><div><b>${s.time} - ${s.subject}</b><div style="font-size:12px;color:var(--muted)">${s.teacher||''} ${s.room?'• '+s.room:''} ${s.date?'• '+s.date:''}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="openSched('${s.id}')">Изм</button><button class="btn" style="color:var(--danger)" onclick="delSched('${s.id}')">✕</button></div></div>`).join('')||'<div style="padding:16px;text-align:center;color:var(--muted)">Нет уроков на этот день</div>'}</div></div>`;
+  $('p-sched').innerHTML=`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">Расписание • ${activeDay}</div>
+        <button class="btn primary" onclick="openSched()"><span class="msr" style="font-size:16px">add</span> Урок</button>
+      </div>
+      <div class="week">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderSched()">${d.slice(0,2)}</button>`).join('')}</div>
+      <div>
+        ${DATA.schedule.filter(s=>s.day===activeDay).map(s=>`
+          <div class="row">
+            <div><b>${s.time||''} — ${s.subject||''}</b><div style="font-size:12px;color:var(--muted)">${s.teacher||''} ${s.room?'• '+s.room:''} ${s.date?'• '+s.date:''}</div></div>
+            <div style="display:flex;gap:6px">
+              <button class="btn" onclick="openSched('${s.id}')"><span class="msr" style="font-size:16px">edit</span></button>
+              <button class="btn danger" onclick="delSched('${s.id}')"><span class="msr" style="font-size:16px">delete</span></button>
+            </div>
+          </div>`).join('')||'<div class="empty">Нет уроков на этот день</div>'}
+      </div>
+    </div>`;
 }
 function openSched(id){
   const s=id?DATA.schedule.find(x=>x.id==id):null;
-  const html=`<h3>${s?'Редактировать':'Новый урок'}</h3><select id="f_day" class="input">${DAYS.map(d=>`<option ${d===(s?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select><input id="f_date" class="input" type="date" value="${s?.date||''}"><input id="f_time" class="input" placeholder="08:00 - 08:45" value="${s?.time||''}"><input id="f_subj" class="input" placeholder="Предмет" value="${s?.subject||''}"><input id="f_teacher" class="input" placeholder="Учитель" value="${s?.teacher||''}"><input id="f_room" class="input" placeholder="Кабинет" value="${s?.room||''}"><button class="btn primary" style="width:100%" onclick="saveSched('${s?.id||''}')">Сохранить</button>`;
-  showModal(html);
+  showModal(`
+    <h3>${s?'Редактировать урок':'Новый урок'}</h3>
+    <select id="f_day" class="input">${DAYS.map(d=>`<option ${d===(s?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select>
+    <input id="f_date" class="input" type="date" value="${s?.date||''}">
+    <input id="f_time" class="input" placeholder="08:00 — 08:45" value="${s?.time||''}">
+    <input id="f_subj" class="input" placeholder="Предмет" value="${s?.subject||''}">
+    <input id="f_teacher" class="input" placeholder="Учитель" value="${s?.teacher||''}">
+    <input id="f_room" class="input" placeholder="Кабинет" value="${s?.room||''}">
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <button class="btn" style="flex:1" onclick="closeModal()">Отмена</button>
+      <button class="btn primary" style="flex:1" onclick="saveSched('${s?.id||''}')">Сохранить</button>
+    </div>`);
 }
-async function saveSched(id){const o={id:id||Date.now().toString(),day:document.getElementById('f_day').value,date:document.getElementById('f_date').value,time:document.getElementById('f_time').value.trim(),subject:document.getElementById('f_subj').value.trim(),teacher:document.getElementById('f_teacher').value.trim(),room:document.getElementById('f_room').value.trim()}; if(!o.subject||!o.time){alert('Заполни время и предмет');return;} await apiPost({action:'save_schedule',schedule:o}); const i=DATA.schedule.findIndex(x=>x.id==o.id); if(i>=0) DATA.schedule[i]=o; else DATA.schedule.push(o); closeModal(); renderSched();}
-async function delSched(id){if(!confirm('Удалить?'))return; await apiPost({action:'delete_schedule',id}); DATA.schedule=DATA.schedule.filter(x=>x.id!=id); renderSched();}
+async function saveSched(id){
+  const o={
+    id:id||Date.now().toString(),
+    day:$('f_day').value,
+    date:$('f_date').value,
+    time:$('f_time').value.trim(),
+    subject:$('f_subj').value.trim(),
+    teacher:$('f_teacher').value.trim(),
+    room:$('f_room').value.trim()
+  };
+  if(!o.subject||!o.time){toast('Заполни время и предмет');return;}
+  const r=await apiPost({action:'save_schedule',schedule:o});
+  if(r.status!=='ok'){toast('Ошибка: '+(r.message||''));return;}
+  const i=DATA.schedule.findIndex(x=>x.id==o.id);
+  if(i>=0)DATA.schedule[i]=o;else DATA.schedule.push(o);
+  closeModal();renderSched();toast('Сохранено');
+}
+async function delSched(id){
+  if(!confirm('Удалить урок?'))return;
+  await apiPost({action:'delete_schedule',id});
+  DATA.schedule=DATA.schedule.filter(x=>x.id!=id);
+  renderSched();toast('Удалено');
+}
 
+/* ============ HOMEWORK ============ */
 function renderHw(){
-  document.getElementById('p-hw').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between"><b>Домашка - ${activeDay}</b><button class="btn primary" onclick="openHw()">+ Задание</button></div><div class="week">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderHw()">${d.slice(0,2)}</button>`).join('')}</div><div style="margin-top:12px">${DATA.homework.filter(h=>h.day===activeDay).map(h=>`<div class="row"><div><b>${h.subject}</b><div style="font-size:13px">${h.task}</div><div style="font-size:11px;color:var(--muted)">${h.deadline||''} ${h.date?'• '+h.date:''}</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="openHw('${h.id}')">Изм</button><button class="btn" style="color:var(--danger)" onclick="delHw('${h.id}')">✕</button></div></div>`).join('')||'<div style="padding:16px;text-align:center;color:var(--muted)">Нет заданий</div>'}</div></div>`;
+  $('p-hw').innerHTML=`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">Домашка • ${activeDay}</div>
+        <button class="btn primary" onclick="openHw()"><span class="msr" style="font-size:16px">add</span> Задание</button>
+      </div>
+      <div class="week">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderHw()">${d.slice(0,2)}</button>`).join('')}</div>
+      <div>
+        ${DATA.homework.filter(h=>h.day===activeDay).map(h=>`
+          <div class="row">
+            <div style="min-width:0"><b>${h.subject||''}</b><div style="font-size:13px;margin-top:3px">${h.task||''}</div><div style="font-size:11px;color:var(--muted);margin-top:3px">${h.deadline||''} ${h.date?'• '+h.date:''}</div></div>
+            <div style="display:flex;gap:6px">
+              <button class="btn" onclick="openHw('${h.id}')"><span class="msr" style="font-size:16px">edit</span></button>
+              <button class="btn danger" onclick="delHw('${h.id}')"><span class="msr" style="font-size:16px">delete</span></button>
+            </div>
+          </div>`).join('')||'<div class="empty">Нет заданий</div>'}
+      </div>
+    </div>`;
 }
-function openHw(id){const h=id?DATA.homework.find(x=>x.id==id):null; const html=`<h3>${h?'Редактировать':'Новое ДЗ'}</h3><select id="h_day" class="input">${DAYS.map(d=>`<option ${d===(h?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select><input id="h_date" class="input" type="date" value="${h?.date||''}"><input id="h_subj" class="input" placeholder="Предмет" value="${h?.subject||''}"><textarea id="h_task" class="input" style="min-height:80px" placeholder="Задание">${h?.task||''}</textarea><input id="h_dead" class="input" placeholder="Дедлайн" value="${h?.deadline||''}"><button class="btn primary" style="width:100%" onclick="saveHw('${h?.id||''}')">Сохранить</button>`; showModal(html);}
-async function saveHw(id){const o={id:id||Date.now().toString(),day:document.getElementById('h_day').value,date:document.getElementById('h_date').value,subject:document.getElementById('h_subj').value.trim(),task:document.getElementById('h_task').value.trim(),deadline:document.getElementById('h_dead').value.trim()}; if(!o.subject||!o.task){alert('Заполни');return;} await apiPost({action:'save_homework',homework:o}); const i=DATA.homework.findIndex(x=>x.id==o.id); if(i>=0) DATA.homework[i]=o; else DATA.homework.push(o); closeModal(); renderHw();}
-async function delHw(id){if(!confirm('Удалить?'))return; await apiPost({action:'delete_homework',id}); DATA.homework=DATA.homework.filter(x=>x.id!=id); renderHw();}
+function openHw(id){
+  const h=id?DATA.homework.find(x=>x.id==id):null;
+  showModal(`
+    <h3>${h?'Редактировать ДЗ':'Новое ДЗ'}</h3>
+    <select id="h_day" class="input">${DAYS.map(d=>`<option ${d===(h?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select>
+    <input id="h_date" class="input" type="date" value="${h?.date||''}">
+    <input id="h_subj" class="input" placeholder="Предмет" value="${h?.subject||''}">
+    <textarea id="h_task" class="input" placeholder="Задание" style="min-height:80px">${h?.task||''}</textarea>
+    <input id="h_dead" class="input" placeholder="Дедлайн" value="${h?.deadline||''}">
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <button class="btn" style="flex:1" onclick="closeModal()">Отмена</button>
+      <button class="btn primary" style="flex:1" onclick="saveHw('${h?.id||''}')">Сохранить</button>
+    </div>`);
+}
+async function saveHw(id){
+  const o={
+    id:id||Date.now().toString(),
+    day:$('h_day').value,
+    date:$('h_date').value,
+    subject:$('h_subj').value.trim(),
+    task:$('h_task').value.trim(),
+    deadline:$('h_dead').value.trim()
+  };
+  if(!o.subject||!o.task){toast('Заполни предмет и задание');return;}
+  const r=await apiPost({action:'save_homework',homework:o});
+  if(r.status!=='ok'){toast('Ошибка: '+(r.message||''));return;}
+  const i=DATA.homework.findIndex(x=>x.id==o.id);
+  if(i>=0)DATA.homework[i]=o;else DATA.homework.push(o);
+  closeModal();renderHw();toast('Сохранено');
+}
+async function delHw(id){
+  if(!confirm('Удалить задание?'))return;
+  await apiPost({action:'delete_homework',id});
+  DATA.homework=DATA.homework.filter(x=>x.id!=id);
+  renderHw();toast('Удалено');
+}
 
+/* ============ BANNER ============ */
 function renderBanner(){
-  const b=(DATA.banner&&DATA.banner[0])||{title:'NovaClass',sub:'Добро пожаловать',btnText:'Начать',image:'',bgFrom:'#16a34a',bgTo:'#22c55e',enabled:true};
+  const b=(DATA.banner&&DATA.banner[0])||{title:'NovaClass',sub:'Добро пожаловать',btnText:'Начать',bgFrom:'#16a34a',bgTo:'#22c55e',enabled:true};
   const sc=DATA.siteControl||{};
-  document.getElementById('p-banner').innerHTML=`<div class="card" style="background:linear-gradient(135deg,${b.bgFrom},${b.bgTo});color:#fff"><div style="font-size:20px;font-weight:800">${b.title}</div><div style="opacity:.9">${b.sub||''}</div></div>
-  <div class="card"><b>Баннер</b><div style="display:grid;gap:8px;margin-top:10px"><input id="b_title" class="input" placeholder="Заголовок" value="${b.title||''}"><input id="b_sub" class="input" placeholder="Подзаголовок" value="${b.sub||''}"><input id="b_btn" class="input" placeholder="Кнопка" value="${b.btnText||''}"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="b_c1" type="color" class="input" value="${b.bgFrom||'#16a34a'}"><input id="b_c2" type="color" class="input" value="${b.bgTo||'#22c55e'}"></div><label><input id="b_en" type="checkbox" ${b.enabled!==false?'checked':''}> Показывать</label><button class="btn primary" onclick="saveBanner()">Сохранить баннер</button></div></div>
-  <div class="card"><b>Управление сайтом</b><div style="margin-top:10px"><label style="display:flex;gap:8px"><input id="maint" type="checkbox" ${sc.maintenance?'checked':''} onchange="toggleMaint()"> Техобслуживание</label><div style="margin-top:10px;display:flex;gap:8px"><input id="mainColor" type="color" value="${sc.primaryColor||'#16a34a'}" class="input" style="width:60px"><button class="btn primary" onclick="saveColor()">Цвет</button></div></div></div>
-  <div class="card"><b>Рассылка всем ${DATA.users.length}</b><textarea id="bc_text" class="input" style="min-height:80px" placeholder="Сообщение всем..."></textarea><button class="btn primary" onclick="broadcast()">Отправить всем</button></div>`;
+  $('p-banner').innerHTML=`
+    <div class="card hero" style="background:linear-gradient(135deg,${b.bgFrom||'#16a34a'},${b.bgTo||'#22c55e'})">
+      <div style="font-size:22px;font-weight:700">${b.title||''}</div>
+      <div style="opacity:.9;font-size:13px;margin-top:4px">${b.sub||''}</div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;margin-bottom:12px">Баннер</div>
+      <input id="b_title" class="input" placeholder="Заголовок" value="${b.title||''}">
+      <input id="b_sub" class="input" placeholder="Подзаголовок" value="${b.sub||''}">
+      <input id="b_btn" class="input" placeholder="Кнопка" value="${b.btnText||''}">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px">
+        <input id="b_c1" type="color" class="input" value="${b.bgFrom||'#16a34a'}" style="padding:4px;height:44px">
+        <input id="b_c2" type="color" class="input" value="${b.bgTo||'#22c55e'}" style="padding:4px;height:44px">
+      </div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:13px;margin-bottom:10px">
+        <input id="b_en" type="checkbox" ${b.enabled!==false?'checked':''}> Показывать баннер
+      </label>
+      <button class="btn primary" style="width:100%;justify-content:center" onclick="saveBanner()">
+        <span class="msr" style="font-size:16px">save</span> Сохранить баннер
+      </button>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;margin-bottom:12px">Управление сайтом</div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:13px;margin-bottom:12px">
+        <input id="maint" type="checkbox" ${sc.maintenance?'checked':''} onchange="toggleMaint()"> Техобслуживание
+      </label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="mainColor" type="color" value="${sc.primaryColor||'#16a34a'}" class="input" style="width:64px;padding:4px;height:44px;margin:0">
+        <button class="btn primary" onclick="saveColor()">Сохранить цвет</button>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;margin-bottom:12px">Рассылка всем</div>
+      <textarea id="bc_text" class="input" placeholder="Сообщение всем пользователям..."></textarea>
+      <button class="btn primary" style="width:100%;justify-content:center" onclick="broadcast()">
+        <span class="msr" style="font-size:16px">campaign</span> Отправить всем
+      </button>
+    </div>`;
 }
-async function saveBanner(){const o={title:document.getElementById('b_title').value,sub:document.getElementById('b_sub').value,btnText:document.getElementById('b_btn').value,bgFrom:document.getElementById('b_c1').value,bgTo:document.getElementById('b_c2').value,enabled:document.getElementById('b_en').checked}; await apiPost({action:'save_banner',banner:o}); DATA.banner=[o]; renderBanner(); alert('Сохранено');}
-async function toggleMaint(){const v=document.getElementById('maint').checked; await apiPost({action:'save_settings',settings:{maintenance:v}}); DATA.siteControl.maintenance=v;}
-async function saveColor(){const c=document.getElementById('mainColor').value; await apiPost({action:'save_settings',settings:{primaryColor:c}}); DATA.siteControl.primaryColor=c; alert('Цвет: '+c);}
-async function broadcast(){const t=document.getElementById('bc_text').value.trim(); if(!t) return; if(!confirm('Отправить всем '+DATA.users.length+'?'))return; await apiPost({action:'broadcast_message',text:t}); alert('Отправлено'); document.getElementById('bc_text').value='';}
+async function saveBanner(){
+  const o={
+    title:$('b_title').value,sub:$('b_sub').value,btnText:$('b_btn').value,
+    bgFrom:$('b_c1').value,bgTo:$('b_c2').value,enabled:$('b_en').checked
+  };
+  const r=await apiPost({action:'save_banner',banner:o});
+  if(r.status==='ok'){DATA.banner=[o];renderBanner();toast('Сохранено');}
+  else toast('Ошибка: '+(r.message||''));
+}
+async function toggleMaint(){
+  const v=$('maint').checked;
+  await apiPost({action:'save_settings',settings:{maintenance:v}});
+  DATA.siteControl.maintenance=v;
+  toast(v?'Техобслуживание включено':'Выключено');
+}
+async function saveColor(){
+  const c=$('mainColor').value;
+  await apiPost({action:'save_settings',settings:{primaryColor:c}});
+  DATA.siteControl.primaryColor=c;
+  document.documentElement.style.setProperty('--primary',c);
+  toast('Цвет сохранён');
+}
+async function broadcast(){
+  const t=$('bc_text').value.trim();
+  if(!t){toast('Введите текст');return;}
+  if(!confirm('Отправить всем?'))return;
+  const r=await apiPost({action:'broadcast_message',text:t});
+  if(r.status==='ok'){$('bc_text').value='';toast('Отправлено');}
+  else toast('Ошибка: '+(r.message||''));
+}
 
-function showModal(html){let m=document.getElementById('modal'); if(!m){m=document.createElement('div'); m.id='modal'; m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px'; m.innerHTML='<div id="modalBody" style="background:#fff;border-radius:16px;padding:20px;width:100%;max-width:400px"></div>'; m.onclick=(e)=>{if(e.target===m) closeModal();}; document.body.appendChild(m);} document.getElementById('modalBody').innerHTML=html; m.style.display='flex';}
-function closeModal(){const m=document.getElementById('modal'); if(m) m.style.display='none';}
+/* ============ MODAL ============ */
+function showModal(html){$('modalBody').innerHTML=html;$('modal').classList.add('show');}
+function closeModal(){$('modal').classList.remove('show');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
-setTimeout(()=>{if(sessionStorage.getItem('nc_admin')){document.getElementById('auth').style.display='none';document.getElementById('app').style.display='block';init();}else{document.getElementById('auth').style.display='flex';document.getElementById('loader').classList.add('hide');}},500);
+/* ============ START ============ */
+setTimeout(()=>{
+  if(sessionStorage.getItem('nc_admin')){
+    $('auth').style.display='none';
+    $('app').style.display='block';
+    buildNav();
+    loadTheme();
+    init();
+  }else{
+    $('auth').style.display='flex';
+    $('loader').classList.add('hide');
+  }
+},300);
 </script>
 </body>
 </html>
