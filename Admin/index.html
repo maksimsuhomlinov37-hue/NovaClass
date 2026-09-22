@@ -12,22 +12,20 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f8fafb;--bg-soft:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;
+  --bg:#f8fafb;--bg-soft:#f1f5f9;--card:#ffffff;--text:#0f172a;--muted:#64748b;
   --border:#eef2f7;--primary:#16a34a;--primary-2:#22c55e;--danger:#ef4444;--warn:#f59e0b;
-  --week:#65D78E;--shadow-sm:0 2px 6px rgba(0,0,0,.05);--shadow:0 6px 20px rgba(0,0,0,.08);
-  --shadow-lg:0 16px 48px rgba(0,0,0,.18)
+  --strip:#4ade80;
+  --shadow-sm:0 2px 6px rgba(0,0,0,.05);--shadow:0 6px 20px rgba(0,0,0,.08);--shadow-lg:0 16px 48px rgba(0,0,0,.18)
 }
 body.dark{
   --bg:#0b1220;--bg-soft:#111a2e;--card:#131c30;--text:#e8eefc;--muted:#8fa0bd;
-  --border:#1e2a44;--shadow-sm:0 2px 6px rgba(0,0,0,.3);--shadow:0 6px 20px rgba(0,0,0,.4);
-  --shadow-lg:0 16px 48px rgba(0,0,0,.55)
+  --border:#1e2a44;--shadow-sm:0 2px 6px rgba(0,0,0,.3);--shadow:0 6px 20px rgba(0,0,0,.4);--shadow-lg:0 16px 48px rgba(0,0,0,.55)
 }
 body.oled{
   --bg:#000;--bg-soft:#0a0a0a;--card:#0a0a0a;--text:#f5f5f5;--muted:#8a8a8a;
-  --border:#161616;--shadow-sm:0 2px 6px rgba(0,0,0,.6);--shadow:0 6px 20px rgba(0,0,0,.7);
-  --shadow-lg:0 16px 48px rgba(0,0,0,.85)
+  --border:#161616;--shadow-sm:0 2px 6px rgba(0,0,0,.6);--shadow:0 6px 20px rgba(0,0,0,.7);--shadow-lg:0 16px 48px rgba(0,0,0,.85)
 }
-body{font-family:'Comfortaa',cursive,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+body{font-family:'Comfortaa',cursive,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;transition:background .35s,color .35s}
 button,input,textarea,select{font-family:'Comfortaa',cursive,sans-serif}
 .msr{font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size:20px;display:inline-flex;align-items:center;justify-content:center}
 
@@ -36,21 +34,27 @@ button,input,textarea,select{font-family:'Comfortaa',cursive,sans-serif}
 @keyframes shimmerLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 @keyframes pulseDot{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes ripple{from{transform:scale(0);opacity:.5}to{transform:scale(4);opacity:0}}
+@keyframes subtlePop{0%{transform:scale(.98)}50%{transform:scale(1.015)}100%{transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes itemsIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.items-fade{animation:itemsIn .4s cubic-bezier(.2,0,0,1) both}
 
-/* LOADER */
-#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-2));transition:opacity .4s}
-#loader.hide{opacity:0;pointer-events:none;display:none}
-#loader .lg{width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px}
-#loader .tt{font-size:30px;font-weight:700;margin-top:14px;letter-spacing:-.5px}
+#loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-2));transition:opacity .35s}
+#loader.hide{opacity:0;pointer-events:none}
+#loader .lg{width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:30px;animation:subtlePop .9s infinite}
+#loader .tt{font-size:34px;font-weight:700;margin-top:14px;letter-spacing:-.5px}
+#loader .sub{margin-top:8px;font-size:12px;opacity:.85}
+#loader .spinner{margin-top:20px;width:32px;height:32px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
 
-/* AUTH */
 .auth{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:90;padding:16px}
 .auth-card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;animation:fadeInUp .35s ease;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--primary-2));animation:shimmerLine 3s infinite}
-.auth-logo{width:52px;height:52px;border-radius:14px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;margin:0 auto}
+.auth-logo{width:52px;height:52px;border-radius:14px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;margin:0 auto;transition:transform .25s}
+.auth-logo:hover{transform:scale(1.06) rotate(-3deg)}
 .input{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-soft);color:var(--text);outline:none;font-size:13px;transition:all .2s;margin-bottom:9px}
 .input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
 .input::placeholder{color:var(--muted)}
+textarea.input{resize:vertical;min-height:70px;line-height:1.5}
 .btn{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);font-weight:600;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:6px;color:var(--text);transition:all .2s;position:relative;overflow:hidden}
 .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}
 .btn:active{transform:scale(.95)}
@@ -58,27 +62,25 @@ button,input,textarea,select{font-family:'Comfortaa',cursive,sans-serif}
 .btn.danger{background:var(--danger);color:#fff;border-color:var(--danger)}
 .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:ripple .6s ease;pointer-events:none}
 
-/* TOP */
-.top{position:fixed;top:0;left:0;right:0;height:56px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:30}
+.top{position:fixed;top:0;left:0;right:0;height:56px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:30;transition:background .35s}
 .top-left{display:flex;align-items:center;gap:10px}
-.top-logo{width:32px;height:32px;background:var(--primary);color:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.top-logo{width:32px;height:32px;background:var(--primary);color:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;transition:transform .25s}
+.top-logo:hover{transform:scale(1.06) rotate(2deg)}
 .top-brand{font-weight:700;font-size:15px;letter-spacing:-.3px}
 .top-title{font-weight:600;font-size:11px;color:var(--muted);padding:3px 8px;border:1px solid var(--border);border-radius:100px}
 .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;transition:background .3s;animation:pulseDot 1.6s infinite}
 .dot.ok{background:#22c55e;animation:none}
 .dot.err{background:#ef4444;animation:none}
 
-/* SIDEBAR + INDICATOR */
-.side{position:fixed;left:0;top:56px;bottom:0;width:250px;background:var(--card);border-right:1px solid var(--border);padding:12px;overflow-y:auto;z-index:19}
+.side{position:fixed;left:0;top:56px;bottom:0;width:250px;background:var(--card);border-right:1px solid var(--border);padding:12px;overflow-y:auto;z-index:19;transition:background .35s}
 #navWrap{position:relative}
-#navIndicator{position:absolute;left:0;right:0;top:0;height:42px;background:var(--text);border-radius:10px;transition:transform .38s cubic-bezier(.34,1.3,.4,1),height .25s ease;z-index:0;pointer-events:none;opacity:0}
+#navIndicator{position:absolute;left:0;right:0;top:0;height:42px;background:var(--text);border-radius:10px;transition:transform .38s cubic-bezier(.34,1.3,.4,1),height .25s;z-index:0;pointer-events:none;opacity:0}
 #navIndicator.ready{opacity:1}
 .nav-btn{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;text-align:left;margin-bottom:2px;transition:color .2s,transform .2s;position:relative;z-index:1}
 .nav-btn:hover{transform:translateX(3px);color:var(--text)}
 .nav-btn.active{color:var(--card);font-weight:700}
 .nav-btn.active:hover{color:var(--card)}
 
-/* MAIN */
 .main{margin-left:250px;padding:20px;padding-top:76px;min-height:100vh}
 .tab{display:none}
 .tab.active{display:block;animation:fadeInUp .3s ease}
@@ -93,10 +95,21 @@ button,input,textarea,select{font-family:'Comfortaa',cursive,sans-serif}
 .row.warn{border-left:3px solid var(--warn)}
 .row.ok{border-left:3px solid var(--primary)}
 
-.week{display:flex;gap:2px;background:var(--week);padding:4px;border-radius:10px;margin:12px 0}
-.week button{flex:1;border:none;background:transparent;color:rgba(255,255,255,.85);font-weight:700;padding:9px;border-radius:8px;cursor:pointer;font-size:11px;text-transform:uppercase;transition:all .2s}
-.week button:hover{background:rgba(255,255,255,.15);color:#fff}
-.week button.active{background:#fff;color:#0f172a;font-weight:700}
+.week-strip{display:flex;align-items:stretch;background:var(--strip);border-radius:10px 10px 0 0;overflow:hidden;height:46px;animation:fadeInUp .35s ease}
+.week-strip .ws-arrow{width:36px;min-width:36px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.08);color:#fff;border:none;cursor:pointer;transition:background .2s}
+.week-strip .ws-arrow:hover{background:rgba(0,0,0,.16)}
+.week-strip .ws-arrow .msr{font-size:20px}
+.week-strip .ws-days{flex:1;display:grid;grid-template-columns:repeat(7,1fr);gap:1px;padding:3px 2px 0;min-width:0}
+.week-strip .ws-day{height:100%;display:flex;align-items:center;justify-content:center;background:transparent;color:rgba(255,255,255,.92);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;border:none;border-radius:7px 7px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 2px;transition:all .2s ease}
+.week-strip .ws-day:hover{background:rgba(255,255,255,.16)}
+.week-strip .ws-day.active{background:#fff;color:#0f172a;font-weight:800;animation:subtlePop .25s ease}
+.week-date{padding:11px 16px;font-size:17px;font-weight:800;color:#4EC67E;text-transform:uppercase;letter-spacing:.6px;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;margin-bottom:14px;transition:background .35s;animation:fadeInUp .35s ease}
+@media(max-width:900px){
+  .week-strip{height:42px}
+  .week-strip .ws-day{font-size:8.5px;letter-spacing:.3px}
+  .week-strip .ws-arrow{width:30px;min-width:30px}
+  .week-date{font-size:14px;padding:9px 12px}
+}
 
 .empty{padding:36px 20px;text-align:center;color:var(--muted);font-size:13px;border:1px dashed var(--border);border-radius:12px}
 .badge{font-size:10px;padding:2px 8px;border-radius:20px;background:#fef3c7;color:#92400e;font-weight:700}
@@ -104,8 +117,8 @@ button,input,textarea,select{font-family:'Comfortaa',cursive,sans-serif}
 .badge.ignored{background:#f1f5f9;color:#475569}
 body.dark .badge,body.oled .badge{background:#3b2f0d;color:#fde68a}
 body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
+body.dark .badge.ignored,body.oled .badge.ignored{background:#1e293b;color:#cbd5e1}
 
-/* THEME SWITCHER */
 .ts-wrap{display:flex;gap:5px;align-items:center;padding:4px;background:var(--bg-soft);border:1px solid var(--border);border-radius:100px}
 .ts{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .2s}
 .ts:hover{transform:scale(1.12)}
@@ -114,17 +127,14 @@ body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
 .ts[data-th="dark"]{background:linear-gradient(135deg,#1e293b,#0f172a)}
 .ts[data-th="oled"]{background:linear-gradient(135deg,#000,#1a1a1a)}
 
-/* MODAL */
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
 #modal.show{display:flex}
 #modalBody{background:var(--card);border-radius:16px;padding:22px;width:100%;max-width:420px;animation:scaleIn .25s;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
 #modalBody h3{font-size:17px;font-weight:700;margin-bottom:14px}
 
-/* TOAST */
 #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);z-index:10001;background:var(--text);color:var(--card);padding:11px 18px;border-radius:10px;font-size:12px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:440px;height:62px;background:var(--card);border:1px solid var(--border);border-radius:18px;display:none;justify-content:space-around;align-items:center;padding:4px;z-index:40;box-shadow:var(--shadow)}
 #bnavIndicator{position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--text);border-radius:14px;transition:transform .38s cubic-bezier(.34,1.3,.4,1),width .3s;z-index:0;pointer-events:none}
 .bnav-btn{flex:1;display:flex;align-items:center;justify-content:center;height:52px;border-radius:14px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:color .2s,transform .2s;position:relative;z-index:1}
@@ -142,13 +152,13 @@ body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
 </head>
 <body>
 
-<!-- LOADER -->
 <div id="loader">
   <div class="lg">N</div>
   <div class="tt">NovaClass</div>
+  <div class="sub" id="loaderSub">Загрузка данных…</div>
+  <div class="spinner"></div>
 </div>
 
-<!-- AUTH -->
 <div id="auth" class="auth" style="display:none">
   <div class="auth-card">
     <div style="text-align:center">
@@ -159,15 +169,12 @@ body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
     <div style="margin-top:20px">
       <input id="email" class="input" placeholder="Email" autocomplete="username">
       <input id="pass" class="input" type="password" placeholder="Пароль" autocomplete="current-password">
-      <button class="btn primary" style="width:100%;justify-content:center;padding:12px" onclick="login()">
-        <span class="msr">login</span> Войти
-      </button>
+      <button class="btn primary" style="width:100%;justify-content:center;padding:12px" onclick="login()"><span class="msr">login</span> Войти</button>
     </div>
     <div id="authErr" style="color:var(--danger);font-size:12px;margin-top:10px;display:none;text-align:center"></div>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none">
   <div class="top">
     <div class="top-left">
@@ -177,7 +184,7 @@ body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
       <span id="apiDot" class="dot"></span>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
-      <div class="ts-wrap" id="tsWrap">
+      <div class="ts-wrap">
         <div class="ts" data-th="light" onclick="setTheme('light')"></div>
         <div class="ts" data-th="dark" onclick="setTheme('dark')"></div>
         <div class="ts" data-th="oled" onclick="setTheme('oled')"></div>
@@ -187,11 +194,7 @@ body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
     </div>
   </div>
 
-  <div class="side">
-    <div id="navWrap">
-      <div id="navIndicator"></div>
-    </div>
-  </div>
+  <div class="side"><div id="navWrap"><div id="navIndicator"></div></div></div>
 
   <div class="main">
     <div id="p-dash" class="tab active"></div>
@@ -211,46 +214,70 @@ body.dark .badge.done,body.oled .badge.done{background:#0d3320;color:#86efac}
 <div id="toast"></div>
 
 <script>
-/* ============ CONFIG ============ */
+/* ================= CONFIG ================= */
 const API_URL='https://script.google.com/macros/s/AKfycbzIHwTxKCJUpZUuqJd0-QHJ-tjTx3CCIDEyvzpZVCxYWkcYprY1Wp723J5jP9s_PA/exec';
 const ADMIN_EMAIL='maksimsuhomlinov37@gmail.com';
 const ADMIN_PASS='Suxmaks_12';
 
 const $=id=>document.getElementById(id);
-const DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+const DAY_FULL=['ВОСКРЕСЕНЬЕ','ПОНЕДЕЛЬНИК','ВТОРНИК','СРЕДА','ЧЕТВЕРГ','ПЯТНИЦА','СУББОТА'];
+const MONTH_FULL=['ЯНВАРЯ','ФЕВРАЛЯ','МАРТА','АПРЕЛЯ','МАЯ','ИЮНЯ','ИЮЛЯ','АВГУСТА','СЕНТЯБРЯ','ОКТЯБРЯ','НОЯБРЯ','ДЕКАБРЯ'];
 
 let DATA={users:[],schedule:[],homework:[],messages:[],banner:[],siteControl:{maintenance:false,primaryColor:'#16a34a'},complaints:[],appeals:[]};
-let activeDay='Понедельник';
 let currentTab='dash';
+let weekOffset=0;
+let activeDate=todayISO();
 
-/* ============ API ============ */
-function apiGet(p){return fetch(API_URL+'?'+new URLSearchParams(p),{cache:'no-store'}).then(r=>r.json())}
-function apiPost(d){
-  return fetch(API_URL,{
-    method:'POST',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify(d)
-  }).then(r=>r.json());
+/* ================= ДАТЫ ================= */
+function getMondayOf(date){
+  const d=new Date(date);d.setHours(0,0,0,0);
+  const day=d.getDay();
+  const diff=(day===0?-6:1-day);
+  d.setDate(d.getDate()+diff);
+  return d;
+}
+function weekDates(offset){
+  const mon=getMondayOf(new Date());
+  mon.setDate(mon.getDate()+offset*7);
+  const arr=[];for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);arr.push(d);}
+  return arr;
+}
+function todayISO(){const t=new Date();t.setHours(0,0,0,0);const y=t.getFullYear(),m=String(t.getMonth()+1).padStart(2,'0'),d=String(t.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
+function isoOf(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${dd}`;}
+function dayNameFromISO(iso){const d=new Date(iso+'T00:00:00');return DAY_FULL[d.getDay()]||'';}
+function formatDateFull(iso){
+  const d=new Date(iso+'T00:00:00');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${day} ${MONTH_FULL[d.getMonth()]}`;
 }
 
-/* ============ UI helpers ============ */
+/* Универсальный фильтр — по дате ИЛИ по дню недели (для старых записей) */
+function recordMatchesDate(rec, iso){
+  if(rec.date && String(rec.date).length>=10){
+    return String(rec.date).slice(0,10) === iso;
+  }
+  if(rec.day){
+    const d=new Date(iso+'T00:00:00');
+    const name=DAY_FULL[d.getDay()]||'';
+    const recDay=String(rec.day).toUpperCase().trim();
+    /* поддержка и полного названия, и короткого (Пн/ПН/Понедельник) */
+    if(recDay===name) return true;
+    if(recDay===name.slice(0,2)) return true;
+    return false;
+  }
+  return false;
+}
+
+/* ================= API ================= */
+function apiGet(p){return fetch(API_URL+'?'+new URLSearchParams(p),{cache:'no-store'}).then(r=>r.json())}
+function apiPost(d){return fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)}).then(r=>r.json());}
+
 function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2200);}
 
-document.addEventListener('click',e=>{
-  const btn=e.target.closest('.btn');
-  if(!btn)return;
-  const r=btn.getBoundingClientRect();
-  const s=document.createElement('span');
-  const size=Math.max(r.width,r.height);
-  s.className='ripple';
-  s.style.width=s.style.height=size+'px';
-  s.style.left=(e.clientX-r.left-size/2)+'px';
-  s.style.top=(e.clientY-r.top-size/2)+'px';
-  btn.appendChild(s);
-  setTimeout(()=>s.remove(),600);
-});
+/* RIPPLE */
+document.addEventListener('click',e=>{const btn=e.target.closest('.btn,.ws-day,.ws-arrow,.bnav-btn');if(!btn)return;const r=btn.getBoundingClientRect();const s=document.createElement('span');const size=Math.max(r.width,r.height);s.className='ripple';s.style.width=s.style.height=size+'px';s.style.left=(e.clientX-r.left-size/2)+'px';s.style.top=(e.clientY-r.top-size/2)+'px';btn.appendChild(s);setTimeout(()=>s.remove(),600);});
 
-/* ============ THEME ============ */
+/* ================= THEME ================= */
 function setTheme(t){
   document.body.classList.remove('dark','oled');
   if(t==='dark')document.body.classList.add('dark');
@@ -261,7 +288,7 @@ function setTheme(t){
 }
 function loadTheme(){setTheme(localStorage.getItem('nc_admin_theme')||'light');}
 
-/* ============ AUTH ============ */
+/* ================= AUTH ================= */
 function login(){
   const e=$('email').value.trim().toLowerCase();
   const p=$('pass').value.trim();
@@ -276,11 +303,12 @@ function login(){
     const err=$('authErr');
     err.style.display='block';
     err.textContent='Неверный логин или пароль';
+    err.style.animation='none';void err.offsetWidth;err.style.animation='subtlePop .3s ease';
   }
 }
 function logout(){sessionStorage.removeItem('nc_admin');location.reload();}
 
-/* ============ NAV ============ */
+/* ================= NAV ================= */
 const NAV=[
   {id:'dash',label:'Дашборд',icon:'dashboard'},
   {id:'users',label:'Пользователи',icon:'group'},
@@ -291,7 +319,6 @@ const NAV=[
   {id:'hw',label:'Домашка',icon:'menu_book'},
   {id:'banner',label:'Баннер',icon:'wallpaper'}
 ];
-
 function buildNav(){
   const wrap=$('navWrap');
   wrap.querySelectorAll('.nav-btn').forEach(x=>x.remove());
@@ -316,21 +343,21 @@ function buildNav(){
   requestAnimationFrame(()=>{moveNavIndicator();moveBottomIndicator();});
 }
 function moveNavIndicator(){
-  const active=document.querySelector('.nav-btn.active');
+  const a=document.querySelector('.nav-btn.active');
   const ind=$('navIndicator');
-  if(!active||!ind)return;
-  ind.style.height=active.offsetHeight+'px';
-  ind.style.transform=`translateY(${active.offsetTop}px)`;
+  if(!a||!ind)return;
+  ind.style.height=a.offsetHeight+'px';
+  ind.style.transform=`translateY(${a.offsetTop}px)`;
   ind.classList.add('ready');
 }
 function moveBottomIndicator(){
-  const active=document.querySelector('.bnav-btn.active');
+  const a=document.querySelector('.bnav-btn.active');
   const ind=$('bnavIndicator');
-  if(!active||!ind)return;
-  const parent=$('bottomNav').getBoundingClientRect();
-  const r=active.getBoundingClientRect();
+  if(!a||!ind)return;
+  const p=$('bottomNav').getBoundingClientRect();
+  const r=a.getBoundingClientRect();
   ind.style.width=r.width+'px';
-  ind.style.transform=`translateX(${r.left-parent.left-4}px)`;
+  ind.style.transform=`translateX(${r.left-p.left-4}px)`;
 }
 window.addEventListener('resize',()=>{moveNavIndicator();moveBottomIndicator();});
 
@@ -349,9 +376,19 @@ function tab(t){
   if(t==='banner')renderBanner();
 }
 
-/* ============ INIT ============ */
+/* ================= ЗАГРУЗКА (реальная, без обмана) ================= */
 async function init(){
   $('apiDot').className='dot';
+  $('loader').style.display='flex';
+  $('loader').classList.remove('hide');
+  $('loaderSub').textContent='Загрузка данных…';
+
+  /* Показываем кеш пока грузится — чтобы не было пусто */
+  try{
+    const cached=JSON.parse(localStorage.getItem('nc_admin_cache')||'null');
+    if(cached&&cached.users){DATA=cached;}
+  }catch{}
+
   try{
     const d=await apiGet({action:'getAllData',t:Date.now()});
     if(d.status==='ok'){
@@ -364,7 +401,6 @@ async function init(){
       DATA.appeals=d.appeals||[];
       DATA.siteControl=d.siteControl||{maintenance:false,primaryColor:'#16a34a'};
       $('apiDot').className='dot ok';
-      tab(currentTab);
       try{localStorage.setItem('nc_admin_cache',JSON.stringify(DATA));}catch{}
     }else{
       $('apiDot').className='dot err';
@@ -373,21 +409,21 @@ async function init(){
   }catch(e){
     console.error(e);
     $('apiDot').className='dot err';
-    try{
-      const cached=JSON.parse(localStorage.getItem('nc_admin_cache')||'{}');
-      if(cached.users){DATA=cached;tab(currentTab);toast('Показаны кешированные данные');}
-    }catch{}
+    if(DATA.users.length===0) toast('Не удалось получить данные');
+    else toast('Показаны кешированные данные');
   }finally{
     $('loader').classList.add('hide');
+    setTimeout(()=>{$('loader').style.display='none';},350);
+    tab(currentTab);
   }
 }
 
-/* ============ DASH ============ */
+/* ================= DASH ================= */
 function renderDash(){
   $('p-dash').innerHTML=`
     <div class="card hero">
       <div style="font-size:22px;font-weight:700">Панель управления NovaClass</div>
-      <div style="opacity:.9;font-size:13px;margin-top:4px">Выберите раздел — всё в меню слева (или снизу на телефоне)</div>
+      <div style="opacity:.9;font-size:13px;margin-top:4px">Выберите раздел — всё в меню слева</div>
     </div>
     <div class="card">
       <div style="font-weight:700;font-size:14px;margin-bottom:12px">Быстрые действия</div>
@@ -396,7 +432,7 @@ function renderDash(){
       </div>
     </div>
     <div class="card">
-      <div style="font-weight:700;font-size:14px">Статус системы</div>
+      <div style="font-weight:700;font-size:14px">Статус</div>
       <div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.8">
         Бэкенд: <b style="color:var(--primary)">Google Apps Script</b><br>
         База: <b>Google Таблицы</b><br>
@@ -405,7 +441,7 @@ function renderDash(){
     </div>`;
 }
 
-/* ============ USERS ============ */
+/* ================= USERS ================= */
 function renderUsers(){
   $('p-users').innerHTML=`
     <div class="card">
@@ -448,7 +484,7 @@ async function delUser(id){
   renderUsers();toast('Удалено');
 }
 
-/* ============ MESSAGES ============ */
+/* ================= MESSAGES ================= */
 function renderMessages(){
   $('p-messages').innerHTML=`
     <div class="card">
@@ -456,7 +492,7 @@ function renderMessages(){
         <div style="font-weight:700">Все СМС чата</div>
         <button class="btn danger" onclick="clearChat()"><span class="msr" style="font-size:16px">delete_sweep</span> Очистить</button>
       </div>
-      <div style="margin-top:14px">
+      <div class="items-fade" style="margin-top:14px">
         ${DATA.messages.slice().reverse().map(m=>`
           <div class="row">
             <div style="flex:1;min-width:0">
@@ -481,12 +517,12 @@ async function clearChat(){
   DATA.messages=[];renderMessages();toast('Чат очищен');
 }
 
-/* ============ COMPLAINTS ============ */
+/* ================= COMPLAINTS ================= */
 function renderComplaints(){
   $('p-complaints').innerHTML=`
     <div class="card">
       <div style="font-weight:700">Жалобы на СМС</div>
-      <div style="margin-top:14px">
+      <div class="items-fade" style="margin-top:14px">
         ${DATA.complaints.slice().reverse().map(c=>{
           const orig=DATA.messages.find(m=>m.id==c.targetId);
           const cls=c.status==='new'?'warn':c.status==='done'?'ok':'danger';
@@ -518,12 +554,12 @@ async function deleteComp(id){
   renderComplaints();toast('Удалено');
 }
 
-/* ============ APPEALS ============ */
+/* ================= APPEALS ================= */
 function renderAppeals(){
   $('p-appeals').innerHTML=`
     <div class="card">
       <div style="font-weight:700">Апелляции / Баги</div>
-      <div style="margin-top:14px">
+      <div class="items-fade" style="margin-top:14px">
         ${DATA.appeals.slice().reverse().map(a=>{
           const cls=a.status==='new'?'warn':'ok';
           return `<div class="row ${cls}">
@@ -554,23 +590,45 @@ async function deleteAppeal(id){
   renderAppeals();toast('Удалено');
 }
 function answerAppeal(id){
-  const note=prompt('Ответ админа:');
+  const note=prompt('Ответ:');
   if(note!==null)updateAppeal(id,'done',note);
 }
 
-/* ============ SCHEDULE ============ */
+/* ================= ПОЛОСА НЕДЕЛИ ================= */
+function weekStripHTML(callback){
+  const week=weekDates(weekOffset);
+  const daysHtml=week.map(d=>{
+    const iso=isoOf(d);
+    const name=dayNameFromISO(iso);
+    return `<button class="ws-day ${activeDate===iso?'active':''}" onclick="activeDate='${iso}';${callback}()" title="${name}">${name}</button>`;
+  }).join('');
+  return `
+    <div class="week-strip">
+      <button class="ws-arrow" onclick="weekOffset-=1;${callback}()"><span class="msr">chevron_left</span></button>
+      <div class="ws-days">${daysHtml}</div>
+      <button class="ws-arrow" onclick="weekOffset+=1;${callback}()"><span class="msr">chevron_right</span></button>
+    </div>
+    <div class="week-date">${formatDateFull(activeDate)}</div>`;
+}
+
+/* ================= SCHEDULE ================= */
 function renderSched(){
+  const filtered=DATA.schedule.filter(s=>recordMatchesDate(s,activeDate));
   $('p-sched').innerHTML=`
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:700">Расписание • ${activeDay}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-weight:700">Расписание • ${dayNameFromISO(activeDate)}</div>
         <button class="btn primary" onclick="openSched()"><span class="msr" style="font-size:16px">add</span> Урок</button>
       </div>
-      <div class="week">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderSched()">${d.slice(0,2)}</button>`).join('')}</div>
-      <div>
-        ${DATA.schedule.filter(s=>s.day===activeDay).map(s=>`
+      ${weekStripHTML('renderSched')}
+      <div class="items-fade">
+        ${filtered.map(s=>`
           <div class="row">
-            <div><b>${s.time||''} — ${s.subject||''}</b><div style="font-size:12px;color:var(--muted)">${s.teacher||''} ${s.room?'• '+s.room:''} ${s.date?'• '+s.date:''}</div></div>
+            <div>
+              <div style="font-size:10px;color:var(--muted)">${s.time||''} ${s.date?'• '+s.date:''}</div>
+              <div style="font-weight:700;font-size:13px">${s.subject||''}</div>
+              <div style="font-size:10px;color:var(--muted)">${s.teacher||''} ${s.room?'• '+s.room:''}</div>
+            </div>
             <div style="display:flex;gap:6px">
               <button class="btn" onclick="openSched('${s.id}')"><span class="msr" style="font-size:16px">edit</span></button>
               <button class="btn danger" onclick="delSched('${s.id}')"><span class="msr" style="font-size:16px">delete</span></button>
@@ -583,8 +641,7 @@ function openSched(id){
   const s=id?DATA.schedule.find(x=>x.id==id):null;
   showModal(`
     <h3>${s?'Редактировать урок':'Новый урок'}</h3>
-    <select id="f_day" class="input">${DAYS.map(d=>`<option ${d===(s?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select>
-    <input id="f_date" class="input" type="date" value="${s?.date||''}">
+    <input id="f_date" type="date" class="input" value="${s?.date||activeDate}">
     <input id="f_time" class="input" placeholder="08:00 — 08:45" value="${s?.time||''}">
     <input id="f_subj" class="input" placeholder="Предмет" value="${s?.subject||''}">
     <input id="f_teacher" class="input" placeholder="Учитель" value="${s?.teacher||''}">
@@ -595,21 +652,21 @@ function openSched(id){
     </div>`);
 }
 async function saveSched(id){
+  const date=$('f_date').value;
   const o={
     id:id||Date.now().toString(),
-    day:$('f_day').value,
-    date:$('f_date').value,
+    date,day:dayNameFromISO(date),
     time:$('f_time').value.trim(),
     subject:$('f_subj').value.trim(),
     teacher:$('f_teacher').value.trim(),
     room:$('f_room').value.trim()
   };
-  if(!o.subject||!o.time){toast('Заполни время и предмет');return;}
+  if(!o.date||!o.subject||!o.time){toast('Дата, время, предмет обязательны');return;}
   const r=await apiPost({action:'save_schedule',schedule:o});
   if(r.status!=='ok'){toast('Ошибка: '+(r.message||''));return;}
-  const i=DATA.schedule.findIndex(x=>x.id==o.id);
+  const i=DATA.schedule.findIndex(x=>x.id===o.id);
   if(i>=0)DATA.schedule[i]=o;else DATA.schedule.push(o);
-  closeModal();renderSched();toast('Сохранено');
+  closeModal();activeDate=date;renderSched();toast('Сохранено');
 }
 async function delSched(id){
   if(!confirm('Удалить урок?'))return;
@@ -618,19 +675,24 @@ async function delSched(id){
   renderSched();toast('Удалено');
 }
 
-/* ============ HOMEWORK ============ */
+/* ================= HOMEWORK ================= */
 function renderHw(){
+  const filtered=DATA.homework.filter(h=>recordMatchesDate(h,activeDate));
   $('p-hw').innerHTML=`
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:700">Домашка • ${activeDay}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-weight:700">Домашка • ${dayNameFromISO(activeDate)}</div>
         <button class="btn primary" onclick="openHw()"><span class="msr" style="font-size:16px">add</span> Задание</button>
       </div>
-      <div class="week">${DAYS.map(d=>`<button class="${d===activeDay?'active':''}" onclick="activeDay='${d}';renderHw()">${d.slice(0,2)}</button>`).join('')}</div>
-      <div>
-        ${DATA.homework.filter(h=>h.day===activeDay).map(h=>`
+      ${weekStripHTML('renderHw')}
+      <div class="items-fade">
+        ${filtered.map(h=>`
           <div class="row">
-            <div style="min-width:0"><b>${h.subject||''}</b><div style="font-size:13px;margin-top:3px">${h.task||''}</div><div style="font-size:11px;color:var(--muted);margin-top:3px">${h.deadline||''} ${h.date?'• '+h.date:''}</div></div>
+            <div style="min-width:0">
+              <b>${h.subject||''}</b>
+              <div style="font-size:13px;margin-top:3px">${h.task||''}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px">${h.deadline||''} ${h.date?'• '+h.date:''}</div>
+            </div>
             <div style="display:flex;gap:6px">
               <button class="btn" onclick="openHw('${h.id}')"><span class="msr" style="font-size:16px">edit</span></button>
               <button class="btn danger" onclick="delHw('${h.id}')"><span class="msr" style="font-size:16px">delete</span></button>
@@ -643,8 +705,7 @@ function openHw(id){
   const h=id?DATA.homework.find(x=>x.id==id):null;
   showModal(`
     <h3>${h?'Редактировать ДЗ':'Новое ДЗ'}</h3>
-    <select id="h_day" class="input">${DAYS.map(d=>`<option ${d===(h?.day||activeDay)?'selected':''}>${d}</option>`).join('')}</select>
-    <input id="h_date" class="input" type="date" value="${h?.date||''}">
+    <input id="h_date" type="date" class="input" value="${h?.date||activeDate}">
     <input id="h_subj" class="input" placeholder="Предмет" value="${h?.subject||''}">
     <textarea id="h_task" class="input" placeholder="Задание" style="min-height:80px">${h?.task||''}</textarea>
     <input id="h_dead" class="input" placeholder="Дедлайн" value="${h?.deadline||''}">
@@ -654,20 +715,20 @@ function openHw(id){
     </div>`);
 }
 async function saveHw(id){
+  const date=$('h_date').value;
   const o={
     id:id||Date.now().toString(),
-    day:$('h_day').value,
-    date:$('h_date').value,
+    date,day:dayNameFromISO(date),
     subject:$('h_subj').value.trim(),
     task:$('h_task').value.trim(),
     deadline:$('h_dead').value.trim()
   };
-  if(!o.subject||!o.task){toast('Заполни предмет и задание');return;}
+  if(!o.date||!o.subject||!o.task){toast('Дата, предмет, задание обязательны');return;}
   const r=await apiPost({action:'save_homework',homework:o});
   if(r.status!=='ok'){toast('Ошибка: '+(r.message||''));return;}
-  const i=DATA.homework.findIndex(x=>x.id==o.id);
+  const i=DATA.homework.findIndex(x=>x.id===o.id);
   if(i>=0)DATA.homework[i]=o;else DATA.homework.push(o);
-  closeModal();renderHw();toast('Сохранено');
+  closeModal();activeDate=date;renderHw();toast('Сохранено');
 }
 async function delHw(id){
   if(!confirm('Удалить задание?'))return;
@@ -676,7 +737,7 @@ async function delHw(id){
   renderHw();toast('Удалено');
 }
 
-/* ============ BANNER ============ */
+/* ================= BANNER ================= */
 function renderBanner(){
   const b=(DATA.banner&&DATA.banner[0])||{title:'NovaClass',sub:'Добро пожаловать',btnText:'Начать',bgFrom:'#16a34a',bgTo:'#22c55e',enabled:true};
   const sc=DATA.siteControl||{};
@@ -720,10 +781,7 @@ function renderBanner(){
     </div>`;
 }
 async function saveBanner(){
-  const o={
-    title:$('b_title').value,sub:$('b_sub').value,btnText:$('b_btn').value,
-    bgFrom:$('b_c1').value,bgTo:$('b_c2').value,enabled:$('b_en').checked
-  };
+  const o={title:$('b_title').value,sub:$('b_sub').value,btnText:$('b_btn').value,bgFrom:$('b_c1').value,bgTo:$('b_c2').value,enabled:$('b_en').checked};
   const r=await apiPost({action:'save_banner',banner:o});
   if(r.status==='ok'){DATA.banner=[o];renderBanner();toast('Сохранено');}
   else toast('Ошибка: '+(r.message||''));
@@ -750,12 +808,12 @@ async function broadcast(){
   else toast('Ошибка: '+(r.message||''));
 }
 
-/* ============ MODAL ============ */
+/* ================= MODAL ================= */
 function showModal(html){$('modalBody').innerHTML=html;$('modal').classList.add('show');}
 function closeModal(){$('modal').classList.remove('show');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
-/* ============ START ============ */
+/* ================= START ================= */
 setTimeout(()=>{
   if(sessionStorage.getItem('nc_admin')){
     $('auth').style.display='none';
@@ -766,6 +824,7 @@ setTimeout(()=>{
   }else{
     $('auth').style.display='flex';
     $('loader').classList.add('hide');
+    $('loader').style.display='none';
   }
 },300);
 </script>
