@@ -332,7 +332,8 @@ button,input,textarea,select{font-family:'Comfortaa',cursive,sans-serif}
 <div id="toast"></div>
 
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycbzcrv-BxdD23-VljED4gPYX0LATMDkPNbwU0oz2fm_iod-KbdACUJ6V6d6G6qxzmQ/exec';
+/* ⬇⬇⬇ ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ — НОВЫЙ URL СКРИПТА ⬇⬇⬇ */
+const GAS_URL='https://script.google.com/macros/s/AKfycbyoCUJ1WDuvkoFEFE8zVeFjOpC7iBERBa19P3_FUaTS8yEyVvZ6QkWj8e32iZGhl5k/exec';
 const OWNER_EMAIL='maksimsuhomlinov37@gmail.com';
 const $=id=>document.getElementById(id);
 
@@ -523,7 +524,6 @@ function moveItem(type,id,dir){
   const newIdx=idx+dir;if(newIdx<0||newIdx>=filtered.length)return;
   const [moved]=filtered.splice(idx,1);filtered.splice(newIdx,0,moved);
   const ids=filtered.map(x=>String(x.id));
-  // обновляем локально order
   filtered.forEach((it,i)=>{const orig=arr.find(a=>a.id===it.id);if(orig)orig.order=i;});
   logAction('reorder_'+type,id,'Переместил '+dir);
   if(type==='schedule') api.post({action:'reorder_schedule',date:selectedDate,ids}).catch(()=>{});
